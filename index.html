@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opération Février 2027 — Le QG de Théophile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-badge" aria-hidden="true">🚀</span>
+        <div>
+          <span class="brand-kicker">QG Réorientation • Saison 2026–2027</span>
+          <h1>Opération Février 2027 — Théophile</h1>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="view-switcher" role="group" aria-label="Mode d'affichage">
+          <button type="button" id="btn-mode-theo" class="mode-btn active" aria-pressed="true">
+            🎯 Espace Théophile
+          </button>
+          <button type="button" id="btn-mode-parrain" class="mode-btn" aria-pressed="false">
+            🤝 Point Parrain
+          </button>
+        </div>
+        <button type="button" id="btn-open-share" class="btn btn-accent">
+          📤 Partager mon point
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero Manifesto & Progress -->
+    <section class="hero-card" aria-labelledby="hero-title">
+      <div class="hero-content">
+        <div class="manifesto-pill">⚡ Zéro année perdue • 100% expérimentation terrain</div>
+        <h2 id="hero-title">Casser l’inertie, tester du concret, préparer février.</h2>
+        <p class="hero-quote">
+          « Lâcher prise dès la première semaine de droit quand on n'a pas le tempérament scolaire n'est pas un échec : <strong>c'est un gain de temps</strong>. L'urgence n'est pas de trouver le "métier de sa vie" sur catalogue, mais d'activer des leviers concrets, de bouger et d'élargir ton univers. »
+        </p>
+
+        <div class="milestone-chips" role="list" aria-label="Jalons clés">
+          <div class="milestone-chip" role="listitem">
+            <span class="chip-date">19 Nov → Mi-Déc</span>
+            <span class="chip-label">Sprints Exploration &amp; Pistes</span>
+          </div>
+          <div class="milestone-chip highlight-warning" role="listitem">
+            <span class="chip-date" id="countdown-code">8 Décembre</span>
+            <span class="chip-label">🚗 Passage du Code</span>
+          </div>
+          <div class="milestone-chip highlight-success" role="listitem">
+            <span class="chip-date">4 → 31 Janvier</span>
+            <span class="chip-label">🏛️ Job Mairie de Crosne</span>
+          </div>
+          <div class="milestone-chip highlight-primary" role="listitem">
+            <span class="chip-date">Février 2027</span>
+            <span class="chip-label">🌍 Décollage Nouveau Projet</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-box">
+          <div class="stat-header">
+            <span class="stat-title">Progression de l'Opération</span>
+            <span class="stat-xp" id="xp-badge">0 XP • Explorateur</span>
+          </div>
+          <div class="progress-wrapper">
+            <label for="main-progress" class="progress-label">
+              <span id="progress-text">0 sur 25 missions accomplies</span>
+              <span id="progress-percent">0%</span>
+            </label>
+            <progress id="main-progress" max="100" value="0"></progress>
+          </div>
+          <p id="live-status" class="sr-only" role="status" aria-live="polite"></p>
+          <div class="mini-counters">
+            <div class="mini-counter">
+              <span class="counter-num" id="stat-streak">0</span>
+              <span class="counter-label">Missions faites</span>
+            </div>
+            <div class="mini-counter">
+              <span class="counter-num" id="stat-pistes">0</span>
+              <span class="counter-label">Pistes actives</span>
+            </div>
+            <div class="mini-counter">
+              <span class="counter-num" id="stat-days-code">--</span>
+              <span class="counter-label">Jours avant le Code</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Focus du Jour Banner -->
+    <section class="today-banner" aria-labelledby="today-heading">
+      <div class="today-left">
+        <span class="today-tag" id="today-date-badge">Mission du jour</span>
+        <h2 id="today-heading">Prochaine étape recommandée</h2>
+        <p id="today-mission-desc">Chargement de ta mission du jour...</p>
+      </div>
+      <div class="today-right">
+        <button type="button" id="btn-complete-today" class="btn btn-primary">
+          ✓ Valider cette mission
+        </button>
+        <button type="button" id="btn-jump-today" class="btn btn-ghost">
+          Voir dans l'agenda ↓
+        </button>
+      </div>
+    </section>
+
+    <!-- Main Navigation Tabs -->
+    <nav class="section-nav" aria-label="Rubriques du tableau de bord">
+      <button type="button" class="tab-btn active" data-tab="tab-agenda" aria-selected="true">
+        🗓️ 1. Échéancier &amp; Missions (Jour par Jour)
+      </button>
+      <button type="button" class="tab-btn" data-tab="tab-pistes" aria-selected="false">
+        🧭 2. Le Labo des Pistes (Que faire en Février ?)
+      </button>
+      <button type="button" class="tab-btn" data-tab="tab-curiosite" aria-selected="false">
+        🔥 3. Inventaire de Curiosité (Sans notes)
+      </button>
+      <button type="button" class="tab-btn" data-tab="tab-journal" aria-selected="false">
+        💬 4. Carnet &amp; Discussion Parrain
+      </button>
+    </nav>
+
+    <!-- TAB 1: AGENDA & SPRINT PLAN -->
+    <section id="tab-agenda" class="tab-panel active" aria-labelledby="agenda-title">
+      <div class="section-header">
+        <div>
+          <h2 id="agenda-title">Ton plan d'attaque (19 Novembre → Février)</h2>
+          <p class="section-subtitle">
+            Une petite action concrète par jour (20 à 45 min max) + ta séance de Code jusqu'au 8 décembre. Coche au fur et à mesure et note tes trouvailles !
+          </p>
+        </div>
+
+        <search class="filter-bar">
+          <div class="filter-pills" role="group" aria-label="Filtrer les missions">
+            <button type="button" class="filter-pill active" data-filter="all">Toutes</button>
+            <button type="button" class="filter-pill" data-filter="todo">À faire</button>
+            <button type="button" class="filter-pill" data-filter="done">Terminées</button>
+            <button type="button" class="filter-pill" data-filter="code">🚗 Code</button>
+            <button type="button" class="filter-pill" data-filter="terrain">🌍 Terrain &amp; Pistes</button>
+          </div>
+          <button type="button" id="btn-add-task-modal" class="btn btn-secondary">
+            + Ajouter un défi perso
+          </button>
+        </search>
+      </div>
+
+      <div id="phases-container" class="phases-grid">
+        <!-- Populated dynamically via app.js -->
+      </div>
+    </section>
+
+    <!-- TAB 2: LABO DES PISTES -->
+    <section id="tab-pistes" class="tab-panel" aria-labelledby="pistes-title" hidden>
+      <div class="section-header">
+        <div>
+          <h2 id="pistes-title">Le Labo des Pistes pour Février 2027</h2>
+          <p class="section-subtitle">
+            Oublie l'université classique et les amphis passifs. Voici les 6 terrains d'expérimentation taillés pour un profil vif qui a besoin de concret. Dis à quel point chaque piste te chauffe !
+          </p>
+        </div>
+      </div>
+
+      <div class="pistes-category-title">
+        <h3>⚡ A. Les pistes d'action immédiate (pour tester, bouger et sortir du huis clos)</h3>
+      </div>
+      <div id="pistes-action-grid" class="pistes-grid"></div>
+
+      <div class="pistes-category-title">
+        <h3>🛠️ B. Les formats d'apprentissage "Vifs mais non scolaires" (Rentrée décalée Février ou Septembre)</h3>
+      </div>
+      <div id="pistes-learning-grid" class="pistes-grid"></div>
+    </section>
+
+    <!-- TAB 3: INVENTAIRE DE CURIOSITÉ -->
+    <section id="tab-curiosite" class="tab-panel" aria-labelledby="curiosite-title" hidden>
+      <div class="section-header">
+        <div>
+          <h2 id="curiosite-title">Inventaire de Curiosité (et non de compétences !)</h2>
+          <p class="section-subtitle">
+            Qu'est-ce qui te passionne ou t'intrigue quand personne ne te demande de note ? Clique sur les cartes pour les classer, ou ajoute tes propres envies.
+          </p>
+        </div>
+      </div>
+
+      <div class="curiosity-add-bar">
+        <form id="form-add-curiosity" class="inline-form">
+          <label for="input-new-curiosity" class="sr-only">Nouvelle curiosité ou envie</label>
+          <input type="text" id="input-new-curiosity" placeholder="Ex: Monter un festival, réparer un vélo, streamer, photographier..." required>
+          <button type="submit" class="btn btn-primary">+ Ajouter à mon radar</button>
+        </form>
+      </div>
+
+      <div id="curiosity-grid" class="curiosity-grid">
+        <!-- Populated via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 4: CARNET & POINT PARRAIN -->
+    <section id="tab-journal" class="tab-panel" aria-labelledby="journal-title" hidden>
+      <div class="section-header">
+        <div>
+          <h2 id="journal-title">Carnet de Bord &amp; Point Parrain / Filleul</h2>
+          <p class="section-subtitle">
+            Pour préparer vos points réguliers tous les deux : ce qui t'a motivé cette semaine, les galères éventuelles, et les questions où tu as besoin d'un coup de pouce.
+          </p>
+        </div>
+      </div>
+
+      <div class="journal-layout">
+        <div class="journal-card">
+          <h3>📝 Préparer notre prochain point</h3>
+          <form id="form-journal" class="journal-form">
+            <div class="form-group">
+              <label for="journal-win">🔥 Ma fierté / Ce que j'ai fait avancer récemment :</label>
+              <textarea id="journal-win" rows="3" placeholder="Ex: J'ai fait 35/40 au code, j'ai appelé la Mission Locale, j'ai trouvé 2 missions de Service Civique..."></textarea>
+            </div>
+            <div class="form-group">
+              <label for="journal-hype">🧭 La piste pour février qui m'attire le plus en ce moment :</label>
+              <textarea id="journal-hype" rows="2" placeholder="Ex: Partir 6 mois en Europe avec le CES ou faire un Service Civique dans la culture / le sport..."></textarea>
+            </div>
+            <div class="form-group">
+              <label for="journal-block">🧱 Là où je bloque / Ce dont j'aimerais qu'on discute :</label>
+              <textarea id="journal-block" rows="3" placeholder="Ex: Comment rédiger mon message pour candidater ? Comment organiser mes journées ?"></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">💾 Enregistrer dans le journal</button>
+              <span id="journal-save-feedback" class="save-feedback" role="status" aria-live="polite"></span>
+            </div>
+          </form>
+        </div>
+
+        <div class="journal-card parrain-guide-card">
+          <h3>🤝 Guide de discussion Parrain &amp; Théophile</h3>
+          <p class="guide-intro">
+            Les 4 règles d'or pour nos échanges des prochaines semaines :
+          </p>
+          <ol class="golden-rules">
+            <li>
+              <strong>Dédramatiser à 100% :</strong> Cette année 2026-2027 n'est pas "perdue", elle est dédiée à l'expérimentation de terrain.
+            </li>
+            <li>
+              <strong>Garder un cadre actif :</strong> Ne pas rester seul devant un écran toute la journée. Réveil matinal, sport, bénévolat, code le 8 déc, puis Mairie de Crosne dès le 4 janvier.
+            </li>
+            <li>
+              <strong>Raisonner par curiosité :</strong> On cherche un terrain à tester pour février (Service Civique, CES en Europe, stage d'immersion PMSMP, école par projet), pas un destin gravé dans le marbre.
+            </li>
+            <li>
+              <strong>Un petit pas par jour :</strong> 1 coup de fil, 1 visite ou 2 candidatures valent mieux que 4 heures à scroller des catalogues de formations.
+            </li>
+          </ol>
+
+          <div class="history-box">
+            <h4>📚 Historique des points</h4>
+            <div id="journal-history-list" class="history-list">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL: SHARE / SYNC WITH PARRAIN -->
+  <dialog id="modal-share" closedby="any" aria-labelledby="modal-share-title">
+    <div class="dialog-inner">
+      <div class="dialog-header">
+        <h2 id="modal-share-title">📤 Partager ou Synchroniser nos avancées</h2>
+        <form method="dialog">
+          <button type="submit" class="btn-icon" aria-label="Fermer la fenêtre">✕</button>
+        </form>
+      </div>
+      <div class="dialog-body">
+        <p class="dialog-lead">
+          Comme ce site fonctionne directement sur ton ordinateur sans compte ni mot de passe, tu peux envoyer ton avancement à ton parrain en <strong>1 clic</strong> !
+        </p>
+
+        <div class="share-options-grid">
+          <div class="share-box">
+            <h3>1. Lien magique de synchronisation</h3>
+            <p>Copie ce lien et envoie-le par WhatsApp, Signal ou mail. En cliquant dessus, ton parrain verra exactement tes missions cochées et tes notes !</p>
+            <div class="share-action-row">
+              <button type="button" id="btn-copy-link" class="btn btn-primary">🔗 Copier le lien de suivi</button>
+            </div>
+          </div>
+
+          <div class="share-box">
+            <h3>2. Bilan texte prêt à envoyer (WhatsApp / SMS)</h3>
+            <p>Un résumé clair de tes missions accomplies, tes pistes favorites et tes notes pour lancer la discussion.</p>
+            <textarea id="share-summary-text" rows="7" readonly aria-label="Résumé texte des avancées"></textarea>
+            <div class="share-action-row">
+              <button type="button" id="btn-copy-summary" class="btn btn-secondary">📋 Copier le message</button>
+            </div>
+          </div>
+        </div>
+
+        <details class="backup-details">
+          <summary>⚙️ Sauvegarder ou importer un fichier de suivi (.json)</summary>
+          <div class="backup-controls">
+            <button type="button" id="btn-export-json" class="btn btn-ghost">⬇️ Télécharger ma sauvegarde</button>
+            <label for="input-import-json" class="btn btn-ghost">
+              ⬆️ Importer une sauvegarde
+              <input type="file" id="input-import-json" accept=".json" class="visually-hidden">
+            </label>
+            <button type="button" id="btn-reset-all" class="btn btn-danger-ghost">🔄 Réinitialiser à zéro</button>
+          </div>
+        </details>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- MODAL: ADD CUSTOM MISSION -->
+  <dialog id="modal-add-task" closedby="any" aria-labelledby="modal-task-title">
+    <div class="dialog-inner">
+      <div class="dialog-header">
+        <h2 id="modal-task-title">🎯 Ajouter une mission personnalisée</h2>
+        <form method="dialog">
+          <button type="submit" class="btn-icon" aria-label="Fermer la fenêtre">✕</button>
+        </form>
+      </div>
+      <form id="form-add-task" class="dialog-body">
+        <div class="form-group">
+          <label for="task-title-input">Titre de la mission :</label>
+          <input type="text" id="task-title-input" placeholder="Ex: Appeler l'association sportive de Crosne" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="task-phase-select">Période / Semaine :</label>
+            <select id="task-phase-select">
+              <option value="phase-1">Semaine 1 • 19 – 25 Nov (Exploration)</option>
+              <option value="phase-2">Semaine 2 • 26 Nov – 2 Déc (Terrain &amp; Contacts)</option>
+              <option value="phase-3">Semaine 3 • 3 – 9 Déc (Sprint Code 8 Déc)</option>
+              <option value="phase-4">Semaine 4 • 10 – 20 Déc (Candidatures Février)</option>
+              <option value="phase-5">Janvier &amp; Février • Mairie de Crosne &amp; Décollage</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="task-date-input">Date repère :</label>
+            <input type="text" id="task-date-input" placeholder="Ex: Jeudi 26 Nov" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="task-desc-input">Détail ou objectif concret :</label>
+          <textarea id="task-desc-input" rows="2" placeholder="Qu'est-ce qu'il faut faire concrètement ?"></textarea>
+        </div>
+        <div class="dialog-footer">
+          <button type="button" id="btn-cancel-task" class="btn btn-ghost">Annuler</button>
+          <button type="submit" class="btn btn-primary">Ajouter la mission</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>Opération Février 2027 • Conçu avec confiance pour Théophile &amp; son parrain 💪</p>
+      <p class="footer-note">Sauvegarde automatique sur cet appareil • Utilise « Partager mon point » pour synchroniser vos deux écrans.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
