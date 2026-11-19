@@ -15,22 +15,17 @@
       <div class="brand">
         <span class="brand-badge" aria-hidden="true">🚀</span>
         <div>
-          <span class="brand-kicker">QG Réorientation • Saison 2026–2027</span>
+          <span class="brand-kicker">QG Réorientation &amp; Code • Saison 2026–2027</span>
           <h1>Opération Février 2027 — Théophile</h1>
         </div>
       </div>
 
       <div class="header-actions">
-        <div class="view-switcher" role="group" aria-label="Mode d'affichage">
-          <button type="button" id="btn-mode-theo" class="mode-btn active" aria-pressed="true">
-            🎯 Espace Théophile
-          </button>
-          <button type="button" id="btn-mode-parrain" class="mode-btn" aria-pressed="false">
-            🤝 Point Parrain
-          </button>
-        </div>
+        <button type="button" id="btn-open-code-plan" class="btn btn-code-method">
+          🚗 Méthode Livre + Appli (8 Déc)
+        </button>
         <button type="button" id="btn-open-share" class="btn btn-accent">
-          📤 Partager mon point
+          📤 Envoyer mon avancement au Parrain
         </button>
       </div>
     </div>
@@ -40,27 +35,27 @@
     <!-- Hero Manifesto & Progress -->
     <section class="hero-card" aria-labelledby="hero-title">
       <div class="hero-content">
-        <div class="manifesto-pill">⚡ Zéro année perdue • 100% expérimentation terrain</div>
-        <h2 id="hero-title">Casser l’inertie, tester du concret, préparer février.</h2>
+        <div class="manifesto-pill">⚡ Zéro année perdue • 1 jour = 1 mission Réorientation + 1 entraînement Code</div>
+        <h2 id="hero-title">Casser l’inertie, décrocher le Code le 8 déc, préparer février.</h2>
         <p class="hero-quote">
-          « Lâcher prise dès la première semaine de droit quand on n'a pas le tempérament scolaire n'est pas un échec : <strong>c'est un gain de temps</strong>. L'urgence n'est pas de trouver le "métier de sa vie" sur catalogue, mais d'activer des leviers concrets, de bouger et d'élargir ton univers. »
+          « Lâcher prise dès la première semaine de droit quand on n'a pas le tempérament scolaire n'est pas un échec : <strong>c'est un gain de temps</strong>. L'urgence n'est pas de trouver le "métier de sa vie" sur catalogue, mais d'activer des leviers concrets chaque jour, de valider ton Code le 8 décembre et de choisir ton terrain pour février. »
         </p>
 
         <div class="milestone-chips" role="list" aria-label="Jalons clés">
-          <div class="milestone-chip" role="listitem">
-            <span class="chip-date">19 Nov → Mi-Déc</span>
-            <span class="chip-label">Sprints Exploration &amp; Pistes</span>
+          <div class="milestone-chip highlight-danger" role="listitem">
+            <span class="chip-date">19 Nov → 20 Déc</span>
+            <span class="chip-label">🔥 1 Jour = 1 Mission + XP</span>
           </div>
           <div class="milestone-chip highlight-warning" role="listitem">
             <span class="chip-date" id="countdown-code">8 Décembre</span>
-            <span class="chip-label">🚗 Passage du Code</span>
+            <span class="chip-label">🚗 Examen du Code (Livre + Appli)</span>
           </div>
           <div class="milestone-chip highlight-success" role="listitem">
             <span class="chip-date">4 → 31 Janvier</span>
             <span class="chip-label">🏛️ Job Mairie de Crosne</span>
           </div>
           <div class="milestone-chip highlight-primary" role="listitem">
-            <span class="chip-date">Février 2027</span>
+            <span class="chip-date">1er Février 2027</span>
             <span class="chip-label">🌍 Décollage Nouveau Projet</span>
           </div>
         </div>
@@ -74,7 +69,7 @@
           </div>
           <div class="progress-wrapper">
             <label for="main-progress" class="progress-label">
-              <span id="progress-text">0 sur 25 missions accomplies</span>
+              <span id="progress-text">0 objectifs accomplis</span>
               <span id="progress-percent">0%</span>
             </label>
             <progress id="main-progress" max="100" value="0"></progress>
@@ -83,71 +78,76 @@
           <div class="mini-counters">
             <div class="mini-counter">
               <span class="counter-num" id="stat-streak">0</span>
-              <span class="counter-label">Missions faites</span>
+              <span class="counter-label">Jours validés à 100%</span>
             </div>
             <div class="mini-counter">
-              <span class="counter-num" id="stat-pistes">0</span>
-              <span class="counter-label">Pistes actives</span>
+              <span class="counter-num" id="stat-code-count">0/20</span>
+              <span class="counter-label">Entraînements Code</span>
             </div>
             <div class="mini-counter">
               <span class="counter-num" id="stat-days-code">--</span>
-              <span class="counter-label">Jours avant le Code</span>
+              <span class="counter-label">Avant le Code (8 Déc)</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Focus du Jour Banner -->
+    <!-- Focus du Jour Banner (ROUGE URGENCE POSITIVE) -->
     <section class="today-banner" aria-labelledby="today-heading">
       <div class="today-left">
-        <span class="today-tag" id="today-date-badge">Mission du jour</span>
-        <h2 id="today-heading">Prochaine étape recommandée</h2>
-        <p id="today-mission-desc">Chargement de ta mission du jour...</p>
+        <span class="today-tag" id="today-date-badge">🚨 MISSION DU JOUR À ACCOMPLIR</span>
+        <h2 id="today-heading">Chargement de ta journée...</h2>
+        <div id="today-checklist-preview" class="today-checklist-preview"></div>
       </div>
       <div class="today-right">
-        <button type="button" id="btn-complete-today" class="btn btn-primary">
-          ✓ Valider cette mission
+        <button type="button" id="btn-complete-today" class="btn btn-red-cta">
+          ✓ Tout valider pour ce jour
         </button>
         <button type="button" id="btn-jump-today" class="btn btn-ghost">
-          Voir dans l'agenda ↓
+          Aller à la carte du jour ↓
         </button>
       </div>
     </section>
 
     <!-- Main Navigation Tabs -->
     <nav class="section-nav" aria-label="Rubriques du tableau de bord">
-      <button type="button" class="tab-btn active" data-tab="tab-agenda" aria-selected="true">
-        🗓️ 1. Échéancier &amp; Missions (Jour par Jour)
+      <button type="button" class="tab-btn tab-btn-red active" data-tab="tab-agenda" aria-selected="true">
+        🚨 1. ÉCHÉANCIER JOUR PAR JOUR (19 Nov → Février)
+      </button>
+      <button type="button" class="tab-btn" data-tab="tab-code" aria-selected="false">
+        🚗 2. Plan d'Attaque Code (Livre + Appli → 8 Déc)
       </button>
       <button type="button" class="tab-btn" data-tab="tab-pistes" aria-selected="false">
-        🧭 2. Le Labo des Pistes (Que faire en Février ?)
+        🧭 3. Le Labo des Pistes (Février)
       </button>
       <button type="button" class="tab-btn" data-tab="tab-curiosite" aria-selected="false">
-        🔥 3. Inventaire de Curiosité (Sans notes)
+        🔥 4. Inventaire de Curiosité
       </button>
       <button type="button" class="tab-btn" data-tab="tab-journal" aria-selected="false">
-        💬 4. Carnet &amp; Discussion Parrain
+        💬 5. Carnet de Bord &amp; Bilan Parrain
       </button>
     </nav>
 
-    <!-- TAB 1: AGENDA & SPRINT PLAN -->
+    <!-- TAB 1: AGENDA JOUR PAR JOUR (RED THEME) -->
     <section id="tab-agenda" class="tab-panel active" aria-labelledby="agenda-title">
-      <div class="section-header">
-        <div>
-          <h2 id="agenda-title">Ton plan d'attaque (19 Novembre → Février)</h2>
-          <p class="section-subtitle">
-            Une petite action concrète par jour (20 à 45 min max) + ta séance de Code jusqu'au 8 décembre. Coche au fur et à mesure et note tes trouvailles !
-          </p>
+      <div class="agenda-red-banner">
+        <div class="agenda-red-banner-left">
+          <span class="red-pulse-dot" aria-hidden="true"></span>
+          <div>
+            <h2 id="agenda-title">🔥 CALENDRIER D'ACTION : CHAQUE JOUR COMPTE</h2>
+            <p class="section-subtitle">
+              Voici tous les jours devant toi. <strong>Chaque jour = 1 mission Réorientation + 1 entraînement Code (Livre + Appli)</strong> jusqu'au 8 décembre. Coche chaque sous-mission accomplie pour encaisser tes XP !
+            </p>
+          </div>
         </div>
 
         <search class="filter-bar">
-          <div class="filter-pills" role="group" aria-label="Filtrer les missions">
-            <button type="button" class="filter-pill active" data-filter="all">Toutes</button>
+          <div class="filter-pills" role="group" aria-label="Filtrer les journées">
+            <button type="button" class="filter-pill active" data-filter="all">Tous les jours</button>
             <button type="button" class="filter-pill" data-filter="todo">À faire</button>
-            <button type="button" class="filter-pill" data-filter="done">Terminées</button>
-            <button type="button" class="filter-pill" data-filter="code">🚗 Code</button>
-            <button type="button" class="filter-pill" data-filter="terrain">🌍 Terrain &amp; Pistes</button>
+            <button type="button" class="filter-pill" data-filter="done">Jours 100% validés</button>
+            <button type="button" class="filter-pill" data-filter="code">Jusqu'au Code (8 Déc)</button>
           </div>
           <button type="button" id="btn-add-task-modal" class="btn btn-secondary">
             + Ajouter un défi perso
@@ -160,7 +160,71 @@
       </div>
     </section>
 
-    <!-- TAB 2: LABO DES PISTES -->
+    <!-- TAB 2: PLAN D'ATTAQUE CODE DE LA ROUTE (LIVRE + APPLI) -->
+    <section id="tab-code" class="tab-panel" aria-labelledby="code-plan-title" hidden>
+      <div class="section-header">
+        <div>
+          <h2 id="code-plan-title">🚗 Le Plan d'Attaque Ultime : Décrocher le Code le 8 Décembre (en 20 jours)</h2>
+          <p class="section-subtitle">
+            Tu as <strong>un livre du Code</strong> et tu vas utiliser <strong>une appli</strong> : c'est le combo le plus redoutable qui existe. Le livre te donne la logique des règles sans piège, et l'appli entraîne ton cerveau au format exact des 40 questions chronométrées.
+          </p>
+        </div>
+      </div>
+
+      <div class="code-strategy-grid">
+        <article class="strategy-card highlight-red-card">
+          <div class="strategy-step">ÉTAPE 1 • MISSION D'AUJOURD'HUI (19 NOV)</div>
+          <h3>📱 Choisir et installer ton Appli aujourd'hui</h3>
+          <p>Voici le comparatif des 3 meilleures applis 2026 pour trancher en 5 minutes :</p>
+          <ul class="app-comparison-list">
+            <li>
+              <strong>🥇 En Voiture Simone (Recommandée • 100% Gratuite) :</strong>
+              Accès gratuit aux 2 000 questions officielles, séries thématiques et examens blancs. Interface super fluide sur téléphone et ordi.
+              <a href="https://www.envoituresimone.com/code-de-la-route" target="_blank" rel="noopener noreferrer" class="task-link">Voir En Voiture Simone ↗</a>
+            </li>
+            <li>
+              <strong>🥈 Ornikar (La référence suivi &amp; stats • ~2,99€/mois) :</strong>
+              Son algorithme <em>ExamScore</em> te dit exactement ton % de chance de réussite le 8 décembre et cible tes points faibles.
+              <a href="https://www.ornikar.com/code" target="_blank" rel="noopener noreferrer" class="task-link">Voir Ornikar ↗</a>
+            </li>
+            <li>
+              <strong>🥉 digiSchool Code / Code en Poche :</strong>
+              Énorme banque de questions (plus de 4 000 questions) avec mode hors-ligne très pratique dans les transports.
+            </li>
+          </ul>
+        </article>
+
+        <article class="strategy-card">
+          <div class="strategy-step">ÉTAPE 2 • LA ROUTINE QUOTIDIENNE (45 MIN / JOUR)</div>
+          <h3>📖 + 📱 La méthode « 15 / 20 / 10 » (Zéro bourrage de crâne)</h3>
+          <ol class="routine-steps">
+            <li>
+              <strong>15 min de LIVRE (Comprendre) :</strong> Lis <em>un seul</em> chapitre officiel par jour (signalisation, priorités, vitesses, alcool/fatigue...). Le livre explique les chiffres clés que l'appli ne détaille pas toujours.
+            </li>
+            <li>
+              <strong>20 min d'APPLI (Pratiquer) :</strong> Fais <strong>1 série thématique</strong> sur le chapitre lu dans le livre + <strong>1 série de 40 questions type examen</strong>.
+            </li>
+            <li>
+              <strong>10 min de DÉBRIEF (Corriger) :</strong> Ne ferme jamais l'appli sans lire l'explication de tes fautes. Note la règle qui t'a piégé dans la case note du jour !
+            </li>
+          </ol>
+        </article>
+
+        <article class="strategy-card">
+          <div class="strategy-step">ÉTAPE 3 • LES 10 THÈMES OFFICIELS (L.C.R.U.D.M.P.S.A.E)</div>
+          <h3>🎯 Ton découpage dans l'agenda (19 Nov → 8 Déc)</h3>
+          <p>Tous ces thèmes sont déjà intégrés jour par jour dans ton onglet rouge <strong>Échéancier</strong> :</p>
+          <ul class="themes-breakdown">
+            <li><strong>Jours 1 à 11 (19 → 29 Nov) :</strong> On balaye les 10 thèmes officiels dans ton livre + 2 séries appli/jour (Signalisation, Priorités, Conducteur, Route/Autoroute, Usagers vulnérables, Réglementation, Mécanique, Sécurité, Secours, Éco-conduite).</li>
+            <li><strong>Jours 12 à 16 (30 Nov → 4 Déc) :</strong> Spécial pièges (panneaux rares, alcool/médicaments, distances d'arrêt, feux) + 3 séries de 40 questions/jour (objectif : moins de 7 fautes).</li>
+            <li><strong>Jours 17 à 19 (5 → 7 Déc) :</strong> Examens blancs en conditions réelles (objectif : stabiliser <strong>35 à 37/40</strong>).</li>
+            <li><strong>Jour 20 (Mardi 8 Décembre) :</strong> 🏆 PASSAGE DU CODE !</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- TAB 3: LABO DES PISTES -->
     <section id="tab-pistes" class="tab-panel" aria-labelledby="pistes-title" hidden>
       <div class="section-header">
         <div>
@@ -182,7 +246,7 @@
       <div id="pistes-learning-grid" class="pistes-grid"></div>
     </section>
 
-    <!-- TAB 3: INVENTAIRE DE CURIOSITÉ -->
+    <!-- TAB 4: INVENTAIRE DE CURIOSITÉ -->
     <section id="tab-curiosite" class="tab-panel" aria-labelledby="curiosite-title" hidden>
       <div class="section-header">
         <div>
@@ -206,13 +270,13 @@
       </div>
     </section>
 
-    <!-- TAB 4: CARNET & POINT PARRAIN -->
+    <!-- TAB 5: CARNET & POINT PARRAIN -->
     <section id="tab-journal" class="tab-panel" aria-labelledby="journal-title" hidden>
       <div class="section-header">
         <div>
-          <h2 id="journal-title">Carnet de Bord &amp; Point Parrain / Filleul</h2>
+          <h2 id="journal-title">Carnet de Bord &amp; Bilan pour le Parrain</h2>
           <p class="section-subtitle">
-            Pour préparer vos points réguliers tous les deux : ce qui t'a motivé cette semaine, les galères éventuelles, et les questions où tu as besoin d'un coup de pouce.
+            Note ici tes scores au Code, tes retours de candidatures et tes questions avant votre point hebdomadaire du dimanche.
           </p>
         </div>
       </div>
@@ -222,8 +286,8 @@
           <h3>📝 Préparer notre prochain point</h3>
           <form id="form-journal" class="journal-form">
             <div class="form-group">
-              <label for="journal-win">🔥 Ma fierté / Ce que j'ai fait avancer récemment :</label>
-              <textarea id="journal-win" rows="3" placeholder="Ex: J'ai fait 35/40 au code, j'ai appelé la Mission Locale, j'ai trouvé 2 missions de Service Civique..."></textarea>
+              <label for="journal-win">🔥 Mes avancées de la semaine (Scores Code + Réorientation) :</label>
+              <textarea id="journal-win" rows="3" placeholder="Ex: J'ai installé En Voiture Simone, je tourne à 33/40, et j'ai repéré 3 missions de Service Civique..."></textarea>
             </div>
             <div class="form-group">
               <label for="journal-hype">🧭 La piste pour février qui m'attire le plus en ce moment :</label>
@@ -231,7 +295,7 @@
             </div>
             <div class="form-group">
               <label for="journal-block">🧱 Là où je bloque / Ce dont j'aimerais qu'on discute :</label>
-              <textarea id="journal-block" rows="3" placeholder="Ex: Comment rédiger mon message pour candidater ? Comment organiser mes journées ?"></textarea>
+              <textarea id="journal-block" rows="3" placeholder="Ex: Comment rédiger mon message pour candidater ? Un chapitre du code qui me pose souci ?"></textarea>
             </div>
             <div class="form-actions">
               <button type="submit" class="btn btn-primary">💾 Enregistrer dans le journal</button>
@@ -241,22 +305,19 @@
         </div>
 
         <div class="journal-card parrain-guide-card">
-          <h3>🤝 Guide de discussion Parrain &amp; Théophile</h3>
-          <p class="guide-intro">
-            Les 4 règles d'or pour nos échanges des prochaines semaines :
-          </p>
+          <h3>🤝 Les 4 règles d'or Parrain &amp; Théophile</h3>
           <ol class="golden-rules">
             <li>
               <strong>Dédramatiser à 100% :</strong> Cette année 2026-2027 n'est pas "perdue", elle est dédiée à l'expérimentation de terrain.
             </li>
             <li>
-              <strong>Garder un cadre actif :</strong> Ne pas rester seul devant un écran toute la journée. Réveil matinal, sport, bénévolat, code le 8 déc, puis Mairie de Crosne dès le 4 janvier.
+              <strong>La régularité bat l'intensité :</strong> 45 min de Code (Livre + Appli) + 30 min sur ton projet de février chaque jour suffisent pour tout débloquer.
+            </li>
+            <li>
+              <strong>Garder un cadre actif :</strong> Ne pas rester seul devant un écran toute la journée. Réveil matinal, sport, bénévolat, Code le 8 déc, puis Mairie de Crosne dès le 4 janvier.
             </li>
             <li>
               <strong>Raisonner par curiosité :</strong> On cherche un terrain à tester pour février (Service Civique, CES en Europe, stage d'immersion PMSMP, école par projet), pas un destin gravé dans le marbre.
-            </li>
-            <li>
-              <strong>Un petit pas par jour :</strong> 1 coup de fil, 1 visite ou 2 candidatures valent mieux que 4 heures à scroller des catalogues de formations.
             </li>
           </ol>
 
@@ -275,20 +336,20 @@
   <dialog id="modal-share" closedby="any" aria-labelledby="modal-share-title">
     <div class="dialog-inner">
       <div class="dialog-header">
-        <h2 id="modal-share-title">📤 Partager ou Synchroniser nos avancées</h2>
+        <h2 id="modal-share-title">📤 Envoyer mon avancement à mon Parrain</h2>
         <form method="dialog">
           <button type="submit" class="btn-icon" aria-label="Fermer la fenêtre">✕</button>
         </form>
       </div>
       <div class="dialog-body">
         <p class="dialog-lead">
-          Comme ce site fonctionne directement sur ton ordinateur sans compte ni mot de passe, tu peux envoyer ton avancement à ton parrain en <strong>1 clic</strong> !
+          Comme tes cases cochées sont enregistrées sur ton ordinateur, clique ci-dessous pour envoyer ta progression en <strong>1 clic</strong> à ton parrain !
         </p>
 
         <div class="share-options-grid">
           <div class="share-box">
             <h3>1. Lien magique de synchronisation</h3>
-            <p>Copie ce lien et envoie-le par WhatsApp, Signal ou mail. En cliquant dessus, ton parrain verra exactement tes missions cochées et tes notes !</p>
+            <p>Copie ce lien et envoie-le par WhatsApp, Signal ou mail. En cliquant dessus, ton parrain verra exactement tes jours validés, tes XP et tes notes !</p>
             <div class="share-action-row">
               <button type="button" id="btn-copy-link" class="btn btn-primary">🔗 Copier le lien de suivi</button>
             </div>
@@ -296,8 +357,8 @@
 
           <div class="share-box">
             <h3>2. Bilan texte prêt à envoyer (WhatsApp / SMS)</h3>
-            <p>Un résumé clair de tes missions accomplies, tes pistes favorites et tes notes pour lancer la discussion.</p>
-            <textarea id="share-summary-text" rows="7" readonly aria-label="Résumé texte des avancées"></textarea>
+            <p>Un résumé clair de tes journées validées, ton entraînement au Code et tes pistes favorites.</p>
+            <textarea id="share-summary-text" rows="8" readonly aria-label="Résumé texte des avancées"></textarea>
             <div class="share-action-row">
               <button type="button" id="btn-copy-summary" class="btn btn-secondary">📋 Copier le message</button>
             </div>
@@ -323,39 +384,39 @@
   <dialog id="modal-add-task" closedby="any" aria-labelledby="modal-task-title">
     <div class="dialog-inner">
       <div class="dialog-header">
-        <h2 id="modal-task-title">🎯 Ajouter une mission personnalisée</h2>
+        <h2 id="modal-task-title">🎯 Ajouter une journée ou un défi perso</h2>
         <form method="dialog">
           <button type="submit" class="btn-icon" aria-label="Fermer la fenêtre">✕</button>
         </form>
       </div>
       <form id="form-add-task" class="dialog-body">
         <div class="form-group">
-          <label for="task-title-input">Titre de la mission :</label>
+          <label for="task-title-input">Titre de la mission du jour :</label>
           <input type="text" id="task-title-input" placeholder="Ex: Appeler l'association sportive de Crosne" required>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label for="task-phase-select">Période / Semaine :</label>
             <select id="task-phase-select">
-              <option value="phase-1">Semaine 1 • 19 – 25 Nov (Exploration)</option>
-              <option value="phase-2">Semaine 2 • 26 Nov – 2 Déc (Terrain &amp; Contacts)</option>
-              <option value="phase-3">Semaine 3 • 3 – 9 Déc (Sprint Code 8 Déc)</option>
-              <option value="phase-4">Semaine 4 • 10 – 20 Déc (Candidatures Février)</option>
+              <option value="phase-1">Semaine 1 • Jeudi 19 – Mercredi 25 Nov</option>
+              <option value="phase-2">Semaine 2 • Jeudi 26 Nov – Mercredi 2 Déc</option>
+              <option value="phase-3">Semaine 3 • Jeudi 3 – Mardi 8 Déc (Sprint Code)</option>
+              <option value="phase-4">Semaine 4 • Mercredi 9 – Dimanche 20 Déc (Cap Février)</option>
               <option value="phase-5">Janvier &amp; Février • Mairie de Crosne &amp; Décollage</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="task-date-input">Date repère :</label>
+            <label for="task-date-input">Jour :</label>
             <input type="text" id="task-date-input" placeholder="Ex: Jeudi 26 Nov" required>
           </div>
         </div>
         <div class="form-group">
-          <label for="task-desc-input">Détail ou objectif concret :</label>
+          <label for="task-desc-input">Action concrète à accomplir :</label>
           <textarea id="task-desc-input" rows="2" placeholder="Qu'est-ce qu'il faut faire concrètement ?"></textarea>
         </div>
         <div class="dialog-footer">
           <button type="button" id="btn-cancel-task" class="btn btn-ghost">Annuler</button>
-          <button type="submit" class="btn btn-primary">Ajouter la mission</button>
+          <button type="submit" class="btn btn-primary">Ajouter à l'échéancier</button>
         </div>
       </form>
     </div>
@@ -364,7 +425,7 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>Opération Février 2027 • Conçu avec confiance pour Théophile &amp; son parrain 💪</p>
-      <p class="footer-note">Sauvegarde automatique sur cet appareil • Utilise « Partager mon point » pour synchroniser vos deux écrans.</p>
+      <p class="footer-note">Sauvegarde automatique sur cet appareil • Utilise « Envoyer mon avancement au Parrain » pour synchroniser vos deux écrans.</p>
     </div>
   </footer>
 

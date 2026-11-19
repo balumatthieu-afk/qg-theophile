@@ -1,303 +1,756 @@
-// Opération Février 2027 — Le QG de Théophile & son Parrain
-const STORAGE_KEY = 'theophile_qg_2026_v1';
+// Opération Février 2027 — Le QG de Théophile & son Parrain (V2 : Calendrier Jour par Jour + Plan Code Livre & Appli)
+const STORAGE_KEY = 'theophile_qg_2026_v2';
 
+// Chaque jour de l'échéancier possède une liste de sous-missions concrètes (Réorientation + Code Livre/Appli) avec des XP dédiés
 const DEFAULT_PHASES = [
   {
     id: 'phase-1',
-    badge: 'Semaine 1 • 19 → 25 Novembre',
-    title: 'Déclic, Curiosité & Ouverture des Radars',
-    desc: 'On casse l’inertie : 1 action de 30 min par jour + 2 séries de code pour préparer le 8 décembre.',
+    badge: 'Semaine 1 • Jeudi 19 → Mercredi 25 Novembre',
+    title: 'Lancement, Choix de l’Appli Code & Ouverture des Radars',
+    desc: '7 jours = 7 missions Réorientation + les 6 premiers thèmes de ton Livre du Code couplés à ton Appli.',
     openByDefault: true,
-    tasks: [
+    days: [
       {
-        id: 't1',
-        date: 'Jeudi 19 Nov',
-        tag: 'terrain',
-        tagLabel: '🧭 Déclic',
-        title: 'Lancer le QG & faire mon Inventaire de Curiosité',
-        desc: 'Aller dans l’onglet "Inventaire de Curiosité" et cocher au moins 4 activités qui me plaisent quand personne ne me note + 2 séries de Code.',
-        link: '',
-        linkText: ''
+        id: 'd1',
+        isoDate: '2026-11-19',
+        date: 'JOUR 1 • Jeudi 19 Nov (Aujourd’hui)',
+        title: 'Choisir mon Appli Code + Faire mon Inventaire de Curiosité',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd1-code',
+            type: 'code',
+            label: '🚗 CODE (Appli + Livre)',
+            xp: 50,
+            text: 'Télécharger mon appli Code (En Voiture Simone 100% gratuite ou Ornikar), faire 1 série test de 40 questions pour voir mon score de départ + repérer le sommaire des 10 thèmes dans mon Livre.',
+            link: 'https://www.envoituresimone.com/code-de-la-route',
+            linkText: 'Télécharger En Voiture Simone ↗'
+          },
+          {
+            id: 'd1-reorient',
+            type: 'reorient',
+            label: '🧭 RÉORIENTATION (20 min)',
+            xp: 50,
+            text: 'Aller dans l’onglet "4. Inventaire de Curiosité" et cocher au moins 4 activités qui me plaisent quand personne ne me donne de note.'
+          }
+        ]
       },
       {
-        id: 't2',
-        date: 'Vendredi 20 Nov',
-        tag: 'terrain',
-        tagLabel: '🤝 Service Civique',
-        title: 'Créer mon compte sur service-civique.gouv.fr',
-        desc: 'Filtrer les missions dès Février 2027 (Essonne / Paris / Île-de-France) dans Sport, Culture, Environnement ou Médias. Mettre 3 missions en favoris.',
-        link: 'https://www.service-civique.gouv.fr/',
-        linkText: 'Ouvrir Service Civique ↗'
+        id: 'd2',
+        isoDate: '2026-11-20',
+        date: 'JOUR 2 • Vendredi 20 Nov',
+        title: 'Ouverture Compte Service Civique + Thème 1 du Code',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd2-code',
+            type: 'code',
+            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
+            xp: 50,
+            text: 'LIVRE Thème L (Circulation routière : panneaux, feux, marquages au sol) + APPLI : 1 série thématique Signalisation + 1 série de 40 questions.'
+          },
+          {
+            id: 'd2-reorient',
+            type: 'reorient',
+            label: '🤝 SERVICE CIVIQUE (30 min)',
+            xp: 50,
+            text: 'Créer mon profil sur service-civique.gouv.fr, filtrer les missions dès Février 2027 (Essonne / Paris) dans Sport, Culture, Environnement ou Médias et mettre 3 missions en favoris.',
+            link: 'https://www.service-civique.gouv.fr/',
+            linkText: 'Ouvrir Service Civique ↗'
+          }
+        ]
       },
       {
-        id: 't3',
-        date: 'Samedi 21 Nov',
-        tag: 'terrain',
-        tagLabel: '🌍 Europe (CES)',
-        title: 'Explorer le Corps Européen de Solidarité (3 à 12 mois)',
-        desc: 'Regarder comment partir sur un projet concret en Europe (logement, repas, transport et argent de poche 100% pris en charge).',
-        link: 'https://youth.europa.eu/solidarity_fr',
-        linkText: 'Portail Corps Européen ↗'
+        id: 'd3',
+        isoDate: '2026-11-21',
+        date: 'JOUR 3 • Samedi 21 Nov',
+        title: 'Exploration Europe (CES) + Priorités & Intersections',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd3-code',
+            type: 'code',
+            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
+            xp: 50,
+            text: 'LIVRE Thème L suite (Règles de priorité, cédez-le-passage, ronds-points, croisements) + APPLI : 2 séries de 40 questions en notant chaque faute.'
+          },
+          {
+            id: 'd3-reorient',
+            type: 'reorient',
+            label: '🌍 CORPS EUROPÉEN DE SOLIDARITÉ (30 min)',
+            xp: 50,
+            text: 'Créer mon compte sur le portail du Corps Européen de Solidarité (volontariat 3 à 12 mois en Europe 100% pris en charge : logement, repas, voyage, argent de poche) et repérer 2 pays.',
+            link: 'https://youth.europa.eu/solidarity_fr',
+            linkText: 'Portail Corps Européen ↗'
+          }
+        ]
       },
       {
-        id: 't4',
-        date: 'Dimanche 22 Nov',
-        tag: 'terrain',
-        tagLabel: '💬 Point Parrain',
-        title: '1er Débrief avec mon Parrain (20 min)',
-        desc: 'Partager mon lien de suivi avec mon parrain et discuter des premières pistes qui m’attirent le plus (sans pression).',
-        link: '',
-        linkText: ''
+        id: 'd4',
+        isoDate: '2026-11-22',
+        date: 'JOUR 4 • Dimanche 22 Nov',
+        title: '1er Point avec mon Parrain + Thème Conducteur (Alcool/Fatigue)',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd4-code',
+            type: 'code',
+            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
+            xp: 50,
+            text: 'LIVRE Thème C (Le Conducteur : distances d’arrêt/sécurité, temps de réaction 1 sec, taux d’alcool 0,2g/l jeune permis, fatigue) + APPLI : 2 séries de 40 questions.'
+          },
+          {
+            id: 'd4-reorient',
+            type: 'reorient',
+            label: '💬 POINT PARRAIN #1 (20 min)',
+            xp: 60,
+            text: 'Cliquer sur "Envoyer mon avancement au Parrain" en haut à droite et débriefer ensemble mes premières pistes et mon score au Code.'
+          }
+        ]
       },
       {
-        id: 't5',
-        date: 'Lundi 23 Nov',
-        tag: 'terrain',
-        tagLabel: '🏢 Mission Locale',
-        title: 'Appeler la Mission Locale pour fixer un RDV',
-        desc: 'Leur demander comment obtenir des conventions de stage d’immersion (PMSMP de 1 à 4 semaines) pour tester un métier sur le terrain.',
-        link: 'https://www.unml.info/les-missions-locales/annuaire/',
-        linkText: 'Trouver ma Mission Locale ↗'
+        id: 'd5',
+        isoDate: '2026-11-23',
+        date: 'JOUR 5 • Lundi 23 Nov',
+        title: 'Appel Mission Locale (Stages PMSMP) + Thème La Route',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd5-code',
+            type: 'code',
+            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
+            xp: 50,
+            text: 'LIVRE Thème R (La Route : conduite de nuit, pluie/brouillard/neige, usage des feux de brouillard, insertion autoroute) + APPLI : 1 série Thème Route + 1 série 40 questions.'
+          },
+          {
+            id: 'd5-reorient',
+            type: 'reorient',
+            label: '🏢 MISSION LOCALE (25 min)',
+            xp: 60,
+            text: 'Appeler la Mission Locale de mon secteur pour fixer un RDV et demander comment obtenir des conventions de stage d’immersion (PMSMP de 1 à 4 semaines en entreprise).',
+            link: 'https://www.unml.info/les-missions-locales/annuaire/',
+            linkText: 'Annuaire Missions Locales ↗'
+          }
+        ]
       },
       {
-        id: 't6',
-        date: 'Mardi 24 Nov',
-        tag: 'terrain',
-        tagLabel: '⚡ Bénévolat',
-        title: 'Repérer une action de bénévolat ponctuelle pour bouger',
-        desc: 'Sur JeVeuxAider.gouv.fr, trouver une mission locale (événementiel, distribution, sport, asso) pour sortir de ma chambre et rencontrer du monde.',
-        link: 'https://www.jeveuxaider.gouv.fr/',
-        linkText: 'Explorer JeVeuxAider ↗'
+        id: 'd6',
+        isoDate: '2026-11-24',
+        date: 'JOUR 6 • Mardi 24 Nov',
+        title: 'Bénévolat Terrain + Thème Autres Usagers',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd6-code',
+            type: 'code',
+            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
+            xp: 50,
+            text: 'LIVRE Thème U (Autres usagers : distances latérales cyclistes 1m en ville / 1m50 hors agglo, piétons, angles morts poids lourds, bus) + APPLI : 2 séries de 40 questions.'
+          },
+          {
+            id: 'd6-reorient',
+            type: 'reorient',
+            label: '⚡ BÉNÉVOLAT ACTIF (25 min)',
+            xp: 50,
+            text: 'Sur JeVeuxAider.gouv.fr, repérer 2 missions locales (sport, événementiel, solidarité) pour sortir de ma chambre dès décembre et garder un rythme actif.',
+            link: 'https://www.jeveuxaider.gouv.fr/',
+            linkText: 'Explorer JeVeuxAider ↗'
+          }
+        ]
       },
       {
-        id: 't7',
-        date: 'Mercredi 25 Nov',
-        tag: 'code',
-        tagLabel: '🚗 Code + Écoles',
-        title: 'Regarder les écoles 100% projets (zéro amphi) + Code blanc',
-        desc: 'Jeter un œil à 42 (piscine), Ada Tech School, Gobelins ou Compagnons du Devoir + faire un test blanc de Code en conditions réelles.',
-        link: 'https://42.fr/',
-        linkText: 'Voir le modèle 42 ↗'
+        id: 'd7',
+        isoDate: '2026-11-25',
+        date: 'JOUR 7 • Mercredi 25 Nov',
+        title: 'Écoles 100% Projets (Zéro Amphi) + Réglementation & Points',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd7-code',
+            type: 'code',
+            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
+            xp: 50,
+            text: 'LIVRE Thème D (Notions diverses : permis probatoire 6 points, documents obligatoires, contrôle technique, sanctions) + APPLI : 2 séries de 40 questions (objectif : 30+/40).'
+          },
+          {
+            id: 'd7-reorient',
+            type: 'reorient',
+            label: '💻 ÉCOLES PAR PROJET (30 min)',
+            xp: 50,
+            text: 'Explorer 3 écoles sans cours magistral (École 42, Ada Tech School, Gobelins sections pro) et voter sur mes cartes dans l’onglet "3. Labo des Pistes".',
+            link: 'https://42.fr/',
+            linkText: 'Découvrir 42 ↗'
+          }
+        ]
       }
     ]
   },
   {
     id: 'phase-2',
-    badge: 'Semaine 2 • 26 Nov → 2 Décembre',
-    title: 'Prise de Contact & Terrain Concret',
-    desc: 'On passe de l’écran au réel : coups de fil, préparation d’un CV agile et sélection des meilleures missions.',
+    badge: 'Semaine 2 • Jeudi 26 Nov → Mercredi 2 Décembre',
+    title: 'Passage à l’Action, Premières Candidatures & Fin des 10 Thèmes Code',
+    desc: 'On boucle les 10 thèmes du Livre du Code et on passe aux premiers vrais contacts terrain.',
     openByDefault: true,
-    tasks: [
+    days: [
       {
-        id: 't8',
-        date: 'Jeudi 26 Nov',
-        tag: 'terrain',
-        tagLabel: '📄 CV Agile',
-        title: 'Mettre à jour mon CV "Énergie & Terrain" (1 page)',
-        desc: 'Mettre en avant mon dynamisme, mon futur contrat à la Mairie de Crosne en janvier, et mon envie d’apprendre par l’action.',
-        link: '',
-        linkText: ''
+        id: 'd8',
+        isoDate: '2026-11-26',
+        date: 'JOUR 8 • Jeudi 26 Nov',
+        title: 'Compagnons & Artisanat Technique + Thème Mécanique',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd8-code',
+            type: 'code',
+            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
+            xp: 50,
+            text: 'LIVRE Thème M (Mécanique & Équipements : voyants rouges vs oranges, témoin d’usure pneus 1,6mm, niveaux) + APPLI : 1 série Mécanique + 1 série 40 questions.'
+          },
+          {
+            id: 'd8-reorient',
+            type: 'reorient',
+            label: '🪵 ARTISANAT & TECHNIQUE (30 min)',
+            xp: 50,
+            text: 'Regarder les métiers concrets chez les Compagnons du Devoir et les CFA techniques (régie son/lumière spectacle, ébénisterie, mécanique de précision).',
+            link: 'https://www.compagnons-du-devoir.com/',
+            linkText: 'Compagnons du Devoir ↗'
+          }
+        ]
       },
       {
-        id: 't9',
-        date: 'Vendredi 27 Nov',
-        tag: 'terrain',
-        tagLabel: '🚀 Candidatures',
-        title: 'Envoyer mes 2 premières candidatures Service Civique / Bénévolat',
-        desc: 'Pas besoin d’une lettre de 3 pages : 6 lignes sincères qui expliquent pourquoi j’ai envie de bouger sur le terrain dès février.',
-        link: 'https://www.service-civique.gouv.fr/',
-        linkText: 'Postuler sur Service Civique ↗'
+        id: 'd9',
+        isoDate: '2026-11-27',
+        date: 'JOUR 9 • Vendredi 27 Nov',
+        title: 'Mon CV Agile "Énergie & Terrain" + Sécurité Passagers',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd9-code',
+            type: 'code',
+            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
+            xp: 50,
+            text: 'LIVRE Thèmes P & S (Installation poste de conduite, angle mort portière, sécurité enfants, airbags, ABS/ESP) + APPLI : 2 séries de 40 questions.'
+          },
+          {
+            id: 'd9-reorient',
+            type: 'reorient',
+            label: '📄 CV AGILE 1 PAGE (35 min)',
+            xp: 70,
+            text: 'Préparer mon CV d’une page mettant en avant mon énergie, mon contrat à la Mairie de Crosne en janvier, et mon envie d’apprendre sur le terrain.'
+          }
+        ]
       },
       {
-        id: 't10',
-        date: 'Samedi 28 Nov',
-        tag: 'code',
-        tagLabel: '🚗 Objectif 35/40',
-        title: 'Marathon doux du Code : 3 séries + carnet d’erreurs',
-        desc: 'Noter les 5 pièges récurrents (priorités, vitesse, panneaux) pour viser sereinement 35+/40 le 8 décembre.',
-        link: '',
-        linkText: ''
+        id: 'd10',
+        isoDate: '2026-11-28',
+        date: 'JOUR 10 • Samedi 28 Nov',
+        title: 'Mes 2 Premières Candidatures + Premiers Secours & Éco-conduite',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd10-code',
+            type: 'code',
+            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
+            xp: 60,
+            text: 'LIVRE Thèmes A & E (Premiers secours P.A.S. : Protéger, Alerter 15/18/112, Secourir + Éco-conduite) -> LES 10 THÈMES DU LIVRE SONT BOUCLÉS ! + 2 séries Appli.'
+          },
+          {
+            id: 'd10-reorient',
+            type: 'reorient',
+            label: '🚀 2 CANDIDATURES ENVOYÉES (30 min)',
+            xp: 80,
+            text: 'Envoyer mes 2 premières candidatures sur Service Civique ou JeVeuxAider avec un message court et direct (6 lignes sincères).',
+            link: 'https://www.service-civique.gouv.fr/',
+            linkText: 'Postuler sur Service Civique ↗'
+          }
+        ]
       },
       {
-        id: 't11',
-        date: 'Dimanche 29 Nov',
-        tag: 'terrain',
-        tagLabel: '💬 Point Parrain',
-        title: 'Point d’étape #2 avec mon Parrain',
-        desc: 'Remplir le Carnet de bord et faire le point ensemble sur les 2 pistes favorites pour février.',
-        link: '',
-        linkText: ''
+        id: 'd11',
+        isoDate: '2026-11-29',
+        date: 'JOUR 11 • Dimanche 29 Nov',
+        title: 'Point Parrain #2 + Grand Bilan des 10 Thèmes Code',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd11-code',
+            type: 'code',
+            label: '🚗 CODE (Appli 30 min)',
+            xp: 60,
+            text: 'Faire 2 examens blancs sur l’Appli et regarder dans mes statistiques quels sont mes 2 thèmes les plus faibles à retravailler dans le Livre.'
+          },
+          {
+            id: 'd11-reorient',
+            type: 'reorient',
+            label: '💬 POINT PARRAIN #2 (25 min)',
+            xp: 60,
+            text: 'Remplir le Carnet de bord, envoyer mon lien de suivi à mon parrain et relire ensemble mon CV et mes 2 pistes favorites pour février.'
+          }
+        ]
       },
       {
-        id: 't12',
-        date: 'Lundi 30 Nov',
-        tag: 'terrain',
-        tagLabel: '🛠️ Immersion PMSMP',
-        title: 'Rendez-vous Mission Locale ou contact artisan / entreprise',
-        desc: 'Identifier 1 ou 2 structures (son/vidéo, événementiel, artisanat, logistique, tech) où faire une semaine d’immersion.',
-        link: '',
-        linkText: ''
+        id: 'd12',
+        isoDate: '2026-11-30',
+        date: 'JOUR 12 • Lundi 30 Nov',
+        title: 'Rentrées Décalées Février (BTS/Écoles) + Spécial Pièges Vitesse',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd12-code',
+            type: 'code',
+            label: '🚗 CODE (Livre 10 min + Appli 35 min)',
+            xp: 60,
+            text: 'Réviser dans le LIVRE le tableau de toutes les vitesses (pluie vs sec, jeune conducteur : 110 sur autoroute, 100 sur voie rapide, 80 sur route) + 3 séries Appli.'
+          },
+          {
+            id: 'd12-reorient',
+            type: 'reorient',
+            label: '🎓 RENTRÉES DÉCALÉES (30 min)',
+            xp: 50,
+            text: 'Lister les BTS, BUT ou écoles pratiques qui proposent une rentrée décalée en janvier/février 2027 (audiovisuel, communication, logistique, tech).'
+          }
+        ]
       },
       {
-        id: 't13',
-        date: 'Mardi 1 Déc',
-        tag: 'terrain',
-        tagLabel: '🌍 Europe / Rentrée',
-        title: 'Vérifier les rentrées décalées (Janvier/Février) ou départs CES',
-        desc: 'Regarder les BTS/BUT ou écoles techniques qui ouvrent un groupe en février + contacter une structure accompagnatrice CES (ex: Concordia, Jeunesse & Reconstruction).',
-        link: 'https://www.concordia.fr/',
-        linkText: 'Voir Concordia (Volontariat) ↗'
+        id: 'd13',
+        isoDate: '2026-12-01',
+        date: 'JOUR 13 • Mardi 1er Décembre (J-7 avant le Code !)',
+        title: 'Ciblage Stages d’Immersion PMSMP + Spécial Panneaux Rares',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd13-code',
+            type: 'code',
+            label: '🚗 CODE J-7 (Livre 10 min + Appli 35 min)',
+            xp: 60,
+            text: 'Ouvrir les pages de garde du LIVRE avec tous les panneaux (interdiction, obligation, panonceaux, stationnement) + 3 séries de 40 questions sur l’Appli.'
+          },
+          {
+            id: 'd13-reorient',
+            type: 'reorient',
+            label: '🛠️ CIBLAGE IMMERSION (25 min)',
+            xp: 50,
+            text: 'Noter 3 entreprises, studios, salles de spectacle ou artisans autour de chez moi où j’aimerais tester le métier pendant 1 semaine grâce à la Mission Locale.'
+          }
+        ]
       },
       {
-        id: 't14',
-        date: 'Mercredi 2 Déc',
-        tag: 'terrain',
-        tagLabel: '📞 Relance',
-        title: 'Appeler ou passer voir une asso / structure locale',
-        desc: 'Rien ne remplace un vrai coup de fil de 3 minutes pour montrer qu’on est motivé et disponible.',
-        link: '',
-        linkText: ''
+        id: 'd14',
+        isoDate: '2026-12-02',
+        date: 'JOUR 14 • Mercredi 2 Décembre (J-6 Code)',
+        title: 'Prise de Contact Association CES Europe + Spécial Feux & Nuit',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd14-code',
+            type: 'code',
+            label: '🚗 CODE J-6 (Livre 10 min + Appli 35 min)',
+            xp: 60,
+            text: 'Réviser dans le LIVRE la règle exacte des feux (croisement, route, brouillard avant vs arrière jamais sous la pluie !) + 3 séries de 40 questions sur l’Appli.'
+          },
+          {
+            id: 'd14-reorient',
+            type: 'reorient',
+            label: '🌍 CONTACT EUROPE CES (25 min)',
+            xp: 60,
+            text: 'Contacter une association française accompagnatrice pour le volontariat européen (ex: Concordia ou Jeunesse et Reconstruction) pour connaître les départs de février.',
+            link: 'https://www.concordia.fr/',
+            linkText: 'Voir Concordia ↗'
+          }
+        ]
       }
     ]
   },
   {
     id: 'phase-3',
-    badge: 'Semaine 3 • 3 → 9 Décembre',
-    title: 'Sprint Final Code de la Route (Jour J : 8 Décembre 🚗)',
-    desc: 'Priorité numéro 1 : décrocher le Code le mardi 8 décembre pour débloquer la conduite et l’autonomie !',
-    openByDefault: false,
-    tasks: [
+    badge: 'Semaine 3 • Jeudi 3 → Mardi 8 Décembre',
+    title: '🚨 SPRINT FINAL CODE DE LA ROUTE (Jour J : Mardi 8 Décembre)',
+    desc: 'Les 6 derniers jours avant l’examen du 8 décembre : priorité absolue au Code (objectif 35+/40 régulier) + micro-actions réorientation.',
+    openByDefault: true,
+    days: [
       {
-        id: 't15',
-        date: 'Jeudi 3 → Dim 6 Déc',
-        tag: 'code',
-        tagLabel: '🚗 Sprint Code',
-        title: 'Mode Champion : 3 séries d’examen blanc par jour',
-        desc: 'Réviser les thèmes piégeux (feux, alcool/fatigue, éco-conduite, distances de sécurité) jusqu’à stabiliser 36/40.',
-        link: '',
-        linkText: ''
+        id: 'd15',
+        isoDate: '2026-12-03',
+        date: 'JOUR 15 • Jeudi 3 Décembre (J-5 Code)',
+        title: 'Cap des 34/40 au Code + 3e Candidature Service Civique',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd15-code',
+            type: 'code',
+            label: '🚗 SPRINT CODE J-5 (45 min)',
+            xp: 75,
+            text: 'Faire 3 séries en mode "Examen Blanc" (chronométrées sans pause) sur l’Appli + relire dans le Livre chaque règle où j’ai hésité.'
+          },
+          {
+            id: 'd15-reorient',
+            type: 'reorient',
+            label: '🚀 CANDIDATURE #3 (20 min)',
+            xp: 50,
+            text: 'Envoyer une 3e candidature Service Civique pour début février 2027.'
+          }
+        ]
       },
       {
-        id: 't16',
-        date: 'Lundi 7 Déc',
-        tag: 'code',
-        tagLabel: '🧘 Veille du Code',
-        title: 'Préparer ma convocation + pièce d’identité + coucher tôt',
-        desc: 'Vérifier l’adresse et l’heure du centre d’examen, faire 1 seule série tranquille pour la confiance et bien dormir.',
-        link: '',
-        linkText: ''
+        id: 'd16',
+        isoDate: '2026-12-04',
+        date: 'JOUR 16 • Vendredi 4 Décembre (J-4 Code)',
+        title: 'Chasse aux Pièges Classiques + Coup de Fil de Relance',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd16-code',
+            type: 'code',
+            label: '🚗 SPRINT CODE J-4 (45 min)',
+            xp: 75,
+            text: 'Refaire sur l’Appli uniquement les questions ratées cette semaine + relire dans le Livre les chiffres par cœur (0,2g/l, 1,6mm pneus, distances = dizaine de la vitesse × 3) + 2 examens blancs.'
+          },
+          {
+            id: 'd16-reorient',
+            type: 'reorient',
+            label: '📞 RELANCE TERRAIN (15 min)',
+            xp: 50,
+            text: 'Passer 1 coup de fil de suivi à la Mission Locale ou à une structure où j’ai postulé.'
+          }
+        ]
       },
       {
-        id: 't17',
-        date: 'Mardi 8 Décembre',
-        tag: 'code',
-        tagLabel: '🏆 JOUR J : CODE',
-        title: '🚗 PASSAGE DU CODE DE LA ROUTE !',
-        desc: 'Respirer, bien lire chaque question jusqu’au bout et valider cette super étape d’autonomie !',
+        id: 'd17',
+        isoDate: '2026-12-05',
+        date: 'JOUR 17 • Samedi 5 Décembre (J-3 Code)',
+        title: 'Simulation Examen Officiel (Objectif 35+/40)',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd17-code',
+            type: 'code',
+            label: '🚗 SPRINT CODE J-3 (50 min)',
+            xp: 80,
+            text: 'Enchaîner 4 séries d’examen blanc sur l’Appli dans le calme complet (sans musique, téléphone en mode avion sauf l’appli). Objectif : au moins 3 séries à 35/40 ou plus !'
+          },
+          {
+            id: 'd17-reorient',
+            type: 'reorient',
+            label: '🏃AÉRATION & SPORT (30 min)',
+            xp: 40,
+            text: 'Sortir prendre l’air, faire du sport ou voir des amis pour oxygéner le cerveau après les 4 séries.'
+          }
+        ]
+      },
+      {
+        id: 'd18',
+        isoDate: '2026-12-06',
+        date: 'JOUR 18 • Dimanche 6 Décembre (J-2 Code)',
+        title: 'Point Parrain #3 (Spécial Confiance Code) + 3 Séries',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd18-code',
+            type: 'code',
+            label: '🚗 SPRINT CODE J-2 (40 min)',
+            xp: 75,
+            text: 'Faire 3 séries d’examen blanc sur l’Appli + relire mon carnet de fautes fréquentes avec mon Livre.'
+          },
+          {
+            id: 'd18-reorient',
+            type: 'reorient',
+            label: '💬 POINT PARRAIN #3 (20 min)',
+            xp: 60,
+            text: 'Partager mes scores d’examens blancs avec mon parrain pour faire le plein de confiance avant mardi.'
+          }
+        ]
+      },
+      {
+        id: 'd19',
+        isoDate: '2026-12-07',
+        date: 'JOUR 19 • Lundi 7 Décembre (VEILLE DU CODE)',
+        title: 'Préparation Convocation & Pièce d’Identité + Révision Douce',
+        hasCode: true,
+        subtasks: [
+          {
+            id: 'd19-code',
+            type: 'code',
+            label: '🚗 VEILLE D’EXAMEN (25 min max)',
+            xp: 75,
+            text: 'Feuilleter calmement les résumés de fin de chapitre de mon LIVRE + faire 1 ou 2 séries tranquilles sur l’Appli pour garder le rythme sans saturer.'
+          },
+          {
+            id: 'd19-reorient',
+            type: 'reorient',
+            label: '🪪 CHECK-LIST JOUR J (15 min)',
+            xp: 60,
+            text: 'Mettre dans mon sac ma pièce d’identité en cours de validité + ma convocation imprimée/sur téléphone, vérifier l’itinéraire vers le centre d’examen et me coucher tôt.'
+          }
+        ]
+      },
+      {
+        id: 'd20',
+        isoDate: '2026-12-08',
+        date: 'JOUR 20 • Mardi 8 Décembre 🏆 JOUR J',
+        title: '🚗 PASSAGE OFFICIEL DU CODE DE LA ROUTE !',
+        hasCode: true,
         isMilestone: true,
-        link: '',
-        linkText: ''
-      },
-      {
-        id: 't18',
-        date: 'Mercredi 9 Déc',
-        tag: 'terrain',
-        tagLabel: '🎉 Célébration & Suite',
-        title: 'Fêter le Code + annoncer le résultat au Parrain',
-        desc: 'Prendre une vraie respiration et se projeter à 100% sur le choix de la mission de février.',
-        link: '',
-        linkText: ''
+        subtasks: [
+          {
+            id: 'd20-code',
+            type: 'code',
+            label: '🏆 EXAMEN OFFICIEL DU CODE',
+            xp: 200,
+            text: 'Arriver 15 min en avance, bien regarder toute la photo (rétroviseurs, panneaux, marquage au sol) et écouter chaque question jusqu’au bout avant de valider. Tu es prêt !'
+          },
+          {
+            id: 'd20-reorient',
+            type: 'reorient',
+            label: '🎉 ANNONCE AU PARRAIN',
+            xp: 100,
+            text: 'Envoyer un message à mon parrain dès la sortie du centre d’examen pour débriefer et fêter cette étape clé !'
+          }
+        ]
       }
     ]
   },
   {
     id: 'phase-4',
-    badge: 'Semaine 4 • 10 → 20 Décembre',
-    title: 'Verrouiller le Plan de Février avant Noël',
-    desc: 'Le code est derrière toi : on transforme les pistes en plan concret pour février afin de passer les fêtes l’esprit libre.',
+    badge: 'Semaine 4 • Mercredi 9 → Dimanche 20 Décembre',
+    title: 'Opération Février : Verrouiller mon Projet avant Noël',
+    desc: 'Le Code est passé ! Toute ton énergie bascule sur le choix et la validation de ton projet de février + préparation Mairie de Crosne.',
     openByDefault: false,
-    tasks: [
+    days: [
       {
-        id: 't19',
-        date: '10 → 12 Déc',
-        tag: 'terrain',
-        tagLabel: '🚀 Offensif',
-        title: 'Envoyer 3 à 5 candidatures ciblées pour Février',
-        desc: 'Service Civique, projet Corps Européen de Solidarité, stage d’immersion PMSMP ou rentrée décalée.',
-        link: '',
-        linkText: ''
+        id: 'd21',
+        isoDate: '2026-12-09',
+        date: 'JOUR 21 • Mercredi 9 Décembre',
+        title: 'Sélection Finale de mon Top 2 Pistes pour Février',
+        hasCode: false,
+        subtasks: [
+          {
+            id: 'd21-reorient',
+            type: 'reorient',
+            label: '🧭 CHOIX STRATÉGIQUE (30 min)',
+            xp: 60,
+            text: 'Avec l’esprit libéré du Code, trancher mes 2 priorités pour février (ex: Plan A Service Civique / CES Europe, Plan B Stage PMSMP / École par projet).'
+          }
+        ]
       },
       {
-        id: 't20',
-        date: '14 → 16 Déc',
-        tag: 'terrain',
-        tagLabel: '🤝 Entretiens',
-        title: 'Passer mes entretiens / rencontres terrain',
-        desc: 'Préparer mes questions avec mon parrain : horaires, ambiance d’équipe, missions concrètes au quotidien.',
-        link: '',
-        linkText: ''
+        id: 'd22',
+        isoDate: '2026-12-10',
+        date: 'JOUR 22 • Jeudi 10 Décembre',
+        title: 'Salve de 3 Nouvelles Candidatures Ciblées',
+        hasCode: false,
+        subtasks: [
+          {
+            id: 'd22-reorient',
+            type: 'reorient',
+            label: '🚀 OFFENSIVE FÉVRIER (45 min)',
+            xp: 80,
+            text: 'Envoyer 3 candidatures ultra-ciblées pour un démarrage début février 2027 (Service Civique, CES ou stage d’immersion).'
+          }
+        ]
       },
       {
-        id: 't21',
-        date: '17 → 18 Déc',
-        tag: 'terrain',
-        tagLabel: '🏛️ Prépa Crosne',
-        title: 'Vérifier tous les papiers pour la Mairie de Crosne (4 Janvier)',
-        desc: 'Contrat, RIB, pièce d’identité, horaires du premier jour et tenue adaptée.',
-        link: '',
-        linkText: ''
+        id: 'd23',
+        isoDate: '2026-12-11',
+        date: 'JOUR 23 • Vendredi 11 Décembre',
+        title: 'Dépôt / Relance Dossier Stage d’Immersion PMSMP',
+        hasCode: false,
+        subtasks: [
+          {
+            id: 'd23-reorient',
+            type: 'reorient',
+            label: '🛠️ MISSION LOCALE / ENTREPRISE (40 min)',
+            xp: 70,
+            text: 'Contacter l’entreprise ou l’atelier visé pour leur proposer une immersion gratuite de 1 à 2 semaines conventionnée par la Mission Locale.'
+          }
+        ]
       },
       {
-        id: 't22',
-        date: '20 Décembre',
-        tag: 'terrain',
-        tagLabel: '🎄 Bilan Mi-Décembre',
-        title: 'Grand Bilan Parrain / Filleul avant les fêtes',
-        desc: 'Valider le plan A (et le plan B) pour février 2027 avant de profiter des vacances de Noël.',
+        id: 'd24',
+        isoDate: '2026-12-12',
+        date: 'JOUR 24 • Samedi 12 Décembre',
+        title: 'Journée Portes Ouvertes ou Test en Ligne (42 / Tech / Créa)',
+        hasCode: false,
+        subtasks: [
+          {
+            id: 'd24-reorient',
+            type: 'reorient',
+            label: '💻 TEST CONCRET (45 min)',
+            xp: 70,
+            text: 'Passer les jeux logiques en ligne de 42 ou visiter un atelier / une journée portes ouvertes d’une formation pratique.'
+          }
+        ]
+      },
+      {
+        id: 'd25',
+        isoDate: '2026-12-13',
+        date: 'JOUR 25 • Dimanche 13 Décembre',
+        title: 'Point Parrain #4 : Préparation des Entretiens',
+        hasCode: false,
+        subtasks: [
+          {
+            id: 'd25-reorient',
+            type: 'reorient',
+            label: '💬 SIMULATION PARRAIN (30 min)',
+            xp: 70,
+            text: 'S’entraîner avec mon parrain à me présenter en 2 minutes de façon franche et dynamique pour mes entretiens de la semaine.'
+          }
+        ]
+      },
+      {
+        id: 'd26',
+        isoDate: '2026-12-14',
+        date: 'JOUR 26 • Lundi 14 Décembre',
+        title: 'Tournée de Relances Téléphoniques',
+        hasCode: false,
+        subtasks: [
+          {
+            id: 'd26-reorient',
+            type: 'reorient',
+            label: '📞 3 COUPS DE FIL (30 min)',
+            xp: 75,
+            text: 'Appeler directement les responsables des missions Service Civique / structures où j’ai postulé pour décrocher un entretien avant Noël.'
+          }
+        ]
+      },
+      {
+        id: 'd27',
+        isoDate: '2026-12-15',
+        date: 'JOUR 27 • Mardi 15 Décembre',
+        title: 'Rencontre / Entretien Terrain #1',
+        hasCode: false,
+        subtasks: [
+          {
+            id: 'd27-reorient',
+            type: 'reorient',
+            label: '🤝 ENTRETIEN / VISITE (1h)',
+            xp: 90,
+            text: 'Passer mon premier entretien (ou rencontre sur place), poser des questions sur le quotidien réel de la mission et noter mon ressenti.'
+          }
+        ]
+      },
+      {
+        id: 'd28',
+        isoDate: '2026-12-16',
+        date: 'JOUR 28 • Mercredi 16 Décembre',
+        title: 'Rencontre / Entretien Terrain #2 (ou Plan B)',
+        hasCode: false,
+        subtasks: [
+          {
+            id: 'd28-reorient',
+            type: 'reorient',
+            label: '🤝 ENTRETIEN #2 (1h)',
+            xp: 90,
+            text: 'Avoir toujours au moins 2 pistes concrètes en parallèle pour pouvoir choisir celle où l’équipe et les missions me plaisent le plus.'
+          }
+        ]
+      },
+      {
+        id: 'd29',
+        isoDate: '2026-12-17',
+        date: 'JOUR 29 • Jeudi 17 Décembre',
+        title: 'Dossier Complet pour la Mairie de Crosne (4 Janvier)',
+        hasCode: false,
+        subtasks: [
+          {
+            id: 'd29-reorient',
+            type: 'reorient',
+            label: '🏛️ PRÉPA MAIRIE DE CROSNE (30 min)',
+            xp: 70,
+            text: 'Vérifier que la Mairie de Crosne a bien tous mes documents (contrat, RIB, carte vitale, pièce d’identité) et confirmer l’heure et le lieu du 4 janvier.'
+          }
+        ]
+      },
+      {
+        id: 'd30',
+        isoDate: '2026-12-18',
+        date: 'JOUR 30 • Vendredi 18 Décembre',
+        title: 'Confirmation Écrite de ma Piste de Février',
+        hasCode: false,
+        subtasks: [
+          {
+            id: 'd30-reorient',
+            type: 'reorient',
+            label: '✅ VALIDATION FÉVRIER (30 min)',
+            xp: 100,
+            text: 'Envoyer un mail de confirmation à la structure choisie pour février 2027 afin de bloquer ma place avant la fermeture des fêtes.'
+          }
+        ]
+      },
+      {
+        id: 'd31',
+        isoDate: '2026-12-20',
+        date: 'JOUR 31 • Dimanche 20 Décembre 🎄',
+        title: 'Grand Bilan Mi-Décembre avec mon Parrain avant Noël',
+        hasCode: false,
         isMilestone: true,
-        link: '',
-        linkText: ''
+        subtasks: [
+          {
+            id: 'd31-reorient',
+            type: 'reorient',
+            label: '🎄 BILAN DE FIN D’ANNÉE',
+            xp: 150,
+            text: 'Faire le point complet avec mon parrain : Code passé, job de janvier à Crosne prêt, et piste de février verrouillée. Vacances de Noël 100% méritées !'
+          }
+        ]
       }
     ]
   },
   {
     id: 'phase-5',
     badge: 'Janvier & Février 2027',
-    title: 'Job Mairie de Crosne & Décollage Février',
-    desc: 'Un mois de janvier actif et rémunéré à Crosne, suivi du lancement de ta nouvelle aventure en février !',
+    title: 'Mairie de Crosne (4 → 31 Janvier) & Décollage Février',
+    desc: 'Un mois de janvier actif et rémunéré à la Mairie de Crosne, puis lancement de ta nouvelle aventure le 1er février !',
     openByDefault: false,
-    tasks: [
+    days: [
       {
-        id: 't23',
-        date: '4 → 31 Janvier',
-        tag: 'terrain',
-        tagLabel: '🏛️ Job Terrain',
-        title: 'Mission Mairie de Crosne (Tout le mois de janvier)',
-        desc: 'Reprise d’un vrai rythme matinal, travail en équipe, première paie et expérience concrète sur le CV.',
+        id: 'd32',
+        isoDate: '2027-01-04',
+        date: '4 → 31 Janvier 2027',
+        title: '🏛️ Mission Mairie de Crosne (Tout le mois de Janvier)',
+        hasCode: false,
         isMilestone: true,
-        link: '',
-        linkText: ''
+        subtasks: [
+          {
+            id: 'd32-reorient',
+            type: 'reorient',
+            label: '🏛️ JOB TERRAIN MAIRIE DE CROSNE',
+            xp: 200,
+            text: 'Assurer tout le mois de janvier à la Mairie de Crosne : ponctualité, esprit d’équipe, première vraie paie et super ligne sur le CV.'
+          }
+        ]
       },
       {
-        id: 't24',
-        date: 'Mi-Janvier',
-        tag: 'terrain',
-        tagLabel: '✅ Confirmation',
-        title: 'Finaliser la convention / inscription pour le 1er Février',
-        desc: 'Signer le contrat de Service Civique, CES, stage PMSMP ou formation par projet pour février.',
-        link: '',
-        linkText: ''
+        id: 'd33',
+        isoDate: '2027-01-18',
+        date: 'Mi-Janvier 2027',
+        title: 'Signature Définitive du Contrat / Convention de Février',
+        hasCode: false,
+        subtasks: [
+          {
+            id: 'd33-reorient',
+            type: 'reorient',
+            label: '✍️ SIGNATURE FÉVRIER',
+            xp: 100,
+            text: 'Signer officiellement ma convention (Service Civique, CES Europe, stage PMSMP ou rentrée décalée) pour enchaîner après la Mairie de Crosne.'
+          }
+        ]
       },
       {
-        id: 't25',
-        date: '1er Février 2027',
-        tag: 'terrain',
-        tagLabel: '🌍 DÉCOLLAGE',
-        title: '🚀 Lancement de ma nouvelle aventure de Février !',
-        desc: 'Objectif atteint : tu es en mouvement, hors du cadre scolaire passif, dans un projet choisi !',
+        id: 'd34',
+        isoDate: '2027-02-01',
+        date: '1er Février 2027 🚀',
+        title: '🌍 DÉCOLLAGE DE MA NOUVELLE AVENTURE DE FÉVRIER !',
+        hasCode: false,
         isMilestone: true,
-        link: '',
-        linkText: ''
+        subtasks: [
+          {
+            id: 'd34-reorient',
+            type: 'reorient',
+            label: '🚀 OBJECTIF ATTEINT',
+            xp: 300,
+            text: 'Démarrer mon nouveau projet de février : tu as cassé l’inertie, décroché ton Code, bossé tout janvier et choisi ta propre voie !'
+          }
+        ]
       }
     ]
   }
@@ -393,18 +846,16 @@ const DEFAULT_CURIOSITIES = [
 
 // State Management
 let state = {
-  completedTasks: {}, // { taskId: true }
-  taskNotes: {},      // { taskId: "note" }
-  customTasks: [],    // [{ id, phaseId, date, title, desc }]
-  pisteInterest: {},  // { pisteId: 'hot' | 'curious' | 'pass' }
-  curiosities: [],    // [{ id, icon, title, level: 'none'|'test'|'love' }]
-  journalEntries: [], // [{ date, win, hype, block }]
-  currentFilter: 'all',
-  viewMode: 'theo'    // 'theo' | 'parrain'
+  completedSubtasks: {}, // { subtaskId: true }
+  dayNotes: {},          // { dayId: "note" }
+  customDays: [],        // [{ id, phaseId, date, title, desc }]
+  pisteInterest: {},     // { pisteId: 'hot' | 'curious' | 'pass' }
+  curiosities: [],       // [{ id, icon, title, level: 'none'|'test'|'love' }]
+  journalEntries: [],    // [{ date, win, hype, block }]
+  currentFilter: 'all'
 };
 
 function loadState() {
-  // First check if URL contains a shared snapshot (?sync=...)
   const params = new URLSearchParams(window.location.search);
   const syncParam = params.get('sync');
   if (syncParam) {
@@ -412,7 +863,6 @@ function loadState() {
       const decoded = JSON.parse(decodeURIComponent(atob(syncParam)));
       state = { ...state, ...decoded };
       saveState(false);
-      // Clean URL without reloading
       window.history.replaceState({}, document.title, window.location.pathname);
     } catch (e) {
       console.warn('Impossible de décoder le lien de partage :', e);
@@ -443,58 +893,88 @@ function saveState(announce = false, msg = 'Sauvegardé') {
   }
 }
 
-function getAllPhasesWithCustomTasks() {
+function getAllPhasesWithCustomDays() {
   const phases = JSON.parse(JSON.stringify(DEFAULT_PHASES));
-  state.customTasks.forEach((ct) => {
-    const target = phases.find((p) => p.id === ct.phaseId) || phases[0];
-    target.tasks.push({
-      id: ct.id,
-      date: ct.date,
-      tag: 'terrain',
-      tagLabel: '⭐ Défi Perso',
-      title: ct.title,
-      desc: ct.desc || 'Mission personnalisée ajoutée au tableau de bord.',
-      link: '',
-      linkText: ''
+  state.customDays.forEach((cd) => {
+    const target = phases.find((p) => p.id === cd.phaseId) || phases[0];
+    target.days.push({
+      id: cd.id,
+      date: cd.date,
+      title: cd.title,
+      hasCode: false,
+      subtasks: [
+        {
+          id: `${cd.id}-sub`,
+          type: 'reorient',
+          label: '⭐ DÉFI PERSO',
+          xp: 60,
+          text: cd.desc || cd.title
+        }
+      ]
     });
   });
   return phases;
 }
 
-// Compute stats, countdowns and today's recommended mission
+function isDayFullyDone(day) {
+  return day.subtasks.every((st) => !!state.completedSubtasks[st.id]);
+}
+
+function getDayTotalXp(day) {
+  return day.subtasks.reduce((sum, st) => sum + (st.xp || 50), 0);
+}
+
+function getDayEarnedXp(day) {
+  return day.subtasks.reduce((sum, st) => sum + (state.completedSubtasks[st.id] ? (st.xp || 50) : 0), 0);
+}
+
+// Compute stats, XP, countdowns and today's recommended mission
 function updateStatsAndProgress() {
-  const phases = getAllPhasesWithCustomTasks();
-  let totalTasks = 0;
-  let doneTasks = 0;
-  let nextTodoTask = null;
+  const phases = getAllPhasesWithCustomDays();
+  let totalSubtasks = 0;
+  let doneSubtasks = 0;
+  let fullDaysDone = 0;
+  let totalCodeSessions = 0;
+  let doneCodeSessions = 0;
+  let earnedXp = 0;
+  let nextTodoDay = null;
 
   phases.forEach((p) => {
-    p.tasks.forEach((t) => {
-      totalTasks++;
-      if (state.completedTasks[t.id]) {
-        doneTasks++;
-      } else if (!nextTodoTask) {
-        nextTodoTask = t;
+    p.days.forEach((day) => {
+      if (isDayFullyDone(day)) {
+        fullDaysDone++;
+      } else if (!nextTodoDay) {
+        nextTodoDay = day;
       }
+
+      day.subtasks.forEach((st) => {
+        totalSubtasks++;
+        if (st.type === 'code') totalCodeSessions++;
+        if (state.completedSubtasks[st.id]) {
+          doneSubtasks++;
+          earnedXp += st.xp || 50;
+          if (st.type === 'code') doneCodeSessions++;
+        }
+      });
     });
   });
 
-  const percent = totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
-  const xp = doneTasks * 50 + Object.values(state.pisteInterest).filter((v) => v === 'hot' || v === 'curious').length * 30;
+  // Bonus XP from Pistes & Curiosities
+  earnedXp += Object.values(state.pisteInterest).filter((v) => v === 'hot' || v === 'curious').length * 30;
+
+  const percent = totalSubtasks > 0 ? Math.round((doneSubtasks / totalSubtasks) * 100) : 0;
 
   let rank = 'Explorateur';
-  if (percent >= 25) rank = 'En Mouvement ⚡';
-  if (percent >= 50) rank = 'Bâtisseur de Terrain 🛠️';
-  if (percent >= 80) rank = 'Prêt pour Février 🚀';
+  if (percent >= 20) rank = 'En Mouvement ⚡';
+  if (percent >= 45) rank = 'Pilote Code & Terrain 🚗';
+  if (percent >= 75) rank = 'Prêt pour Février 🚀';
 
-  document.getElementById('progress-text').textContent = `${doneTasks} sur ${totalTasks} missions accomplies`;
+  document.getElementById('progress-text').textContent = `${doneSubtasks} sur ${totalSubtasks} missions accomplies`;
   document.getElementById('progress-percent').textContent = `${percent}%`;
   document.getElementById('main-progress').value = percent;
-  document.getElementById('xp-badge').textContent = `${xp} XP • ${rank}`;
-  document.getElementById('stat-streak').textContent = doneTasks;
-
-  const activePistes = Object.values(state.pisteInterest).filter((v) => v === 'hot' || v === 'curious').length;
-  document.getElementById('stat-pistes').textContent = activePistes;
+  document.getElementById('xp-badge').textContent = `${earnedXp} XP • ${rank}`;
+  document.getElementById('stat-streak').textContent = fullDaysDone;
+  document.getElementById('stat-code-count').textContent = `${doneCodeSessions}/${totalCodeSessions}`;
 
   // Countdown to Code (8 Dec 2026)
   const now = new Date();
@@ -503,7 +983,7 @@ function updateStatsAndProgress() {
   const codeStatEl = document.getElementById('stat-days-code');
   const codeChipEl = document.getElementById('countdown-code');
 
-  if (state.completedTasks['t17']) {
+  if (state.completedSubtasks['d20-code']) {
     codeStatEl.textContent = 'Validé ✓';
     codeChipEl.textContent = '8 Déc • Validé ✓';
   } else if (diffDays > 0) {
@@ -518,45 +998,60 @@ function updateStatsAndProgress() {
   // Update Today Banner
   const todayBadge = document.getElementById('today-date-badge');
   const todayHeading = document.getElementById('today-heading');
-  const todayDesc = document.getElementById('today-mission-desc');
+  const todayPreview = document.getElementById('today-checklist-preview');
   const btnCompleteToday = document.getElementById('btn-complete-today');
 
-  if (nextTodoTask) {
-    todayBadge.textContent = `Prochaine mission • ${nextTodoTask.date}`;
-    todayHeading.textContent = nextTodoTask.title;
-    todayDesc.textContent = nextTodoTask.desc;
+  if (nextTodoDay) {
+    const dayXp = getDayTotalXp(nextTodoDay);
+    todayBadge.textContent = `🚨 PROCHAINE JOURNÉE À VALIDER • ${nextTodoDay.date} (+${dayXp} XP)`;
+    todayHeading.textContent = nextTodoDay.title;
+    todayPreview.innerHTML = nextTodoDay.subtasks
+      .map((st) => {
+        const done = !!state.completedSubtasks[st.id];
+        return `<div>${done ? '✅' : '⭕'} <strong>${escapeHtml(st.label)} :</strong> ${escapeHtml(st.text)}</div>`;
+      })
+      .join('');
     btnCompleteToday.disabled = false;
-    btnCompleteToday.textContent = '✓ Marquer comme fait (+50 XP)';
-    btnCompleteToday.dataset.taskId = nextTodoTask.id;
+    btnCompleteToday.textContent = `✓ Valider les missions de ce jour (+${dayXp} XP)`;
+    btnCompleteToday.dataset.dayId = nextTodoDay.id;
   } else {
     todayBadge.textContent = 'Opération Complète 🏆';
-    todayHeading.textContent = 'Toutes les missions sont accomplies !';
-    todayDesc.textContent = 'Bravo Théophile ! Tu peux ajouter de nouveaux défis ou partager ton bilan avec ton parrain.';
+    todayHeading.textContent = 'Toutes les journées sont accomplies à 100% !';
+    todayPreview.innerHTML = '<div>Bravo Théophile ! Tu peux ajouter de nouveaux défis ou envoyer ton bilan à ton parrain.</div>';
     btnCompleteToday.disabled = true;
     btnCompleteToday.textContent = '100% Terminé 🎉';
-    delete btnCompleteToday.dataset.taskId;
+    delete btnCompleteToday.dataset.dayId;
   }
 }
 
-// Render Agenda Phases & Tasks
+// Render Agenda Phases & Day Cards
 function renderAgenda() {
   const container = document.getElementById('phases-container');
   container.innerHTML = '';
-  const phases = getAllPhasesWithCustomTasks();
+  const phases = getAllPhasesWithCustomDays();
+
+  // Identify first uncompleted day to highlight as current active day
+  let firstTodoDayId = null;
+  phases.forEach((p) => {
+    p.days.forEach((d) => {
+      if (!firstTodoDayId && !isDayFullyDone(d)) {
+        firstTodoDayId = d.id;
+      }
+    });
+  });
 
   phases.forEach((phase) => {
-    const filteredTasks = phase.tasks.filter((t) => {
-      const isDone = !!state.completedTasks[t.id];
+    const filteredDays = phase.days.filter((d) => {
+      const isDone = isDayFullyDone(d);
       if (state.currentFilter === 'todo') return !isDone;
       if (state.currentFilter === 'done') return isDone;
-      if (state.currentFilter === 'code') return t.tag === 'code';
-      if (state.currentFilter === 'terrain') return t.tag === 'terrain';
+      if (state.currentFilter === 'code') return d.hasCode;
       return true;
     });
 
-    if (filteredTasks.length === 0) return;
+    if (filteredDays.length === 0) return;
 
-    const doneInPhase = phase.tasks.filter((t) => state.completedTasks[t.id]).length;
+    const doneInPhase = phase.days.filter((d) => isDayFullyDone(d)).length;
 
     const details = document.createElement('details');
     details.className = 'phase-details';
@@ -575,45 +1070,66 @@ function renderAgenda() {
           <p class="phase-desc">${escapeHtml(phase.desc)}</p>
         </div>
       </div>
-      <span class="phase-counter">${doneInPhase} / ${phase.tasks.length} faites</span>
+      <span class="phase-counter">${doneInPhase} / ${phase.days.length} jours validés</span>
     `;
 
     const list = document.createElement('div');
     list.className = 'tasks-list';
 
-    filteredTasks.forEach((task) => {
-      const isDone = !!state.completedTasks[task.id];
-      const noteVal = state.taskNotes[task.id] || '';
+    filteredDays.forEach((day) => {
+      const isDone = isDayFullyDone(day);
+      const isCurrentFocus = day.id === firstTodoDayId;
+      const totalXp = getDayTotalXp(day);
+      const earnedXp = getDayEarnedXp(day);
+      const noteVal = state.dayNotes[day.id] || '';
 
       const card = document.createElement('article');
-      card.className = `task-card ${isDone ? 'is-done' : ''} ${task.isMilestone ? 'is-milestone' : ''}`;
-      card.id = `card-${task.id}`;
+      card.className = `day-card ${isDone ? 'is-done' : ''} ${isCurrentFocus ? 'is-today' : ''} ${day.isMilestone ? 'is-milestone' : ''}`;
+      card.id = `card-${day.id}`;
 
-      const linkHtml = task.link
-        ? `<a href="${escapeHtml(task.link)}" target="_blank" rel="noopener noreferrer" class="task-link">${escapeHtml(task.linkText || 'Voir la ressource ↗')}</a>`
-        : '';
+      const subtasksHtml = day.subtasks
+        .map((st) => {
+          const checked = !!state.completedSubtasks[st.id];
+          const typeClass = st.type === 'code' ? 'subtask-code' : 'subtask-reorient';
+          const linkHtml = st.link
+            ? `<a href="${escapeHtml(st.link)}" target="_blank" rel="noopener noreferrer" class="task-link">${escapeHtml(st.linkText || 'Ouvrir le lien ↗')}</a>`
+            : '';
+
+          return `
+            <label class="subtask-item ${typeClass} ${checked ? 'is-checked' : ''}" for="chk-${st.id}">
+              <input type="checkbox" id="chk-${st.id}" data-subtask-id="${st.id}" ${checked ? 'checked' : ''}>
+              <span class="subtask-content">
+                <span class="subtask-kicker">
+                  <span>${escapeHtml(st.label)}</span>
+                  <span class="subtask-xp-tag">+${st.xp || 50} XP</span>
+                </span>
+                <span class="subtask-text">${escapeHtml(st.text)}</span>
+                ${linkHtml}
+              </span>
+            </label>
+          `;
+        })
+        .join('');
 
       card.innerHTML = `
         <div>
-          <div class="task-top">
-            <span class="task-date-pill">${escapeHtml(task.date)}</span>
-            <span class="task-tag">${escapeHtml(task.tagLabel)}</span>
+          <div class="day-header">
+            <span class="day-date-badge">${escapeHtml(day.date)}</span>
+            <span class="day-xp-pill">${isDone ? `✓ +${totalXp} XP Gagnés` : `${earnedXp}/${totalXp} XP`}</span>
           </div>
-          <label class="task-check-label" for="chk-${task.id}">
-            <input type="checkbox" id="chk-${task.id}" data-task-id="${task.id}" ${isDone ? 'checked' : ''}>
-            <span class="task-title-text">${escapeHtml(task.title)}</span>
-          </label>
-          <p class="task-desc">${escapeHtml(task.desc)}</p>
-          ${linkHtml}
+          <h4 class="day-title">${escapeHtml(day.title)}</h4>
+          <div class="subtasks-checklist">
+            ${subtasksHtml}
+          </div>
         </div>
         <div class="task-note-box">
           <input
             type="text"
             class="task-note-input"
-            data-note-id="${task.id}"
+            data-note-id="${day.id}"
             value="${escapeHtml(noteVal)}"
-            aria-label="Note ou commentaire pour ${escapeHtml(task.title)}"
-            placeholder="✍️ Note Théophile / Parrain (ex: fait, contact trouvé, score code...)"
+            aria-label="Note ou score du Code pour ${escapeHtml(day.date)}"
+            placeholder="✍️ Note du jour (ex: Score Code 33/40, piège noté, contact trouvé...)"
           >
         </div>
       `;
@@ -626,14 +1142,14 @@ function renderAgenda() {
     container.appendChild(details);
   });
 
-  // Bind checkbox events
-  container.querySelectorAll('input[type="checkbox"][data-task-id]').forEach((chk) => {
+  // Bind subtask checkbox events
+  container.querySelectorAll('input[type="checkbox"][data-subtask-id]').forEach((chk) => {
     chk.addEventListener('change', (e) => {
-      const id = e.target.dataset.taskId;
+      const id = e.target.dataset.subtaskId;
       if (e.target.checked) {
-        state.completedTasks[id] = true;
+        state.completedSubtasks[id] = true;
       } else {
-        delete state.completedTasks[id];
+        delete state.completedSubtasks[id];
       }
       saveState(true, 'Mission mise à jour');
       renderAgenda();
@@ -644,7 +1160,7 @@ function renderAgenda() {
   container.querySelectorAll('input[data-note-id]').forEach((inp) => {
     inp.addEventListener('input', (e) => {
       const id = e.target.dataset.noteId;
-      state.taskNotes[id] = e.target.value;
+      state.dayNotes[id] = e.target.value;
       saveState(false);
     });
   });
@@ -787,17 +1303,23 @@ function buildShareArtifacts() {
   const payload = btoa(encodeURIComponent(JSON.stringify(state)));
   const shareUrl = `${window.location.origin}${window.location.pathname}?sync=${payload}`;
 
-  const phases = getAllPhasesWithCustomTasks();
-  let total = 0;
-  let done = 0;
+  const phases = getAllPhasesWithCustomDays();
+  let totalSub = 0;
+  let doneSub = 0;
+  let codeDone = 0;
   const recentDone = [];
 
   phases.forEach((p) => {
-    p.tasks.forEach((t) => {
-      total++;
-      if (state.completedTasks[t.id]) {
-        done++;
-        recentDone.push(`✅ ${t.title}${state.taskNotes[t.id] ? ` (${state.taskNotes[t.id]})` : ''}`);
+    p.days.forEach((d) => {
+      d.subtasks.forEach((st) => {
+        totalSub++;
+        if (state.completedSubtasks[st.id]) {
+          doneSub++;
+          if (st.type === 'code') codeDone++;
+        }
+      });
+      if (isDayFullyDone(d)) {
+        recentDone.push(`✅ ${d.date} : ${d.title}${state.dayNotes[d.id] ? ` (${state.dayNotes[d.id]})` : ''}`);
       }
     });
   });
@@ -814,24 +1336,25 @@ function buildShareArtifacts() {
 
   const lines = [
     `🚀 POINT D'AVANCEMENT THÉOPHILE — OPÉRATION FÉVRIER 2027`,
-    `Progression : ${done}/${total} missions (${Math.round((done / total) * 100)}%)`,
+    `Missions validées : ${doneSub}/${totalSub} (${Math.round((doneSub / totalSub) * 100)}%)`,
+    `🚗 Entraînements Code (Livre + Appli) validés : ${codeDone}/20`,
     ``,
-    `📌 Missions validées :`,
-    ...(recentDone.length > 0 ? recentDone.slice(-6) : ['(Aucune mission cochée pour le moment)']),
+    `📌 Dernières journées 100% accomplies :`,
+    ...(recentDone.length > 0 ? recentDone.slice(-6) : ['(En cours sur la journée actuelle)']),
     ``,
     `🧭 Pistes qui me chauffent pour Février :`,
-    ...(hotPistes.length > 0 ? hotPistes : ['(À explorer dans le Labo des Pistes)']),
+    ...(hotPistes.length > 0 ? hotPistes : ['(À voter dans le Labo des Pistes)']),
     ``,
     `⚡ Mes curiosités hors-école :`,
-    ...(topCuriosities.length > 0 ? topCuriosities : ['(À sélectionner dans l’inventaire)'])
+    ...(topCuriosities.length > 0 ? topCuriosities : ['(À cocher dans l’inventaire)'])
   ];
 
   if (latestJournal) {
     lines.push(
       ``,
       `💬 Dernier point du carnet (${latestJournal.date}) :`,
-      `- Fierté : ${latestJournal.win || '-'}`,
-      `- Piste : ${latestJournal.hype || '-'}`,
+      `- Avancées : ${latestJournal.win || '-'}`,
+      `- Piste Février : ${latestJournal.hype || '-'}`,
       `- Question pour toi : ${latestJournal.block || '-'}`
     );
   }
@@ -872,32 +1395,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // View Switcher (Théophile vs Parrain)
-  const btnTheo = document.getElementById('btn-mode-theo');
-  const btnParrain = document.getElementById('btn-mode-parrain');
-
-  btnTheo.addEventListener('click', () => {
-    btnTheo.classList.add('active');
-    btnTheo.setAttribute('aria-pressed', 'true');
-    btnParrain.classList.remove('active');
-    btnParrain.setAttribute('aria-pressed', 'false');
-    document.querySelector('[data-tab="tab-agenda"]').click();
-  });
-
-  btnParrain.addEventListener('click', () => {
-    btnParrain.classList.add('active');
-    btnParrain.setAttribute('aria-pressed', 'true');
-    btnTheo.classList.remove('active');
-    btnTheo.setAttribute('aria-pressed', 'false');
-    document.querySelector('[data-tab="tab-journal"]').click();
+  // Header shortcut to Code Method Tab
+  document.getElementById('btn-open-code-plan').addEventListener('click', () => {
+    document.querySelector('[data-tab="tab-code"]').click();
   });
 
   // Complete Today Mission Button
   document.getElementById('btn-complete-today').addEventListener('click', (e) => {
-    const taskId = e.currentTarget.dataset.taskId;
-    if (taskId) {
-      state.completedTasks[taskId] = true;
-      saveState(true, 'Bravo ! Mission du jour accomplie !');
+    const dayId = e.currentTarget.dataset.dayId;
+    if (dayId) {
+      const phases = getAllPhasesWithCustomDays();
+      phases.forEach((p) => {
+        const found = p.days.find((d) => d.id === dayId);
+        if (found) {
+          found.subtasks.forEach((st) => {
+            state.completedSubtasks[st.id] = true;
+          });
+        }
+      });
+      saveState(true, 'Bravo ! Journée validée à 100% !');
       renderAgenda();
     }
   });
@@ -905,9 +1421,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Jump to Today Mission in Agenda
   document.getElementById('btn-jump-today').addEventListener('click', () => {
     document.querySelector('[data-tab="tab-agenda"]').click();
-    const taskId = document.getElementById('btn-complete-today').dataset.taskId;
-    if (taskId) {
-      const card = document.getElementById(`card-${taskId}`);
+    const dayId = document.getElementById('btn-complete-today').dataset.dayId;
+    if (dayId) {
+      const card = document.getElementById(`card-${dayId}`);
       if (card) {
         const parentDetails = card.closest('details');
         if (parentDetails) parentDetails.open = true;
@@ -965,13 +1481,13 @@ document.addEventListener('DOMContentLoaded', () => {
     renderJournal();
 
     const fb = document.getElementById('journal-save-feedback');
-    fb.textContent = '✓ Enregistré ! Tu peux maintenant cliquer sur "Partager mon point" en haut.';
+    fb.textContent = '✓ Enregistré ! Clique sur "Envoyer mon avancement au Parrain" en haut pour lui partager.';
     setTimeout(() => {
       fb.textContent = '';
     }, 4500);
   });
 
-  // Share Modal (using native <dialog>.showModal())
+  // Share Modal
   const modalShare = document.getElementById('modal-share');
   document.getElementById('btn-open-share').addEventListener('click', () => {
     const { shareUrl, summaryText } = buildShareArtifacts();
@@ -1045,7 +1561,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Add Custom Task Modal
+  // Add Custom Day / Mission Modal
   const modalTask = document.getElementById('modal-add-task');
   document.getElementById('btn-add-task-modal').addEventListener('click', () => {
     modalTask.showModal();
@@ -1063,7 +1579,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const desc = document.getElementById('task-desc-input').value.trim();
     if (!title || !date) return;
 
-    state.customTasks.push({
+    state.customDays.push({
       id: 'custom-' + Date.now(),
       phaseId,
       date,
@@ -1072,7 +1588,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('form-add-task').reset();
-    saveState(true, 'Nouvelle mission ajoutée');
+    saveState(true, 'Nouvelle journée ajoutée');
     renderAgenda();
     modalTask.close();
   });
