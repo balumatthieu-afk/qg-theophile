@@ -1,756 +1,778 @@
-// Opération Février 2027 — Le QG de Théophile & son Parrain (V2 : Calendrier Jour par Jour + Plan Code Livre & Appli)
-const STORAGE_KEY = 'theophile_qg_2026_v2';
+// Agenda de Théophile — Cap Février 2027 (V3 : Interface épurée, Grosse barre d'XP, Pages d'agenda, Jours validés archivés)
+const STORAGE_KEY = 'theophile_qg_2026_v2'; // Conserve la progression V2 déjà cochée !
 
-// Chaque jour de l'échéancier possède une liste de sous-missions concrètes (Réorientation + Code Livre/Appli) avec des XP dédiés
-const DEFAULT_PHASES = [
+const DEFAULT_DAYS = [
   {
-    id: 'phase-1',
-    badge: 'Semaine 1 • Jeudi 19 → Mercredi 25 Novembre',
-    title: 'Lancement, Choix de l’Appli Code & Ouverture des Radars',
-    desc: '7 jours = 7 missions Réorientation + les 6 premiers thèmes de ton Livre du Code couplés à ton Appli.',
-    openByDefault: true,
-    days: [
+    id: 'd1',
+    dayNum: '19',
+    month: 'NOV',
+    weekday: 'Jeudi 19 Novembre',
+    badge: 'Jour 1',
+    title: 'Choisir mon Appli Code + Inventaire de Curiosité',
+    hasCode: true,
+    subtasks: [
       {
-        id: 'd1',
-        isoDate: '2026-11-19',
-        date: 'JOUR 1 • Jeudi 19 Nov (Aujourd’hui)',
-        title: 'Choisir mon Appli Code + Faire mon Inventaire de Curiosité',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd1-code',
-            type: 'code',
-            label: '🚗 CODE (Appli + Livre)',
-            xp: 50,
-            text: 'Télécharger mon appli Code (En Voiture Simone 100% gratuite ou Ornikar), faire 1 série test de 40 questions pour voir mon score de départ + repérer le sommaire des 10 thèmes dans mon Livre.',
-            link: 'https://www.envoituresimone.com/code-de-la-route',
-            linkText: 'Télécharger En Voiture Simone ↗'
-          },
-          {
-            id: 'd1-reorient',
-            type: 'reorient',
-            label: '🧭 RÉORIENTATION (20 min)',
-            xp: 50,
-            text: 'Aller dans l’onglet "4. Inventaire de Curiosité" et cocher au moins 4 activités qui me plaisent quand personne ne me donne de note.'
-          }
-        ]
+        id: 'd1-code',
+        type: 'code',
+        label: '🚗 CODE (Appli + Livre)',
+        xp: 50,
+        text: 'Télécharger mon appli Code (En Voiture Simone gratuite ou Ornikar), faire 1 série test de 40 questions + repérer les 10 thèmes dans mon Livre.',
+        link: 'https://www.envoituresimone.com/code-de-la-route',
+        linkText: 'En Voiture Simone ↗'
       },
       {
-        id: 'd2',
-        isoDate: '2026-11-20',
-        date: 'JOUR 2 • Vendredi 20 Nov',
-        title: 'Ouverture Compte Service Civique + Thème 1 du Code',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd2-code',
-            type: 'code',
-            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
-            xp: 50,
-            text: 'LIVRE Thème L (Circulation routière : panneaux, feux, marquages au sol) + APPLI : 1 série thématique Signalisation + 1 série de 40 questions.'
-          },
-          {
-            id: 'd2-reorient',
-            type: 'reorient',
-            label: '🤝 SERVICE CIVIQUE (30 min)',
-            xp: 50,
-            text: 'Créer mon profil sur service-civique.gouv.fr, filtrer les missions dès Février 2027 (Essonne / Paris) dans Sport, Culture, Environnement ou Médias et mettre 3 missions en favoris.',
-            link: 'https://www.service-civique.gouv.fr/',
-            linkText: 'Ouvrir Service Civique ↗'
-          }
-        ]
-      },
-      {
-        id: 'd3',
-        isoDate: '2026-11-21',
-        date: 'JOUR 3 • Samedi 21 Nov',
-        title: 'Exploration Europe (CES) + Priorités & Intersections',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd3-code',
-            type: 'code',
-            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
-            xp: 50,
-            text: 'LIVRE Thème L suite (Règles de priorité, cédez-le-passage, ronds-points, croisements) + APPLI : 2 séries de 40 questions en notant chaque faute.'
-          },
-          {
-            id: 'd3-reorient',
-            type: 'reorient',
-            label: '🌍 CORPS EUROPÉEN DE SOLIDARITÉ (30 min)',
-            xp: 50,
-            text: 'Créer mon compte sur le portail du Corps Européen de Solidarité (volontariat 3 à 12 mois en Europe 100% pris en charge : logement, repas, voyage, argent de poche) et repérer 2 pays.',
-            link: 'https://youth.europa.eu/solidarity_fr',
-            linkText: 'Portail Corps Européen ↗'
-          }
-        ]
-      },
-      {
-        id: 'd4',
-        isoDate: '2026-11-22',
-        date: 'JOUR 4 • Dimanche 22 Nov',
-        title: '1er Point avec mon Parrain + Thème Conducteur (Alcool/Fatigue)',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd4-code',
-            type: 'code',
-            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
-            xp: 50,
-            text: 'LIVRE Thème C (Le Conducteur : distances d’arrêt/sécurité, temps de réaction 1 sec, taux d’alcool 0,2g/l jeune permis, fatigue) + APPLI : 2 séries de 40 questions.'
-          },
-          {
-            id: 'd4-reorient',
-            type: 'reorient',
-            label: '💬 POINT PARRAIN #1 (20 min)',
-            xp: 60,
-            text: 'Cliquer sur "Envoyer mon avancement au Parrain" en haut à droite et débriefer ensemble mes premières pistes et mon score au Code.'
-          }
-        ]
-      },
-      {
-        id: 'd5',
-        isoDate: '2026-11-23',
-        date: 'JOUR 5 • Lundi 23 Nov',
-        title: 'Appel Mission Locale (Stages PMSMP) + Thème La Route',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd5-code',
-            type: 'code',
-            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
-            xp: 50,
-            text: 'LIVRE Thème R (La Route : conduite de nuit, pluie/brouillard/neige, usage des feux de brouillard, insertion autoroute) + APPLI : 1 série Thème Route + 1 série 40 questions.'
-          },
-          {
-            id: 'd5-reorient',
-            type: 'reorient',
-            label: '🏢 MISSION LOCALE (25 min)',
-            xp: 60,
-            text: 'Appeler la Mission Locale de mon secteur pour fixer un RDV et demander comment obtenir des conventions de stage d’immersion (PMSMP de 1 à 4 semaines en entreprise).',
-            link: 'https://www.unml.info/les-missions-locales/annuaire/',
-            linkText: 'Annuaire Missions Locales ↗'
-          }
-        ]
-      },
-      {
-        id: 'd6',
-        isoDate: '2026-11-24',
-        date: 'JOUR 6 • Mardi 24 Nov',
-        title: 'Bénévolat Terrain + Thème Autres Usagers',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd6-code',
-            type: 'code',
-            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
-            xp: 50,
-            text: 'LIVRE Thème U (Autres usagers : distances latérales cyclistes 1m en ville / 1m50 hors agglo, piétons, angles morts poids lourds, bus) + APPLI : 2 séries de 40 questions.'
-          },
-          {
-            id: 'd6-reorient',
-            type: 'reorient',
-            label: '⚡ BÉNÉVOLAT ACTIF (25 min)',
-            xp: 50,
-            text: 'Sur JeVeuxAider.gouv.fr, repérer 2 missions locales (sport, événementiel, solidarité) pour sortir de ma chambre dès décembre et garder un rythme actif.',
-            link: 'https://www.jeveuxaider.gouv.fr/',
-            linkText: 'Explorer JeVeuxAider ↗'
-          }
-        ]
-      },
-      {
-        id: 'd7',
-        isoDate: '2026-11-25',
-        date: 'JOUR 7 • Mercredi 25 Nov',
-        title: 'Écoles 100% Projets (Zéro Amphi) + Réglementation & Points',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd7-code',
-            type: 'code',
-            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
-            xp: 50,
-            text: 'LIVRE Thème D (Notions diverses : permis probatoire 6 points, documents obligatoires, contrôle technique, sanctions) + APPLI : 2 séries de 40 questions (objectif : 30+/40).'
-          },
-          {
-            id: 'd7-reorient',
-            type: 'reorient',
-            label: '💻 ÉCOLES PAR PROJET (30 min)',
-            xp: 50,
-            text: 'Explorer 3 écoles sans cours magistral (École 42, Ada Tech School, Gobelins sections pro) et voter sur mes cartes dans l’onglet "3. Labo des Pistes".',
-            link: 'https://42.fr/',
-            linkText: 'Découvrir 42 ↗'
-          }
-        ]
+        id: 'd1-reorient',
+        type: 'reorient',
+        label: '🧭 RÉORIENTATION',
+        xp: 50,
+        text: 'Aller dans l’onglet "Curiosités" et cocher au moins 4 activités qui me plaisent hors école.'
       }
     ]
   },
   {
-    id: 'phase-2',
-    badge: 'Semaine 2 • Jeudi 26 Nov → Mercredi 2 Décembre',
-    title: 'Passage à l’Action, Premières Candidatures & Fin des 10 Thèmes Code',
-    desc: 'On boucle les 10 thèmes du Livre du Code et on passe aux premiers vrais contacts terrain.',
-    openByDefault: true,
-    days: [
+    id: 'd2',
+    dayNum: '20',
+    month: 'NOV',
+    weekday: 'Vendredi 20 Novembre',
+    badge: 'Jour 2',
+    title: 'Compte Service Civique + Thème 1 Code (Signalisation)',
+    hasCode: true,
+    subtasks: [
       {
-        id: 'd8',
-        isoDate: '2026-11-26',
-        date: 'JOUR 8 • Jeudi 26 Nov',
-        title: 'Compagnons & Artisanat Technique + Thème Mécanique',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd8-code',
-            type: 'code',
-            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
-            xp: 50,
-            text: 'LIVRE Thème M (Mécanique & Équipements : voyants rouges vs oranges, témoin d’usure pneus 1,6mm, niveaux) + APPLI : 1 série Mécanique + 1 série 40 questions.'
-          },
-          {
-            id: 'd8-reorient',
-            type: 'reorient',
-            label: '🪵 ARTISANAT & TECHNIQUE (30 min)',
-            xp: 50,
-            text: 'Regarder les métiers concrets chez les Compagnons du Devoir et les CFA techniques (régie son/lumière spectacle, ébénisterie, mécanique de précision).',
-            link: 'https://www.compagnons-du-devoir.com/',
-            linkText: 'Compagnons du Devoir ↗'
-          }
-        ]
+        id: 'd2-code',
+        type: 'code',
+        label: '🚗 CODE (Livre 15m + Appli 25m)',
+        xp: 50,
+        text: 'LIVRE Thème L (panneaux, feux, marquages) + APPLI : 1 série Signalisation + 1 série de 40 questions.'
       },
       {
-        id: 'd9',
-        isoDate: '2026-11-27',
-        date: 'JOUR 9 • Vendredi 27 Nov',
-        title: 'Mon CV Agile "Énergie & Terrain" + Sécurité Passagers',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd9-code',
-            type: 'code',
-            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
-            xp: 50,
-            text: 'LIVRE Thèmes P & S (Installation poste de conduite, angle mort portière, sécurité enfants, airbags, ABS/ESP) + APPLI : 2 séries de 40 questions.'
-          },
-          {
-            id: 'd9-reorient',
-            type: 'reorient',
-            label: '📄 CV AGILE 1 PAGE (35 min)',
-            xp: 70,
-            text: 'Préparer mon CV d’une page mettant en avant mon énergie, mon contrat à la Mairie de Crosne en janvier, et mon envie d’apprendre sur le terrain.'
-          }
-        ]
-      },
-      {
-        id: 'd10',
-        isoDate: '2026-11-28',
-        date: 'JOUR 10 • Samedi 28 Nov',
-        title: 'Mes 2 Premières Candidatures + Premiers Secours & Éco-conduite',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd10-code',
-            type: 'code',
-            label: '🚗 CODE (Livre 15 min + Appli 25 min)',
-            xp: 60,
-            text: 'LIVRE Thèmes A & E (Premiers secours P.A.S. : Protéger, Alerter 15/18/112, Secourir + Éco-conduite) -> LES 10 THÈMES DU LIVRE SONT BOUCLÉS ! + 2 séries Appli.'
-          },
-          {
-            id: 'd10-reorient',
-            type: 'reorient',
-            label: '🚀 2 CANDIDATURES ENVOYÉES (30 min)',
-            xp: 80,
-            text: 'Envoyer mes 2 premières candidatures sur Service Civique ou JeVeuxAider avec un message court et direct (6 lignes sincères).',
-            link: 'https://www.service-civique.gouv.fr/',
-            linkText: 'Postuler sur Service Civique ↗'
-          }
-        ]
-      },
-      {
-        id: 'd11',
-        isoDate: '2026-11-29',
-        date: 'JOUR 11 • Dimanche 29 Nov',
-        title: 'Point Parrain #2 + Grand Bilan des 10 Thèmes Code',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd11-code',
-            type: 'code',
-            label: '🚗 CODE (Appli 30 min)',
-            xp: 60,
-            text: 'Faire 2 examens blancs sur l’Appli et regarder dans mes statistiques quels sont mes 2 thèmes les plus faibles à retravailler dans le Livre.'
-          },
-          {
-            id: 'd11-reorient',
-            type: 'reorient',
-            label: '💬 POINT PARRAIN #2 (25 min)',
-            xp: 60,
-            text: 'Remplir le Carnet de bord, envoyer mon lien de suivi à mon parrain et relire ensemble mon CV et mes 2 pistes favorites pour février.'
-          }
-        ]
-      },
-      {
-        id: 'd12',
-        isoDate: '2026-11-30',
-        date: 'JOUR 12 • Lundi 30 Nov',
-        title: 'Rentrées Décalées Février (BTS/Écoles) + Spécial Pièges Vitesse',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd12-code',
-            type: 'code',
-            label: '🚗 CODE (Livre 10 min + Appli 35 min)',
-            xp: 60,
-            text: 'Réviser dans le LIVRE le tableau de toutes les vitesses (pluie vs sec, jeune conducteur : 110 sur autoroute, 100 sur voie rapide, 80 sur route) + 3 séries Appli.'
-          },
-          {
-            id: 'd12-reorient',
-            type: 'reorient',
-            label: '🎓 RENTRÉES DÉCALÉES (30 min)',
-            xp: 50,
-            text: 'Lister les BTS, BUT ou écoles pratiques qui proposent une rentrée décalée en janvier/février 2027 (audiovisuel, communication, logistique, tech).'
-          }
-        ]
-      },
-      {
-        id: 'd13',
-        isoDate: '2026-12-01',
-        date: 'JOUR 13 • Mardi 1er Décembre (J-7 avant le Code !)',
-        title: 'Ciblage Stages d’Immersion PMSMP + Spécial Panneaux Rares',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd13-code',
-            type: 'code',
-            label: '🚗 CODE J-7 (Livre 10 min + Appli 35 min)',
-            xp: 60,
-            text: 'Ouvrir les pages de garde du LIVRE avec tous les panneaux (interdiction, obligation, panonceaux, stationnement) + 3 séries de 40 questions sur l’Appli.'
-          },
-          {
-            id: 'd13-reorient',
-            type: 'reorient',
-            label: '🛠️ CIBLAGE IMMERSION (25 min)',
-            xp: 50,
-            text: 'Noter 3 entreprises, studios, salles de spectacle ou artisans autour de chez moi où j’aimerais tester le métier pendant 1 semaine grâce à la Mission Locale.'
-          }
-        ]
-      },
-      {
-        id: 'd14',
-        isoDate: '2026-12-02',
-        date: 'JOUR 14 • Mercredi 2 Décembre (J-6 Code)',
-        title: 'Prise de Contact Association CES Europe + Spécial Feux & Nuit',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd14-code',
-            type: 'code',
-            label: '🚗 CODE J-6 (Livre 10 min + Appli 35 min)',
-            xp: 60,
-            text: 'Réviser dans le LIVRE la règle exacte des feux (croisement, route, brouillard avant vs arrière jamais sous la pluie !) + 3 séries de 40 questions sur l’Appli.'
-          },
-          {
-            id: 'd14-reorient',
-            type: 'reorient',
-            label: '🌍 CONTACT EUROPE CES (25 min)',
-            xp: 60,
-            text: 'Contacter une association française accompagnatrice pour le volontariat européen (ex: Concordia ou Jeunesse et Reconstruction) pour connaître les départs de février.',
-            link: 'https://www.concordia.fr/',
-            linkText: 'Voir Concordia ↗'
-          }
-        ]
+        id: 'd2-reorient',
+        type: 'reorient',
+        label: '🤝 SERVICE CIVIQUE',
+        xp: 50,
+        text: 'Créer mon compte sur service-civique.gouv.fr, filtrer dès Février 2027 (Essonne / Paris) et mettre 3 missions en favoris.',
+        link: 'https://www.service-civique.gouv.fr/',
+        linkText: 'Service Civique ↗'
       }
     ]
   },
   {
-    id: 'phase-3',
-    badge: 'Semaine 3 • Jeudi 3 → Mardi 8 Décembre',
-    title: '🚨 SPRINT FINAL CODE DE LA ROUTE (Jour J : Mardi 8 Décembre)',
-    desc: 'Les 6 derniers jours avant l’examen du 8 décembre : priorité absolue au Code (objectif 35+/40 régulier) + micro-actions réorientation.',
-    openByDefault: true,
-    days: [
+    id: 'd3',
+    dayNum: '21',
+    month: 'NOV',
+    weekday: 'Samedi 21 Novembre',
+    badge: 'Jour 3',
+    title: 'Volontariat Europe (CES) + Priorités & Intersections',
+    hasCode: true,
+    subtasks: [
       {
-        id: 'd15',
-        isoDate: '2026-12-03',
-        date: 'JOUR 15 • Jeudi 3 Décembre (J-5 Code)',
-        title: 'Cap des 34/40 au Code + 3e Candidature Service Civique',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd15-code',
-            type: 'code',
-            label: '🚗 SPRINT CODE J-5 (45 min)',
-            xp: 75,
-            text: 'Faire 3 séries en mode "Examen Blanc" (chronométrées sans pause) sur l’Appli + relire dans le Livre chaque règle où j’ai hésité.'
-          },
-          {
-            id: 'd15-reorient',
-            type: 'reorient',
-            label: '🚀 CANDIDATURE #3 (20 min)',
-            xp: 50,
-            text: 'Envoyer une 3e candidature Service Civique pour début février 2027.'
-          }
-        ]
+        id: 'd3-code',
+        type: 'code',
+        label: '🚗 CODE (Livre 15m + Appli 25m)',
+        xp: 50,
+        text: 'LIVRE Thème L suite (priorités, ronds-points, croisements) + APPLI : 2 séries de 40 questions.'
       },
       {
-        id: 'd16',
-        isoDate: '2026-12-04',
-        date: 'JOUR 16 • Vendredi 4 Décembre (J-4 Code)',
-        title: 'Chasse aux Pièges Classiques + Coup de Fil de Relance',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd16-code',
-            type: 'code',
-            label: '🚗 SPRINT CODE J-4 (45 min)',
-            xp: 75,
-            text: 'Refaire sur l’Appli uniquement les questions ratées cette semaine + relire dans le Livre les chiffres par cœur (0,2g/l, 1,6mm pneus, distances = dizaine de la vitesse × 3) + 2 examens blancs.'
-          },
-          {
-            id: 'd16-reorient',
-            type: 'reorient',
-            label: '📞 RELANCE TERRAIN (15 min)',
-            xp: 50,
-            text: 'Passer 1 coup de fil de suivi à la Mission Locale ou à une structure où j’ai postulé.'
-          }
-        ]
-      },
-      {
-        id: 'd17',
-        isoDate: '2026-12-05',
-        date: 'JOUR 17 • Samedi 5 Décembre (J-3 Code)',
-        title: 'Simulation Examen Officiel (Objectif 35+/40)',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd17-code',
-            type: 'code',
-            label: '🚗 SPRINT CODE J-3 (50 min)',
-            xp: 80,
-            text: 'Enchaîner 4 séries d’examen blanc sur l’Appli dans le calme complet (sans musique, téléphone en mode avion sauf l’appli). Objectif : au moins 3 séries à 35/40 ou plus !'
-          },
-          {
-            id: 'd17-reorient',
-            type: 'reorient',
-            label: '🏃AÉRATION & SPORT (30 min)',
-            xp: 40,
-            text: 'Sortir prendre l’air, faire du sport ou voir des amis pour oxygéner le cerveau après les 4 séries.'
-          }
-        ]
-      },
-      {
-        id: 'd18',
-        isoDate: '2026-12-06',
-        date: 'JOUR 18 • Dimanche 6 Décembre (J-2 Code)',
-        title: 'Point Parrain #3 (Spécial Confiance Code) + 3 Séries',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd18-code',
-            type: 'code',
-            label: '🚗 SPRINT CODE J-2 (40 min)',
-            xp: 75,
-            text: 'Faire 3 séries d’examen blanc sur l’Appli + relire mon carnet de fautes fréquentes avec mon Livre.'
-          },
-          {
-            id: 'd18-reorient',
-            type: 'reorient',
-            label: '💬 POINT PARRAIN #3 (20 min)',
-            xp: 60,
-            text: 'Partager mes scores d’examens blancs avec mon parrain pour faire le plein de confiance avant mardi.'
-          }
-        ]
-      },
-      {
-        id: 'd19',
-        isoDate: '2026-12-07',
-        date: 'JOUR 19 • Lundi 7 Décembre (VEILLE DU CODE)',
-        title: 'Préparation Convocation & Pièce d’Identité + Révision Douce',
-        hasCode: true,
-        subtasks: [
-          {
-            id: 'd19-code',
-            type: 'code',
-            label: '🚗 VEILLE D’EXAMEN (25 min max)',
-            xp: 75,
-            text: 'Feuilleter calmement les résumés de fin de chapitre de mon LIVRE + faire 1 ou 2 séries tranquilles sur l’Appli pour garder le rythme sans saturer.'
-          },
-          {
-            id: 'd19-reorient',
-            type: 'reorient',
-            label: '🪪 CHECK-LIST JOUR J (15 min)',
-            xp: 60,
-            text: 'Mettre dans mon sac ma pièce d’identité en cours de validité + ma convocation imprimée/sur téléphone, vérifier l’itinéraire vers le centre d’examen et me coucher tôt.'
-          }
-        ]
-      },
-      {
-        id: 'd20',
-        isoDate: '2026-12-08',
-        date: 'JOUR 20 • Mardi 8 Décembre 🏆 JOUR J',
-        title: '🚗 PASSAGE OFFICIEL DU CODE DE LA ROUTE !',
-        hasCode: true,
-        isMilestone: true,
-        subtasks: [
-          {
-            id: 'd20-code',
-            type: 'code',
-            label: '🏆 EXAMEN OFFICIEL DU CODE',
-            xp: 200,
-            text: 'Arriver 15 min en avance, bien regarder toute la photo (rétroviseurs, panneaux, marquage au sol) et écouter chaque question jusqu’au bout avant de valider. Tu es prêt !'
-          },
-          {
-            id: 'd20-reorient',
-            type: 'reorient',
-            label: '🎉 ANNONCE AU PARRAIN',
-            xp: 100,
-            text: 'Envoyer un message à mon parrain dès la sortie du centre d’examen pour débriefer et fêter cette étape clé !'
-          }
-        ]
+        id: 'd3-reorient',
+        type: 'reorient',
+        label: '🌍 EUROPE (CES)',
+        xp: 50,
+        text: 'Créer mon compte sur le portail Corps Européen de Solidarité (3-12 mois pris en charge) et repérer 2 pays.',
+        link: 'https://youth.europa.eu/solidarity_fr',
+        linkText: 'Portail CES ↗'
       }
     ]
   },
   {
-    id: 'phase-4',
-    badge: 'Semaine 4 • Mercredi 9 → Dimanche 20 Décembre',
-    title: 'Opération Février : Verrouiller mon Projet avant Noël',
-    desc: 'Le Code est passé ! Toute ton énergie bascule sur le choix et la validation de ton projet de février + préparation Mairie de Crosne.',
-    openByDefault: false,
-    days: [
+    id: 'd4',
+    dayNum: '22',
+    month: 'NOV',
+    weekday: 'Dimanche 22 Novembre',
+    badge: 'Jour 4',
+    title: 'Point Parrain #1 + Thème Conducteur (Alcool/Distances)',
+    hasCode: true,
+    subtasks: [
       {
-        id: 'd21',
-        isoDate: '2026-12-09',
-        date: 'JOUR 21 • Mercredi 9 Décembre',
-        title: 'Sélection Finale de mon Top 2 Pistes pour Février',
-        hasCode: false,
-        subtasks: [
-          {
-            id: 'd21-reorient',
-            type: 'reorient',
-            label: '🧭 CHOIX STRATÉGIQUE (30 min)',
-            xp: 60,
-            text: 'Avec l’esprit libéré du Code, trancher mes 2 priorités pour février (ex: Plan A Service Civique / CES Europe, Plan B Stage PMSMP / École par projet).'
-          }
-        ]
+        id: 'd4-code',
+        type: 'code',
+        label: '🚗 CODE (Livre 15m + Appli 25m)',
+        xp: 50,
+        text: 'LIVRE Thème C (distances d’arrêt, temps de réaction, alcool 0,2g/l, fatigue) + APPLI : 2 séries de 40 questions.'
       },
       {
-        id: 'd22',
-        isoDate: '2026-12-10',
-        date: 'JOUR 22 • Jeudi 10 Décembre',
-        title: 'Salve de 3 Nouvelles Candidatures Ciblées',
-        hasCode: false,
-        subtasks: [
-          {
-            id: 'd22-reorient',
-            type: 'reorient',
-            label: '🚀 OFFENSIVE FÉVRIER (45 min)',
-            xp: 80,
-            text: 'Envoyer 3 candidatures ultra-ciblées pour un démarrage début février 2027 (Service Civique, CES ou stage d’immersion).'
-          }
-        ]
-      },
-      {
-        id: 'd23',
-        isoDate: '2026-12-11',
-        date: 'JOUR 23 • Vendredi 11 Décembre',
-        title: 'Dépôt / Relance Dossier Stage d’Immersion PMSMP',
-        hasCode: false,
-        subtasks: [
-          {
-            id: 'd23-reorient',
-            type: 'reorient',
-            label: '🛠️ MISSION LOCALE / ENTREPRISE (40 min)',
-            xp: 70,
-            text: 'Contacter l’entreprise ou l’atelier visé pour leur proposer une immersion gratuite de 1 à 2 semaines conventionnée par la Mission Locale.'
-          }
-        ]
-      },
-      {
-        id: 'd24',
-        isoDate: '2026-12-12',
-        date: 'JOUR 24 • Samedi 12 Décembre',
-        title: 'Journée Portes Ouvertes ou Test en Ligne (42 / Tech / Créa)',
-        hasCode: false,
-        subtasks: [
-          {
-            id: 'd24-reorient',
-            type: 'reorient',
-            label: '💻 TEST CONCRET (45 min)',
-            xp: 70,
-            text: 'Passer les jeux logiques en ligne de 42 ou visiter un atelier / une journée portes ouvertes d’une formation pratique.'
-          }
-        ]
-      },
-      {
-        id: 'd25',
-        isoDate: '2026-12-13',
-        date: 'JOUR 25 • Dimanche 13 Décembre',
-        title: 'Point Parrain #4 : Préparation des Entretiens',
-        hasCode: false,
-        subtasks: [
-          {
-            id: 'd25-reorient',
-            type: 'reorient',
-            label: '💬 SIMULATION PARRAIN (30 min)',
-            xp: 70,
-            text: 'S’entraîner avec mon parrain à me présenter en 2 minutes de façon franche et dynamique pour mes entretiens de la semaine.'
-          }
-        ]
-      },
-      {
-        id: 'd26',
-        isoDate: '2026-12-14',
-        date: 'JOUR 26 • Lundi 14 Décembre',
-        title: 'Tournée de Relances Téléphoniques',
-        hasCode: false,
-        subtasks: [
-          {
-            id: 'd26-reorient',
-            type: 'reorient',
-            label: '📞 3 COUPS DE FIL (30 min)',
-            xp: 75,
-            text: 'Appeler directement les responsables des missions Service Civique / structures où j’ai postulé pour décrocher un entretien avant Noël.'
-          }
-        ]
-      },
-      {
-        id: 'd27',
-        isoDate: '2026-12-15',
-        date: 'JOUR 27 • Mardi 15 Décembre',
-        title: 'Rencontre / Entretien Terrain #1',
-        hasCode: false,
-        subtasks: [
-          {
-            id: 'd27-reorient',
-            type: 'reorient',
-            label: '🤝 ENTRETIEN / VISITE (1h)',
-            xp: 90,
-            text: 'Passer mon premier entretien (ou rencontre sur place), poser des questions sur le quotidien réel de la mission et noter mon ressenti.'
-          }
-        ]
-      },
-      {
-        id: 'd28',
-        isoDate: '2026-12-16',
-        date: 'JOUR 28 • Mercredi 16 Décembre',
-        title: 'Rencontre / Entretien Terrain #2 (ou Plan B)',
-        hasCode: false,
-        subtasks: [
-          {
-            id: 'd28-reorient',
-            type: 'reorient',
-            label: '🤝 ENTRETIEN #2 (1h)',
-            xp: 90,
-            text: 'Avoir toujours au moins 2 pistes concrètes en parallèle pour pouvoir choisir celle où l’équipe et les missions me plaisent le plus.'
-          }
-        ]
-      },
-      {
-        id: 'd29',
-        isoDate: '2026-12-17',
-        date: 'JOUR 29 • Jeudi 17 Décembre',
-        title: 'Dossier Complet pour la Mairie de Crosne (4 Janvier)',
-        hasCode: false,
-        subtasks: [
-          {
-            id: 'd29-reorient',
-            type: 'reorient',
-            label: '🏛️ PRÉPA MAIRIE DE CROSNE (30 min)',
-            xp: 70,
-            text: 'Vérifier que la Mairie de Crosne a bien tous mes documents (contrat, RIB, carte vitale, pièce d’identité) et confirmer l’heure et le lieu du 4 janvier.'
-          }
-        ]
-      },
-      {
-        id: 'd30',
-        isoDate: '2026-12-18',
-        date: 'JOUR 30 • Vendredi 18 Décembre',
-        title: 'Confirmation Écrite de ma Piste de Février',
-        hasCode: false,
-        subtasks: [
-          {
-            id: 'd30-reorient',
-            type: 'reorient',
-            label: '✅ VALIDATION FÉVRIER (30 min)',
-            xp: 100,
-            text: 'Envoyer un mail de confirmation à la structure choisie pour février 2027 afin de bloquer ma place avant la fermeture des fêtes.'
-          }
-        ]
-      },
-      {
-        id: 'd31',
-        isoDate: '2026-12-20',
-        date: 'JOUR 31 • Dimanche 20 Décembre 🎄',
-        title: 'Grand Bilan Mi-Décembre avec mon Parrain avant Noël',
-        hasCode: false,
-        isMilestone: true,
-        subtasks: [
-          {
-            id: 'd31-reorient',
-            type: 'reorient',
-            label: '🎄 BILAN DE FIN D’ANNÉE',
-            xp: 150,
-            text: 'Faire le point complet avec mon parrain : Code passé, job de janvier à Crosne prêt, et piste de février verrouillée. Vacances de Noël 100% méritées !'
-          }
-        ]
+        id: 'd4-reorient',
+        type: 'reorient',
+        label: '💬 POINT PARRAIN #1',
+        xp: 60,
+        text: 'Cliquer sur "Envoyer au Parrain" en haut à droite et faire le point sur mes pistes et mon score Code.'
       }
     ]
   },
   {
-    id: 'phase-5',
-    badge: 'Janvier & Février 2027',
-    title: 'Mairie de Crosne (4 → 31 Janvier) & Décollage Février',
-    desc: 'Un mois de janvier actif et rémunéré à la Mairie de Crosne, puis lancement de ta nouvelle aventure le 1er février !',
-    openByDefault: false,
-    days: [
+    id: 'd5',
+    dayNum: '23',
+    month: 'NOV',
+    weekday: 'Lundi 23 Novembre',
+    badge: 'Jour 5',
+    title: 'Appel Mission Locale (Stages PMSMP) + Thème La Route',
+    hasCode: true,
+    subtasks: [
       {
-        id: 'd32',
-        isoDate: '2027-01-04',
-        date: '4 → 31 Janvier 2027',
-        title: '🏛️ Mission Mairie de Crosne (Tout le mois de Janvier)',
-        hasCode: false,
-        isMilestone: true,
-        subtasks: [
-          {
-            id: 'd32-reorient',
-            type: 'reorient',
-            label: '🏛️ JOB TERRAIN MAIRIE DE CROSNE',
-            xp: 200,
-            text: 'Assurer tout le mois de janvier à la Mairie de Crosne : ponctualité, esprit d’équipe, première vraie paie et super ligne sur le CV.'
-          }
-        ]
+        id: 'd5-code',
+        type: 'code',
+        label: '🚗 CODE (Livre 15m + Appli 25m)',
+        xp: 50,
+        text: 'LIVRE Thème R (nuit, pluie/brouillard, feux, autoroute) + APPLI : 1 série Thème Route + 1 série 40 questions.'
       },
       {
-        id: 'd33',
-        isoDate: '2027-01-18',
-        date: 'Mi-Janvier 2027',
-        title: 'Signature Définitive du Contrat / Convention de Février',
-        hasCode: false,
-        subtasks: [
-          {
-            id: 'd33-reorient',
-            type: 'reorient',
-            label: '✍️ SIGNATURE FÉVRIER',
-            xp: 100,
-            text: 'Signer officiellement ma convention (Service Civique, CES Europe, stage PMSMP ou rentrée décalée) pour enchaîner après la Mairie de Crosne.'
-          }
-        ]
+        id: 'd5-reorient',
+        type: 'reorient',
+        label: '🏢 MISSION LOCALE',
+        xp: 60,
+        text: 'Appeler la Mission Locale pour fixer un RDV et demander des conventions de stage d’immersion (PMSMP 1 à 4 semaines).',
+        link: 'https://www.unml.info/les-missions-locales/annuaire/',
+        linkText: 'Annuaire Missions Locales ↗'
+      }
+    ]
+  },
+  {
+    id: 'd6',
+    dayNum: '24',
+    month: 'NOV',
+    weekday: 'Mardi 24 Novembre',
+    badge: 'Jour 6',
+    title: 'Bénévolat Terrain + Thème Autres Usagers',
+    hasCode: true,
+    subtasks: [
+      {
+        id: 'd6-code',
+        type: 'code',
+        label: '🚗 CODE (Livre 15m + Appli 25m)',
+        xp: 50,
+        text: 'LIVRE Thème U (cyclistes 1m/1m50, piétons, angles morts poids lourds, bus) + APPLI : 2 séries de 40 questions.'
       },
       {
-        id: 'd34',
-        isoDate: '2027-02-01',
-        date: '1er Février 2027 🚀',
-        title: '🌍 DÉCOLLAGE DE MA NOUVELLE AVENTURE DE FÉVRIER !',
-        hasCode: false,
-        isMilestone: true,
-        subtasks: [
-          {
-            id: 'd34-reorient',
-            type: 'reorient',
-            label: '🚀 OBJECTIF ATTEINT',
-            xp: 300,
-            text: 'Démarrer mon nouveau projet de février : tu as cassé l’inertie, décroché ton Code, bossé tout janvier et choisi ta propre voie !'
-          }
-        ]
+        id: 'd6-reorient',
+        type: 'reorient',
+        label: '⚡ BÉNÉVOLAT',
+        xp: 50,
+        text: 'Repérer 2 missions locales sur JeVeuxAider.gouv.fr (sport, événementiel, asso) pour bouger dès décembre.',
+        link: 'https://www.jeveuxaider.gouv.fr/',
+        linkText: 'JeVeuxAider ↗'
+      }
+    ]
+  },
+  {
+    id: 'd7',
+    dayNum: '25',
+    month: 'NOV',
+    weekday: 'Mercredi 25 Novembre',
+    badge: 'Jour 7',
+    title: 'Écoles par Projet (42 / Ada / Gobelins) + Réglementation',
+    hasCode: true,
+    subtasks: [
+      {
+        id: 'd7-code',
+        type: 'code',
+        label: '🚗 CODE (Livre 15m + Appli 25m)',
+        xp: 50,
+        text: 'LIVRE Thème D (permis probatoire 6 points, papiers, contrôle technique, sanctions) + APPLI : 2 séries de 40 questions.'
+      },
+      {
+        id: 'd7-reorient',
+        type: 'reorient',
+        label: '💻 ÉCOLES PAR PROJET',
+        xp: 50,
+        text: 'Regarder 42, Ada Tech School et Gobelins (sections pro) + voter dans l’onglet "Pistes Février".',
+        link: 'https://42.fr/',
+        linkText: 'École 42 ↗'
+      }
+    ]
+  },
+  {
+    id: 'd8',
+    dayNum: '26',
+    month: 'NOV',
+    weekday: 'Jeudi 26 Novembre',
+    badge: 'Jour 8',
+    title: 'Compagnons & Artisanat Technique + Thème Mécanique',
+    hasCode: true,
+    subtasks: [
+      {
+        id: 'd8-code',
+        type: 'code',
+        label: '🚗 CODE (Livre 15m + Appli 25m)',
+        xp: 50,
+        text: 'LIVRE Thème M (voyants rouges/oranges, pneus 1,6mm, niveaux) + APPLI : 1 série Mécanique + 1 série 40 questions.'
+      },
+      {
+        id: 'd8-reorient',
+        type: 'reorient',
+        label: '🪵 ARTISANAT & TECHNIQUE',
+        xp: 50,
+        text: 'Explorer les Compagnons du Devoir et CFA techniques (régie son/lumière, ébénisterie, mécanique).',
+        link: 'https://www.compagnons-du-devoir.com/',
+        linkText: 'Compagnons du Devoir ↗'
+      }
+    ]
+  },
+  {
+    id: 'd9',
+    dayNum: '27',
+    month: 'NOV',
+    weekday: 'Vendredi 27 Novembre',
+    badge: 'Jour 9',
+    title: 'CV 1 Page + Thèmes Installation & Sécurité Passagers',
+    hasCode: true,
+    subtasks: [
+      {
+        id: 'd9-code',
+        type: 'code',
+        label: '🚗 CODE (Livre 15m + Appli 25m)',
+        xp: 50,
+        text: 'LIVRE Thèmes P & S (poste de conduite, portière, enfants, airbags, ABS/ESP) + APPLI : 2 séries de 40 questions.'
+      },
+      {
+        id: 'd9-reorient',
+        type: 'reorient',
+        label: '📄 CV 1 PAGE',
+        xp: 70,
+        text: 'Mettre à jour mon CV d’une page (avec la Mairie de Crosne en janvier).'
+      }
+    ]
+  },
+  {
+    id: 'd10',
+    dayNum: '28',
+    month: 'NOV',
+    weekday: 'Samedi 28 Novembre',
+    badge: 'Jour 10',
+    title: '2 Premières Candidatures + Secours & Éco-conduite',
+    hasCode: true,
+    subtasks: [
+      {
+        id: 'd10-code',
+        type: 'code',
+        label: '🚗 CODE (Livre 15m + Appli 25m)',
+        xp: 60,
+        text: 'LIVRE Thèmes A & E (Secours P.A.S. 15/18/112 + Éco-conduite — 10 thèmes bouclés !) + 2 séries Appli.'
+      },
+      {
+        id: 'd10-reorient',
+        type: 'reorient',
+        label: '🚀 2 CANDIDATURES',
+        xp: 80,
+        text: 'Envoyer mes 2 premières candidatures (Service Civique ou JeVeuxAider) avec un message direct de 6 lignes.',
+        link: 'https://www.service-civique.gouv.fr/',
+        linkText: 'Postuler ↗'
+      }
+    ]
+  },
+  {
+    id: 'd11',
+    dayNum: '29',
+    month: 'NOV',
+    weekday: 'Dimanche 29 Novembre',
+    badge: 'Jour 11',
+    title: 'Point Parrain #2 + Bilan des 10 Thèmes Code',
+    hasCode: true,
+    subtasks: [
+      {
+        id: 'd11-code',
+        type: 'code',
+        label: '🚗 CODE (Appli 30m)',
+        xp: 60,
+        text: 'Faire 2 examens blancs sur l’Appli et noter mes 2 thèmes les plus faibles à revoir dans le Livre.'
+      },
+      {
+        id: 'd11-reorient',
+        type: 'reorient',
+        label: '💬 POINT PARRAIN #2',
+        xp: 60,
+        text: 'Envoyer mon lien de suivi au parrain et relire ensemble mon CV + mes 2 pistes favorites.'
+      }
+    ]
+  },
+  {
+    id: 'd12',
+    dayNum: '30',
+    month: 'NOV',
+    weekday: 'Lundi 30 Novembre',
+    badge: 'Jour 12',
+    title: 'Rentrées Décalées Février + Spécial Pièges Vitesse',
+    hasCode: true,
+    subtasks: [
+      {
+        id: 'd12-code',
+        type: 'code',
+        label: '🚗 CODE (Livre 10m + Appli 35m)',
+        xp: 60,
+        text: 'LIVRE tableau des vitesses (pluie vs sec, jeune permis : 110 / 100 / 80) + 3 séries Appli.'
+      },
+      {
+        id: 'd12-reorient',
+        type: 'reorient',
+        label: '🎓 RENTRÉES DÉCALÉES',
+        xp: 50,
+        text: 'Lister les BTS / BUT / écoles qui ouvrent en janvier-février 2027.'
+      }
+    ]
+  },
+  {
+    id: 'd13',
+    dayNum: '01',
+    month: 'DÉC',
+    weekday: 'Mardi 1er Décembre',
+    badge: 'J-7 Code',
+    title: 'Ciblage Stages PMSMP + Spécial Panneaux Rares',
+    hasCode: true,
+    subtasks: [
+      {
+        id: 'd13-code',
+        type: 'code',
+        label: '🚗 CODE J-7 (Livre 10m + Appli 35m)',
+        xp: 60,
+        text: 'LIVRE pages de panneaux (interdictions, panonceaux, stationnement) + 3 séries de 40 questions Appli.'
+      },
+      {
+        id: 'd13-reorient',
+        type: 'reorient',
+        label: '🛠️ IMMERSION PMSMP',
+        xp: 50,
+        text: 'Noter 3 structures (studio, atelier, entreprise) où demander une semaine d’immersion.'
+      }
+    ]
+  },
+  {
+    id: 'd14',
+    dayNum: '02',
+    month: 'DÉC',
+    weekday: 'Mercredi 2 Décembre',
+    badge: 'J-6 Code',
+    title: 'Contact Association CES Europe + Spécial Feux & Nuit',
+    hasCode: true,
+    subtasks: [
+      {
+        id: 'd14-code',
+        type: 'code',
+        label: '🚗 CODE J-6 (Livre 10m + Appli 35m)',
+        xp: 60,
+        text: 'LIVRE règle des feux (croisement, route, brouillard avant/arrière) + 3 séries Appli.'
+      },
+      {
+        id: 'd14-reorient',
+        type: 'reorient',
+        label: '🌍 CONTACT CES',
+        xp: 60,
+        text: 'Contacter Concordia ou Jeunesse & Reconstruction pour connaître les départs Europe de février.',
+        link: 'https://www.concordia.fr/',
+        linkText: 'Concordia ↗'
+      }
+    ]
+  },
+  {
+    id: 'd15',
+    dayNum: '03',
+    month: 'DÉC',
+    weekday: 'Jeudi 3 Décembre',
+    badge: 'J-5 Code',
+    title: 'Sprint Examens Blancs + 3e Candidature',
+    hasCode: true,
+    subtasks: [
+      {
+        id: 'd15-code',
+        type: 'code',
+        label: '🚗 SPRINT CODE J-5 (45m)',
+        xp: 75,
+        text: '3 examens blancs chronométrés sur l’Appli + vérification de chaque hésitation dans le Livre.'
+      },
+      {
+        id: 'd15-reorient',
+        type: 'reorient',
+        label: '🚀 CANDIDATURE #3',
+        xp: 50,
+        text: 'Envoyer une 3e candidature Service Civique pour début février.'
+      }
+    ]
+  },
+  {
+    id: 'd16',
+    dayNum: '04',
+    month: 'DÉC',
+    weekday: 'Vendredi 4 Décembre',
+    badge: 'J-4 Code',
+    title: 'Chasse aux Pièges Code + Relance Téléphonique',
+    hasCode: true,
+    subtasks: [
+      {
+        id: 'd16-code',
+        type: 'code',
+        label: '🚗 SPRINT CODE J-4 (45m)',
+        xp: 75,
+        text: 'Refaire uniquement mes questions ratées de la semaine + 2 examens blancs Appli.'
+      },
+      {
+        id: 'd16-reorient',
+        type: 'reorient',
+        label: '📞 RELANCE',
+        xp: 50,
+        text: 'Appeler la Mission Locale ou une structure où j’ai postulé.'
+      }
+    ]
+  },
+  {
+    id: 'd17',
+    dayNum: '05',
+    month: 'DÉC',
+    weekday: 'Samedi 5 Décembre',
+    badge: 'J-3 Code',
+    title: 'Simulation Examen Officiel (Objectif 35+/40)',
+    hasCode: true,
+    subtasks: [
+      {
+        id: 'd17-code',
+        type: 'code',
+        label: '🚗 SPRINT CODE J-3 (50m)',
+        xp: 80,
+        text: '4 examens blancs sur l’Appli dans le calme complet. Objectif : 3 séries à 35/40 ou plus.'
+      },
+      {
+        id: 'd17-reorient',
+        type: 'reorient',
+        label: '🏃 SPORT / AÉRATION',
+        xp: 40,
+        text: 'Sortir prendre l’air ou faire du sport après les 4 séries.'
+      }
+    ]
+  },
+  {
+    id: 'd18',
+    dayNum: '06',
+    month: 'DÉC',
+    weekday: 'Dimanche 6 Décembre',
+    badge: 'J-2 Code',
+    title: 'Point Parrain #3 + 3 Examens Blancs',
+    hasCode: true,
+    subtasks: [
+      {
+        id: 'd18-code',
+        type: 'code',
+        label: '🚗 SPRINT CODE J-2 (40m)',
+        xp: 75,
+        text: '3 examens blancs sur l’Appli + relecture rapide de mes fautes fréquentes dans le Livre.'
+      },
+      {
+        id: 'd18-reorient',
+        type: 'reorient',
+        label: '💬 POINT PARRAIN #3',
+        xp: 60,
+        text: 'Partager mes scores d’examens blancs avec mon parrain.'
+      }
+    ]
+  },
+  {
+    id: 'd19',
+    dayNum: '07',
+    month: 'DÉC',
+    weekday: 'Lundi 7 Décembre',
+    badge: 'Veille Code',
+    title: 'Check-list Convocation & Pièce d’Identité + Révision Douce',
+    hasCode: true,
+    subtasks: [
+      {
+        id: 'd19-code',
+        type: 'code',
+        label: '🚗 VEILLE CODE (25m max)',
+        xp: 75,
+        text: 'Relire les résumés du Livre + 1 ou 2 séries tranquilles sur l’Appli.'
+      },
+      {
+        id: 'd19-reorient',
+        type: 'reorient',
+        label: '🪪 PRÉPA SAC',
+        xp: 60,
+        text: 'Préparer pièce d’identité + convocation, vérifier l’itinéraire du centre et coucher tôt.'
+      }
+    ]
+  },
+  {
+    id: 'd20',
+    dayNum: '08',
+    month: 'DÉC',
+    weekday: 'Mardi 8 Décembre',
+    badge: '🏆 JOUR J',
+    title: '🚗 PASSAGE DU CODE DE LA ROUTE',
+    hasCode: true,
+    isMilestone: true,
+    subtasks: [
+      {
+        id: 'd20-code',
+        type: 'code',
+        label: '🏆 EXAMEN OFFICIEL',
+        xp: 200,
+        text: 'Arriver 15 min en avance, bien observer chaque photo et écouter chaque question jusqu’au bout.'
+      },
+      {
+        id: 'd20-reorient',
+        type: 'reorient',
+        label: '🎉 DÉBRIEF PARRAIN',
+        xp: 100,
+        text: 'Envoyer le résultat à mon parrain dès la sortie.'
+      }
+    ]
+  },
+  {
+    id: 'd21',
+    dayNum: '09',
+    month: 'DÉC',
+    weekday: 'Mercredi 9 Décembre',
+    badge: 'Cap Février',
+    title: 'Choisir mon Top 2 Pistes pour Février',
+    hasCode: false,
+    subtasks: [
+      {
+        id: 'd21-reorient',
+        type: 'reorient',
+        label: '🧭 CHOIX PLAN A / PLAN B',
+        xp: 60,
+        text: 'Trancher mes 2 priorités pour février (Service Civique, CES Europe, stage PMSMP ou école par projet).'
+      }
+    ]
+  },
+  {
+    id: 'd22',
+    dayNum: '10',
+    month: 'DÉC',
+    weekday: 'Jeudi 10 Décembre',
+    badge: 'Cap Février',
+    title: '3 Nouvelles Candidatures Ciblées',
+    hasCode: false,
+    subtasks: [
+      {
+        id: 'd22-reorient',
+        type: 'reorient',
+        label: '🚀 OFFENSIVE FÉVRIER',
+        xp: 80,
+        text: 'Envoyer 3 candidatures ciblées pour un démarrage début février 2027.'
+      }
+    ]
+  },
+  {
+    id: 'd23',
+    dayNum: '11',
+    month: 'DÉC',
+    weekday: 'Vendredi 11 Décembre',
+    badge: 'Cap Février',
+    title: 'Dossier Stage d’Immersion PMSMP',
+    hasCode: false,
+    subtasks: [
+      {
+        id: 'd23-reorient',
+        type: 'reorient',
+        label: '🛠️ ENTREPRISE / MISSION LOCALE',
+        xp: 70,
+        text: 'Proposer une immersion de 1 à 2 semaines (conventionnée par la Mission Locale) à une structure visée.'
+      }
+    ]
+  },
+  {
+    id: 'd24',
+    dayNum: '12',
+    month: 'DÉC',
+    weekday: 'Samedi 12 Décembre',
+    badge: 'Cap Février',
+    title: 'Test en Ligne ou Portes Ouvertes (42 / Tech / Créa)',
+    hasCode: false,
+    subtasks: [
+      {
+        id: 'd24-reorient',
+        type: 'reorient',
+        label: '💻 TEST PRATIQUE',
+        xp: 70,
+        text: 'Faire les jeux logiques en ligne de 42 ou visiter un atelier / une formation pratique.'
+      }
+    ]
+  },
+  {
+    id: 'd25',
+    dayNum: '13',
+    month: 'DÉC',
+    weekday: 'Dimanche 13 Décembre',
+    badge: 'Cap Février',
+    title: 'Point Parrain #4 : Préparation Entretiens',
+    hasCode: false,
+    subtasks: [
+      {
+        id: 'd25-reorient',
+        type: 'reorient',
+        label: '💬 SIMULATION PARRAIN',
+        xp: 70,
+        text: 'Préparer ma présentation en 2 minutes avec mon parrain pour les entretiens de la semaine.'
+      }
+    ]
+  },
+  {
+    id: 'd26',
+    dayNum: '14',
+    month: 'DÉC',
+    weekday: 'Lundi 14 Décembre',
+    badge: 'Cap Février',
+    title: 'Relances Téléphoniques (3 appels)',
+    hasCode: false,
+    subtasks: [
+      {
+        id: 'd26-reorient',
+        type: 'reorient',
+        label: '📞 3 APPELS',
+        xp: 75,
+        text: 'Appeler directement les responsables des structures où j’ai postulé.'
+      }
+    ]
+  },
+  {
+    id: 'd27',
+    dayNum: '15',
+    month: 'DÉC',
+    weekday: 'Mardi 15 Décembre',
+    badge: 'Cap Février',
+    title: 'Entretien / Visite Terrain #1',
+    hasCode: false,
+    subtasks: [
+      {
+        id: 'd27-reorient',
+        type: 'reorient',
+        label: '🤝 ENTRETIEN #1',
+        xp: 90,
+        text: 'Passer mon premier entretien ou rencontre sur place et noter mon ressenti.'
+      }
+    ]
+  },
+  {
+    id: 'd28',
+    dayNum: '16',
+    month: 'DÉC',
+    weekday: 'Mercredi 16 Décembre',
+    badge: 'Cap Février',
+    title: 'Entretien / Visite Terrain #2',
+    hasCode: false,
+    subtasks: [
+      {
+        id: 'd28-reorient',
+        type: 'reorient',
+        label: '🤝 ENTRETIEN #2',
+        xp: 90,
+        text: 'Sécuriser une 2e piste en parallèle pour garder le choix.'
+      }
+    ]
+  },
+  {
+    id: 'd29',
+    dayNum: '17',
+    month: 'DÉC',
+    weekday: 'Jeudi 17 Décembre',
+    badge: 'Crosne',
+    title: 'Dossier Complet Mairie de Crosne (4 Janvier)',
+    hasCode: false,
+    subtasks: [
+      {
+        id: 'd29-reorient',
+        type: 'reorient',
+        label: '🏛️ PAPIERS CROSNE',
+        xp: 70,
+        text: 'Vérifier contrat, RIB, pièce d’identité et horaires du 4 janvier avec la Mairie de Crosne.'
+      }
+    ]
+  },
+  {
+    id: 'd30',
+    dayNum: '18',
+    month: 'DÉC',
+    weekday: 'Vendredi 18 Décembre',
+    badge: 'Cap Février',
+    title: 'Confirmation Écrite de ma Piste de Février',
+    hasCode: false,
+    subtasks: [
+      {
+        id: 'd30-reorient',
+        type: 'reorient',
+        label: '✅ VALIDATION',
+        xp: 100,
+        text: 'Confirmer par mail ma place pour février 2027 avant la fermeture des fêtes.'
+      }
+    ]
+  },
+  {
+    id: 'd31',
+    dayNum: '20',
+    month: 'DÉC',
+    weekday: 'Dimanche 20 Décembre',
+    badge: '🎄 Bilan',
+    title: 'Bilan Mi-Décembre avec le Parrain',
+    hasCode: false,
+    isMilestone: true,
+    subtasks: [
+      {
+        id: 'd31-reorient',
+        type: 'reorient',
+        label: '🎄 BILAN AVANT NOËL',
+        xp: 150,
+        text: 'Valider ensemble le bilan de décembre (Code + Mairie de Crosne + Projet Février).'
+      }
+    ]
+  },
+  {
+    id: 'd32',
+    dayNum: '04',
+    month: 'JAN',
+    weekday: '4 → 31 Janvier 2027',
+    badge: '🏛️ Crosne',
+    title: 'Job Mairie de Crosne (Tout le mois de Janvier)',
+    hasCode: false,
+    isMilestone: true,
+    subtasks: [
+      {
+        id: 'd32-reorient',
+        type: 'reorient',
+        label: '🏛️ MAIRIE DE CROSNE',
+        xp: 200,
+        text: 'Assurer mon mois de travail à la Mairie de Crosne du 4 au 31 janvier.'
+      }
+    ]
+  },
+  {
+    id: 'd33',
+    dayNum: '18',
+    month: 'JAN',
+    weekday: 'Mi-Janvier 2027',
+    badge: 'Signature',
+    title: 'Signature Convention / Contrat de Février',
+    hasCode: false,
+    subtasks: [
+      {
+        id: 'd33-reorient',
+        type: 'reorient',
+        label: '✍️ SIGNATURE FÉVRIER',
+        xp: 100,
+        text: 'Signer officiellement ma convention (Service Civique, CES, PMSMP ou formation).'
+      }
+    ]
+  },
+  {
+    id: 'd34',
+    dayNum: '01',
+    month: 'FÉV',
+    weekday: '1er Février 2027',
+    badge: '🚀 Départ',
+    title: 'DÉMARRAGE DU NOUVEAU PROJET DE FÉVRIER',
+    hasCode: false,
+    isMilestone: true,
+    subtasks: [
+      {
+        id: 'd34-reorient',
+        type: 'reorient',
+        label: '🚀 JOUR 1 FÉVRIER',
+        xp: 300,
+        text: 'Lancement officiel de ma nouvelle aventure de février 2027.'
       }
     ]
   }
@@ -762,45 +784,39 @@ const PISTES_DATA = [
     category: 'action',
     icon: '🤝',
     badge: '6 à 10 mois • ~620 €/mois',
-    title: 'Le Service Civique (Sas de décompression idéal)',
-    why: 'Missions indemnisées dans l’environnement, la culture, le sport, l’action sociale ou l’éducation aux médias.',
-    benefit: 'Zéro pression académique, utilité sociale immédiate, travail en équipe et rythme structuré sans l’étiquette d’un "job alimentaire".',
-    links: [
-      { label: 'Explorer les missions ↗', url: 'https://www.service-civique.gouv.fr/' }
-    ]
+    title: 'Service Civique',
+    why: 'Missions indemnisées dans l’environnement, la culture, le sport, le social ou les médias.',
+    benefit: 'Zéro pression scolaire, travail en équipe et utilité concrète.',
+    links: [{ label: 'service-civique.gouv.fr ↗', url: 'https://www.service-civique.gouv.fr/' }]
   },
   {
     id: 'piste-ces',
     category: 'action',
     icon: '🌍',
-    badge: '3 à 12 mois • 100% pris en charge',
-    title: 'Corps Européen de Solidarité (CES / Volontariat Europe)',
-    why: 'Volontariat à l’étranger entièrement financé (logement, nourriture, transports, assurance + argent de poche).',
-    benefit: 'Partir sur un projet concret en Europe (chantiers nature, ONG, tiers-lieux). Le moyen le plus rapide de mûrir, pratiquer une langue et sortir du moule français.',
-    links: [
-      { label: 'Portail Européen CES ↗', url: 'https://youth.europa.eu/solidarity_fr' }
-    ]
+    badge: '3 à 12 mois • 100% financé',
+    title: 'Corps Européen de Solidarité (CES)',
+    why: 'Volontariat en Europe entièrement pris en charge (logement, nourriture, transport, argent de poche).',
+    benefit: 'Chantiers nature, ONG, tiers-lieux, langue étrangère et autonomie.',
+    links: [{ label: 'Portail CES ↗', url: 'https://youth.europa.eu/solidarity_fr' }]
   },
   {
     id: 'piste-ml',
     category: 'action',
     icon: '🛠️',
     badge: 'Stages 1 à 4 semaines (PMSMP)',
-    title: 'Missions Locales & Stages d’Immersion (PMSMP)',
-    why: 'Contrairement aux idées reçues, c’est le levier officiel pour tous les 16-25 ans sans statut étudiant pour obtenir des conventions de stage.',
-    benefit: 'Tester gratuitement n’importe quel métier pendant 1 à 4 semaines (artisanat, son, vidéo, logistique, numérique, spectacle) sans s’engager sur 3 ans.',
-    links: [
-      { label: 'Annuaire Missions Locales ↗', url: 'https://www.unml.info/les-missions-locales/annuaire/' }
-    ]
+    title: 'Missions Locales & Immersions PMSMP',
+    why: 'Cadre officiel 16-25 ans pour obtenir des conventions de stage d’immersion.',
+    benefit: 'Tester un métier réel (artisanat, son, vidéo, logistique, tech) pendant 1 à 4 semaines.',
+    links: [{ label: 'Annuaire Missions Locales ↗', url: 'https://www.unml.info/les-missions-locales/annuaire/' }]
   },
   {
     id: 'piste-projet',
     category: 'learning',
     icon: '💻',
-    badge: 'Zéro cours magistral • 100% pratique',
-    title: 'Écoles à Pédagogie par Projet (Tech, Image, Son, Web)',
-    why: 'Modèles type École 42 (gratuite), Ada Tech School, Gobelins (sections pro), formations métiers du web, du son ou de la vidéo.',
-    benefit: 'Aucun prof qui récite un cours en amphi : on apprend en résolvant des défis concrets en équipe, devant l’écran ou en studio.',
+    badge: 'Zéro cours magistral',
+    title: 'Écoles par Projet (42, Ada, Gobelins)',
+    why: 'Apprentissage 100% pratique devant l’écran ou en atelier.',
+    benefit: 'Pas d’amphis : on résout des projets concrets avec ses pairs.',
     links: [
       { label: 'École 42 ↗', url: 'https://42.fr/' },
       { label: 'Ada Tech School ↗', url: 'https://adatechschool.fr/' }
@@ -810,49 +826,44 @@ const PISTES_DATA = [
     id: 'piste-artisanat',
     category: 'learning',
     icon: '🪵',
-    badge: 'Excellence manuelle & technique',
-    title: 'Artisanat d’Art, Spectacle & Métiers Techniques',
-    why: 'Les Compagnons du Devoir, CFA spécialisés (ébénisterie, mécanique de précision, régie son/lumière spectacle, lutherie, cuisine).',
-    benefit: 'L’intelligence de la main, la rigueur concrète, la fierté de fabriquer un objet réel ou de faire tourner un spectacle.',
-    links: [
-      { label: 'Compagnons du Devoir ↗', url: 'https://www.compagnons-du-devoir.com/' }
-    ]
+    badge: 'Métiers techniques & manuels',
+    title: 'Compagnons du Devoir & CFA spécialisés',
+    why: 'Ébénisterie, mécanique de précision, régie son/lumière spectacle.',
+    benefit: 'Travail de la matière et transmission directe par le geste.',
+    links: [{ label: 'Compagnons du Devoir ↗', url: 'https://www.compagnons-du-devoir.com/' }]
   },
   {
     id: 'piste-alternance',
     category: 'learning',
     icon: '⚡',
-    badge: 'Salarié + Rentrées décalées Février',
-    title: 'Alternance & Rentrées Décalées (BTS / BUT / Écoles)',
-    why: 'BTS communication, audiovisuel, négociation/relation client, logistique ou maintenance avec 2 à 3 jours en entreprise par semaine.',
-    benefit: 'Statut de salarié rémunéré qui responsabilise immédiatement et change complètement le rapport aux cours.',
-    links: [
-      { label: 'Portail Alternance ↗', url: 'https://www.alternance.emploi.gouv.fr/' }
-    ]
+    badge: 'Salarié + Rentrées décalées',
+    title: 'Alternance (BTS / BUT)',
+    why: '2 ou 3 jours en entreprise par semaine (audiovisuel, com, logistique, maintenance).',
+    benefit: 'Statut salarié et rentrées décalées possibles en janvier/février.',
+    links: [{ label: 'Portail Alternance ↗', url: 'https://www.alternance.emploi.gouv.fr/' }]
   }
 ];
 
 const DEFAULT_CURIOSITIES = [
-  { id: 'c1', icon: '🎧', title: 'Bricoler du son / Musique / Régie spectacle', level: 'none' },
-  { id: 'c2', icon: '🎬', title: 'Monter des vidéos / Photo / Création visuelle', level: 'none' },
-  { id: 'c3', icon: '🔧', title: 'Réparer ou fabriquer des objets (mécanique, bois, vélo)', level: 'none' },
-  { id: 'c4', icon: '🎪', title: 'Organiser des événements / Festivals / Animation', level: 'none' },
-  { id: 'c5', icon: '🌲', title: 'Bouger dehors / Chantiers nature / Sport & Plein air', level: 'none' },
-  { id: 'c6', icon: '🍳', title: 'Cuisiner / Pâtisserie / Restauration vivante', level: 'none' },
-  { id: 'c7', icon: '💻', title: 'Coder / Créer des sites, des jeux ou de la tech', level: 'none' },
-  { id: 'c8', icon: '✈️', title: 'Voyager / Vivre dans un autre pays d’Europe', level: 'none' },
-  { id: 'c9', icon: '🤝', title: 'Aider sur le terrain (asso, solidarité, coaching sportif)', level: 'none' }
+  { id: 'c1', icon: '🎧', title: 'Son / Musique / Régie spectacle', level: 'none' },
+  { id: 'c2', icon: '🎬', title: 'Montage vidéo / Photo', level: 'none' },
+  { id: 'c3', icon: '🔧', title: 'Mécanique / Bois / Fabriquer', level: 'none' },
+  { id: 'c4', icon: '🎪', title: 'Événementiel / Festivals / Animation', level: 'none' },
+  { id: 'c5', icon: '🌲', title: 'Plein air / Nature / Sport', level: 'none' },
+  { id: 'c6', icon: '🍳', title: 'Cuisine / Pâtisserie', level: 'none' },
+  { id: 'c7', icon: '💻', title: 'Code / Web / Tech', level: 'none' },
+  { id: 'c8', icon: '✈️', title: 'Voyager / Vivre en Europe', level: 'none' },
+  { id: 'c9', icon: '🤝', title: 'Terrain associatif / Coaching', level: 'none' }
 ];
 
-// State Management
+// State
 let state = {
-  completedSubtasks: {}, // { subtaskId: true }
-  dayNotes: {},          // { dayId: "note" }
-  customDays: [],        // [{ id, phaseId, date, title, desc }]
-  pisteInterest: {},     // { pisteId: 'hot' | 'curious' | 'pass' }
-  curiosities: [],       // [{ id, icon, title, level: 'none'|'test'|'love' }]
-  journalEntries: [],    // [{ date, win, hype, block }]
-  currentFilter: 'all'
+  completedSubtasks: {},
+  dayNotes: {},
+  customDays: [],
+  pisteInterest: {},
+  curiosities: [],
+  journalEntries: []
 };
 
 function loadState() {
@@ -865,20 +876,18 @@ function loadState() {
       saveState(false);
       window.history.replaceState({}, document.title, window.location.pathname);
     } catch (e) {
-      console.warn('Impossible de décoder le lien de partage :', e);
+      console.warn('Erreur décodage lien sync', e);
     }
   } else {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       try {
-        const parsed = JSON.parse(raw);
-        state = { ...state, ...parsed };
+        state = { ...state, ...JSON.parse(raw) };
       } catch (e) {
-        console.warn('Erreur lecture localStorage', e);
+        console.warn('Erreur localStorage', e);
       }
     }
   }
-
   if (!state.curiosities || state.curiosities.length === 0) {
     state.curiosities = JSON.parse(JSON.stringify(DEFAULT_CURIOSITIES));
   }
@@ -893,13 +902,15 @@ function saveState(announce = false, msg = 'Sauvegardé') {
   }
 }
 
-function getAllPhasesWithCustomDays() {
-  const phases = JSON.parse(JSON.stringify(DEFAULT_PHASES));
+function getAllDays() {
+  const days = JSON.parse(JSON.stringify(DEFAULT_DAYS));
   state.customDays.forEach((cd) => {
-    const target = phases.find((p) => p.id === cd.phaseId) || phases[0];
-    target.days.push({
+    days.unshift({
       id: cd.id,
-      date: cd.date,
+      dayNum: '★',
+      month: 'PERSO',
+      weekday: cd.date,
+      badge: 'Défi Perso',
       title: cd.title,
       hasCode: false,
       subtasks: [
@@ -913,7 +924,7 @@ function getAllPhasesWithCustomDays() {
       ]
     });
   });
-  return phases;
+  return days;
 }
 
 function isDayFullyDone(day) {
@@ -928,222 +939,199 @@ function getDayEarnedXp(day) {
   return day.subtasks.reduce((sum, st) => sum + (state.completedSubtasks[st.id] ? (st.xp || 50) : 0), 0);
 }
 
-// Compute stats, XP, countdowns and today's recommended mission
 function updateStatsAndProgress() {
-  const phases = getAllPhasesWithCustomDays();
-  let totalSubtasks = 0;
-  let doneSubtasks = 0;
-  let fullDaysDone = 0;
-  let totalCodeSessions = 0;
-  let doneCodeSessions = 0;
+  const allDays = getAllDays();
+  let totalSub = 0;
+  let doneSub = 0;
+  let doneDays = 0;
+  let todoDays = 0;
+  let totalCode = 0;
+  let doneCode = 0;
   let earnedXp = 0;
-  let nextTodoDay = null;
 
-  phases.forEach((p) => {
-    p.days.forEach((day) => {
-      if (isDayFullyDone(day)) {
-        fullDaysDone++;
-      } else if (!nextTodoDay) {
-        nextTodoDay = day;
+  allDays.forEach((day) => {
+    if (isDayFullyDone(day)) {
+      doneDays++;
+    } else {
+      todoDays++;
+    }
+    day.subtasks.forEach((st) => {
+      totalSub++;
+      if (st.type === 'code') totalCode++;
+      if (state.completedSubtasks[st.id]) {
+        doneSub++;
+        earnedXp += st.xp || 50;
+        if (st.type === 'code') doneCode++;
       }
-
-      day.subtasks.forEach((st) => {
-        totalSubtasks++;
-        if (st.type === 'code') totalCodeSessions++;
-        if (state.completedSubtasks[st.id]) {
-          doneSubtasks++;
-          earnedXp += st.xp || 50;
-          if (st.type === 'code') doneCodeSessions++;
-        }
-      });
     });
   });
 
-  // Bonus XP from Pistes & Curiosities
   earnedXp += Object.values(state.pisteInterest).filter((v) => v === 'hot' || v === 'curious').length * 30;
+  const percent = totalSub > 0 ? Math.round((doneSub / totalSub) * 100) : 0;
 
-  const percent = totalSubtasks > 0 ? Math.round((doneSubtasks / totalSubtasks) * 100) : 0;
+  let rank = 'Niveau 1 • Explorateur';
+  let nextRank = 'Prochain niveau à 20%';
+  if (percent >= 20) { rank = 'Niveau 2 • En Mouvement ⚡'; nextRank = 'Prochain niveau à 45%'; }
+  if (percent >= 45) { rank = 'Niveau 3 • Pilote Code & Terrain 🚗'; nextRank = 'Prochain niveau à 75%'; }
+  if (percent >= 75) { rank = 'Niveau 4 • Prêt pour Février 🚀'; nextRank = 'Objectif final : 100%'; }
+  if (percent === 100) { rank = 'Niveau MAX • Mission Accomplie 🏆'; nextRank = '100% complété !'; }
 
-  let rank = 'Explorateur';
-  if (percent >= 20) rank = 'En Mouvement ⚡';
-  if (percent >= 45) rank = 'Pilote Code & Terrain 🚗';
-  if (percent >= 75) rank = 'Prêt pour Février 🚀';
-
-  document.getElementById('progress-text').textContent = `${doneSubtasks} sur ${totalSubtasks} missions accomplies`;
+  document.getElementById('xp-heading').textContent = `${earnedXp} XP`;
+  document.getElementById('xp-rank').textContent = rank;
+  document.getElementById('stat-days-done').textContent = doneDays;
+  document.getElementById('stat-code-count').textContent = `${doneCode}/${totalCode}`;
   document.getElementById('progress-percent').textContent = `${percent}%`;
   document.getElementById('main-progress').value = percent;
-  document.getElementById('xp-badge').textContent = `${earnedXp} XP • ${rank}`;
-  document.getElementById('stat-streak').textContent = fullDaysDone;
-  document.getElementById('stat-code-count').textContent = `${doneCodeSessions}/${totalCodeSessions}`;
+  document.getElementById('progress-text').textContent = `${doneSub} sur ${totalSub} défis accomplis`;
+  document.getElementById('xp-next-rank').textContent = nextRank;
 
-  // Countdown to Code (8 Dec 2026)
+  document.getElementById('count-todo-days').textContent = todoDays;
+  document.getElementById('count-done-days').textContent = doneDays;
+
+  // Countdown Code (8 Dec 2026)
   const now = new Date();
   const codeDate = new Date('2026-12-08T09:00:00');
   const diffDays = Math.ceil((codeDate - now) / (1000 * 60 * 60 * 24));
-  const codeStatEl = document.getElementById('stat-days-code');
   const codeChipEl = document.getElementById('countdown-code');
-
   if (state.completedSubtasks['d20-code']) {
-    codeStatEl.textContent = 'Validé ✓';
     codeChipEl.textContent = '8 Déc • Validé ✓';
   } else if (diffDays > 0) {
-    codeStatEl.textContent = `J-${diffDays}`;
-    codeChipEl.textContent = `8 Déc (J-${diffDays})`;
+    codeChipEl.textContent = `8 Décembre (J-${diffDays})`;
   } else if (diffDays === 0) {
-    codeStatEl.textContent = 'Jour J !';
+    codeChipEl.textContent = '8 Décembre • JOUR J';
   } else {
-    codeStatEl.textContent = 'Passé';
-  }
-
-  // Update Today Banner
-  const todayBadge = document.getElementById('today-date-badge');
-  const todayHeading = document.getElementById('today-heading');
-  const todayPreview = document.getElementById('today-checklist-preview');
-  const btnCompleteToday = document.getElementById('btn-complete-today');
-
-  if (nextTodoDay) {
-    const dayXp = getDayTotalXp(nextTodoDay);
-    todayBadge.textContent = `🚨 PROCHAINE JOURNÉE À VALIDER • ${nextTodoDay.date} (+${dayXp} XP)`;
-    todayHeading.textContent = nextTodoDay.title;
-    todayPreview.innerHTML = nextTodoDay.subtasks
-      .map((st) => {
-        const done = !!state.completedSubtasks[st.id];
-        return `<div>${done ? '✅' : '⭕'} <strong>${escapeHtml(st.label)} :</strong> ${escapeHtml(st.text)}</div>`;
-      })
-      .join('');
-    btnCompleteToday.disabled = false;
-    btnCompleteToday.textContent = `✓ Valider les missions de ce jour (+${dayXp} XP)`;
-    btnCompleteToday.dataset.dayId = nextTodoDay.id;
-  } else {
-    todayBadge.textContent = 'Opération Complète 🏆';
-    todayHeading.textContent = 'Toutes les journées sont accomplies à 100% !';
-    todayPreview.innerHTML = '<div>Bravo Théophile ! Tu peux ajouter de nouveaux défis ou envoyer ton bilan à ton parrain.</div>';
-    btnCompleteToday.disabled = true;
-    btnCompleteToday.textContent = '100% Terminé 🎉';
-    delete btnCompleteToday.dataset.dayId;
+    codeChipEl.textContent = '8 Décembre';
   }
 }
 
-// Render Agenda Phases & Day Cards
-function renderAgenda() {
-  const container = document.getElementById('phases-container');
-  container.innerHTML = '';
-  const phases = getAllPhasesWithCustomDays();
+// Build an Agenda Page DOM element for a single day
+function createAgendaPageElement(day, { isFeatured = false, isDone = false } = {}) {
+  const totalXp = getDayTotalXp(day);
+  const earnedXp = getDayEarnedXp(day);
+  const noteVal = state.dayNotes[day.id] || '';
 
-  // Identify first uncompleted day to highlight as current active day
-  let firstTodoDayId = null;
-  phases.forEach((p) => {
-    p.days.forEach((d) => {
-      if (!firstTodoDayId && !isDayFullyDone(d)) {
-        firstTodoDayId = d.id;
-      }
-    });
-  });
+  const article = document.createElement('article');
+  article.className = `agenda-page ${isFeatured ? 'is-featured-today' : ''} ${isDone ? 'is-done-page' : ''} ${day.isMilestone ? 'is-milestone-page' : ''}`;
+  article.id = `page-${day.id}`;
 
-  phases.forEach((phase) => {
-    const filteredDays = phase.days.filter((d) => {
-      const isDone = isDayFullyDone(d);
-      if (state.currentFilter === 'todo') return !isDone;
-      if (state.currentFilter === 'done') return isDone;
-      if (state.currentFilter === 'code') return d.hasCode;
-      return true;
-    });
+  const subtasksHtml = day.subtasks
+    .map((st) => {
+      const checked = !!state.completedSubtasks[st.id];
+      const typeClass = st.type === 'code' ? 'subtask-code' : 'subtask-reorient';
+      const linkHtml = st.link
+        ? `<a href="${escapeHtml(st.link)}" target="_blank" rel="noopener noreferrer" class="task-link">${escapeHtml(st.linkText || 'Ouvrir ↗')}</a>`
+        : '';
 
-    if (filteredDays.length === 0) return;
+      return `
+        <label class="subtask-item ${typeClass} ${checked ? 'is-checked' : ''}" for="chk-${st.id}">
+          <input type="checkbox" id="chk-${st.id}" data-subtask-id="${st.id}" ${checked ? 'checked' : ''}>
+          <span class="subtask-content">
+            <span class="subtask-kicker">
+              <span>${escapeHtml(st.label)}</span>
+              <span class="subtask-xp-tag">+${st.xp || 50} XP</span>
+            </span>
+            <span class="subtask-text">${escapeHtml(st.text)}</span>
+            ${linkHtml}
+          </span>
+        </label>
+      `;
+    })
+    .join('');
 
-    const doneInPhase = phase.days.filter((d) => isDayFullyDone(d)).length;
+  const topLabel = isFeatured
+    ? `🚨 CHALLENGES DU JOUR • ${day.badge}`
+    : isDone
+      ? `✅ PAGE VALIDÉE • ${day.badge}`
+      : day.badge;
 
-    const details = document.createElement('details');
-    details.className = 'phase-details';
-    details.id = phase.id;
-    if (phase.openByDefault || state.currentFilter !== 'all') {
-      details.open = true;
-    }
+  const validateBtnHtml = !isDone
+    ? `<button type="button" class="btn btn-primary btn-validate-day" data-day-id="${day.id}">✓ Valider la page (+${totalXp} XP)</button>`
+    : '';
 
-    const summary = document.createElement('summary');
-    summary.className = 'phase-summary';
-    summary.innerHTML = `
-      <div class="phase-summary-left">
-        <span class="phase-badge">${escapeHtml(phase.badge)}</span>
-        <div>
-          <h3 class="phase-title">${escapeHtml(phase.title)}</h3>
-          <p class="phase-desc">${escapeHtml(phase.desc)}</p>
+  article.innerHTML = `
+    <div class="page-top-strip">
+      <div class="page-date-block">
+        <div class="page-cal-num" aria-hidden="true">
+          <span class="cal-day-num">${escapeHtml(day.dayNum)}</span>
+          <span class="cal-month">${escapeHtml(day.month)}</span>
+        </div>
+        <div class="page-weekday-group">
+          <span class="page-badge-label">${escapeHtml(topLabel)}</span>
+          <span class="page-weekday">${escapeHtml(day.weekday)}</span>
         </div>
       </div>
-      <span class="phase-counter">${doneInPhase} / ${phase.days.length} jours validés</span>
-    `;
+      <span class="page-xp-badge">${isDone ? `✓ +${totalXp} XP` : `${earnedXp}/${totalXp} XP`}</span>
+    </div>
 
-    const list = document.createElement('div');
-    list.className = 'tasks-list';
+    <div class="page-body">
+      <h3 class="page-title">${escapeHtml(day.title)}</h3>
+      <div class="subtasks-checklist">
+        ${subtasksHtml}
+      </div>
+    </div>
 
-    filteredDays.forEach((day) => {
-      const isDone = isDayFullyDone(day);
-      const isCurrentFocus = day.id === firstTodoDayId;
-      const totalXp = getDayTotalXp(day);
-      const earnedXp = getDayEarnedXp(day);
-      const noteVal = state.dayNotes[day.id] || '';
+    <div class="page-footer">
+      <input
+        type="text"
+        class="task-note-input"
+        data-note-id="${day.id}"
+        value="${escapeHtml(noteVal)}"
+        aria-label="Note pour ${escapeHtml(day.weekday)}"
+        placeholder="✍️ Note ou score Code (ex: 34/40)..."
+      >
+      ${validateBtnHtml}
+    </div>
+  `;
 
-      const card = document.createElement('article');
-      card.className = `day-card ${isDone ? 'is-done' : ''} ${isCurrentFocus ? 'is-today' : ''} ${day.isMilestone ? 'is-milestone' : ''}`;
-      card.id = `card-${day.id}`;
+  return article;
+}
 
-      const subtasksHtml = day.subtasks
-        .map((st) => {
-          const checked = !!state.completedSubtasks[st.id];
-          const typeClass = st.type === 'code' ? 'subtask-code' : 'subtask-reorient';
-          const linkHtml = st.link
-            ? `<a href="${escapeHtml(st.link)}" target="_blank" rel="noopener noreferrer" class="task-link">${escapeHtml(st.linkText || 'Ouvrir le lien ↗')}</a>`
-            : '';
+// Render Active Agenda (Today Page + Upcoming Uncompleted Pages) AND Done Archive Tab
+function renderAgendaViews() {
+  const todaySlot = document.getElementById('today-page-slot');
+  const upcomingGrid = document.getElementById('upcoming-pages-grid');
+  const doneGrid = document.getElementById('done-pages-grid');
 
-          return `
-            <label class="subtask-item ${typeClass} ${checked ? 'is-checked' : ''}" for="chk-${st.id}">
-              <input type="checkbox" id="chk-${st.id}" data-subtask-id="${st.id}" ${checked ? 'checked' : ''}>
-              <span class="subtask-content">
-                <span class="subtask-kicker">
-                  <span>${escapeHtml(st.label)}</span>
-                  <span class="subtask-xp-tag">+${st.xp || 50} XP</span>
-                </span>
-                <span class="subtask-text">${escapeHtml(st.text)}</span>
-                ${linkHtml}
-              </span>
-            </label>
-          `;
-        })
-        .join('');
+  todaySlot.innerHTML = '';
+  upcomingGrid.innerHTML = '';
+  doneGrid.innerHTML = '';
 
-      card.innerHTML = `
-        <div>
-          <div class="day-header">
-            <span class="day-date-badge">${escapeHtml(day.date)}</span>
-            <span class="day-xp-pill">${isDone ? `✓ +${totalXp} XP Gagnés` : `${earnedXp}/${totalXp} XP`}</span>
-          </div>
-          <h4 class="day-title">${escapeHtml(day.title)}</h4>
-          <div class="subtasks-checklist">
-            ${subtasksHtml}
-          </div>
-        </div>
-        <div class="task-note-box">
-          <input
-            type="text"
-            class="task-note-input"
-            data-note-id="${day.id}"
-            value="${escapeHtml(noteVal)}"
-            aria-label="Note ou score du Code pour ${escapeHtml(day.date)}"
-            placeholder="✍️ Note du jour (ex: Score Code 33/40, piège noté, contact trouvé...)"
-          >
-        </div>
-      `;
+  const allDays = getAllDays();
+  const todoDays = allDays.filter((d) => !isDayFullyDone(d));
+  const doneDays = allDays.filter((d) => isDayFullyDone(d));
 
-      list.appendChild(card);
+  // 1. Featured Current Day Page right under XP bar
+  if (todoDays.length > 0) {
+    const currentDay = todoDays[0];
+    todaySlot.appendChild(createAgendaPageElement(currentDay, { isFeatured: true, isDone: false }));
+
+    // 2. Remaining upcoming days
+    const restTodo = todoDays.slice(1);
+    if (restTodo.length > 0) {
+      restTodo.forEach((day) => {
+        upcomingGrid.appendChild(createAgendaPageElement(day, { isFeatured: false, isDone: false }));
+      });
+    } else {
+      upcomingGrid.innerHTML = `<div class="empty-state-box">C'est la dernière page de ton agenda !</div>`;
+    }
+  } else {
+    todaySlot.innerHTML = `<div class="empty-state-box">🏆 Toutes les pages de l'agenda sont validées à 100% !</div>`;
+  }
+
+  // 3. Archived Done Pages Tab
+  if (doneDays.length > 0) {
+    doneDays.slice().reverse().forEach((day) => {
+      doneGrid.appendChild(createAgendaPageElement(day, { isFeatured: false, isDone: true }));
     });
+  } else {
+    doneGrid.innerHTML = `<div class="empty-state-box">Aucune page validée pour l'instant. Dès que tu coches tous les défis d'une journée, sa page se range automatiquement ici !</div>`;
+  }
 
-    details.appendChild(summary);
-    details.appendChild(list);
-    container.appendChild(details);
-  });
+  bindAgendaEvents();
+}
 
-  // Bind subtask checkbox events
-  container.querySelectorAll('input[type="checkbox"][data-subtask-id]').forEach((chk) => {
+function bindAgendaEvents() {
+  document.querySelectorAll('input[type="checkbox"][data-subtask-id]').forEach((chk) => {
     chk.addEventListener('change', (e) => {
       const id = e.target.dataset.subtaskId;
       if (e.target.checked) {
@@ -1151,22 +1139,34 @@ function renderAgenda() {
       } else {
         delete state.completedSubtasks[id];
       }
-      saveState(true, 'Mission mise à jour');
-      renderAgenda();
+      saveState(true, 'Défi mis à jour');
+      renderAgendaViews();
     });
   });
 
-  // Bind note inputs
-  container.querySelectorAll('input[data-note-id]').forEach((inp) => {
+  document.querySelectorAll('.btn-validate-day').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const dayId = e.currentTarget.dataset.dayId;
+      const found = getAllDays().find((d) => d.id === dayId);
+      if (found) {
+        found.subtasks.forEach((st) => {
+          state.completedSubtasks[st.id] = true;
+        });
+        saveState(true, 'Page d’agenda validée et archivée !');
+        renderAgendaViews();
+      }
+    });
+  });
+
+  document.querySelectorAll('input[data-note-id]').forEach((inp) => {
     inp.addEventListener('input', (e) => {
-      const id = e.target.dataset.noteId;
-      state.dayNotes[id] = e.target.value;
+      state.dayNotes[e.target.dataset.noteId] = e.target.value;
       saveState(false);
     });
   });
 }
 
-// Render Labo des Pistes
+// Render Pistes
 function renderPistes() {
   const actionGrid = document.getElementById('pistes-action-grid');
   const learningGrid = document.getElementById('pistes-learning-grid');
@@ -1190,48 +1190,34 @@ function renderPistes() {
           <span class="piste-badge">${escapeHtml(piste.badge)}</span>
         </div>
         <h4>${escapeHtml(piste.title)}</h4>
-        <p class="piste-why"><strong>Le principe :</strong> ${escapeHtml(piste.why)}</p>
-        <p class="piste-benefit"><strong>Pourquoi c’est top pour toi :</strong> ${escapeHtml(piste.benefit)}</p>
+        <p class="piste-why"><strong>Principe :</strong> ${escapeHtml(piste.why)}</p>
+        <p class="piste-benefit"><strong>Atout :</strong> ${escapeHtml(piste.benefit)}</p>
         <div class="piste-links">${linksHtml}</div>
       </div>
-      <div>
-        <div class="interest-selector" role="group" aria-label="Ton intérêt pour ${escapeHtml(piste.title)}">
-          <button type="button" class="interest-btn ${currentInterest === 'hot' ? 'active' : ''}" data-piste="${piste.id}" data-val="hot">
-            🔥 Ça me chauffe !
-          </button>
-          <button type="button" class="interest-btn ${currentInterest === 'curious' ? 'active' : ''}" data-piste="${piste.id}" data-val="curious">
-            🤔 À creuser
-          </button>
-          <button type="button" class="interest-btn ${currentInterest === 'pass' ? 'active' : ''}" data-piste="${piste.id}" data-val="pass">
-            ❄️ Pas pour moi
-          </button>
-        </div>
+      <div class="interest-selector" role="group" aria-label="Intérêt pour ${escapeHtml(piste.title)}">
+        <button type="button" class="interest-btn ${currentInterest === 'hot' ? 'active' : ''}" data-piste="${piste.id}" data-val="hot">🔥 Chaud</button>
+        <button type="button" class="interest-btn ${currentInterest === 'curious' ? 'active' : ''}" data-piste="${piste.id}" data-val="curious">🤔 À voir</button>
+        <button type="button" class="interest-btn ${currentInterest === 'pass' ? 'active' : ''}" data-piste="${piste.id}" data-val="pass">❄️ Non</button>
       </div>
     `;
 
-    if (piste.category === 'action') {
-      actionGrid.appendChild(card);
-    } else {
-      learningGrid.appendChild(card);
-    }
+    if (piste.category === 'action') actionGrid.appendChild(card);
+    else learningGrid.appendChild(card);
   });
 
   document.querySelectorAll('.interest-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       const pisteId = btn.dataset.piste;
       const val = btn.dataset.val;
-      if (state.pisteInterest[pisteId] === val) {
-        delete state.pisteInterest[pisteId];
-      } else {
-        state.pisteInterest[pisteId] = val;
-      }
-      saveState(true, 'Préférence de piste enregistrée');
+      if (state.pisteInterest[pisteId] === val) delete state.pisteInterest[pisteId];
+      else state.pisteInterest[pisteId] = val;
+      saveState(true, 'Piste enregistrée');
       renderPistes();
     });
   });
 }
 
-// Render Inventaire de Curiosité
+// Render Curiosities
 function renderCuriosities() {
   const grid = document.getElementById('curiosity-grid');
   grid.innerHTML = '';
@@ -1240,22 +1226,15 @@ function renderCuriosities() {
     const card = document.createElement('article');
     card.className = 'curiosity-card';
     card.dataset.level = item.level || 'none';
-
     card.innerHTML = `
       <div class="curiosity-title">
         <span aria-hidden="true">${escapeHtml(item.icon || '✨')}</span>
         <span>${escapeHtml(item.title)}</span>
       </div>
-      <div class="curiosity-actions" role="group" aria-label="Niveau d'intérêt pour ${escapeHtml(item.title)}">
-        <button type="button" class="curiosity-btn ${item.level === 'love' ? 'active' : ''}" data-cid="${item.id}" data-level="love">
-          💚 J'adore ça
-        </button>
-        <button type="button" class="curiosity-btn ${item.level === 'test' ? 'active' : ''}" data-cid="${item.id}" data-level="test">
-          ⚡ Curieux de tester
-        </button>
-        <button type="button" class="curiosity-btn ${item.level === 'none' ? 'active' : ''}" data-cid="${item.id}" data-level="none">
-          Neutre
-        </button>
+      <div class="curiosity-actions">
+        <button type="button" class="curiosity-btn ${item.level === 'love' ? 'active' : ''}" data-cid="${item.id}" data-level="love">💚 Top</button>
+        <button type="button" class="curiosity-btn ${item.level === 'test' ? 'active' : ''}" data-cid="${item.id}" data-level="test">⚡ Tester</button>
+        <button type="button" class="curiosity-btn ${item.level === 'none' ? 'active' : ''}" data-cid="${item.id}" data-level="none">Neutre</button>
       </div>
     `;
     grid.appendChild(card);
@@ -1263,101 +1242,55 @@ function renderCuriosities() {
 
   grid.querySelectorAll('.curiosity-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const cid = btn.dataset.cid;
-      const level = btn.dataset.level;
-      const target = state.curiosities.find((c) => c.id === cid);
+      const target = state.curiosities.find((c) => c.id === btn.dataset.cid);
       if (target) {
-        target.level = level;
-        saveState(true, 'Inventaire de curiosité mis à jour');
+        target.level = btn.dataset.level;
+        saveState(true, 'Curiosité mise à jour');
         renderCuriosities();
       }
     });
   });
 }
 
-// Render Journal History
+// Render Journal
 function renderJournal() {
   const list = document.getElementById('journal-history-list');
   list.innerHTML = '';
-
   if (!state.journalEntries || state.journalEntries.length === 0) {
-    list.innerHTML = `<p class="section-subtitle">Aucun point enregistré pour l’instant. Remplis le formulaire à gauche pour préparer votre prochaine discussion !</p>`;
+    list.innerHTML = `<p class="section-subtitle">Aucun point enregistré.</p>`;
     return;
   }
-
   state.journalEntries.slice().reverse().forEach((entry) => {
     const item = document.createElement('div');
     item.className = 'history-item';
     item.innerHTML = `
-      <span class="history-date">📅 Point du ${escapeHtml(entry.date)}</span>
-      ${entry.win ? `<p><strong>🔥 Avancée :</strong> ${escapeHtml(entry.win)}</p>` : ''}
+      <span class="history-date">📅 ${escapeHtml(entry.date)}</span>
+      ${entry.win ? `<p><strong>🔥 Avancées :</strong> ${escapeHtml(entry.win)}</p>` : ''}
       ${entry.hype ? `<p><strong>🧭 Piste Février :</strong> ${escapeHtml(entry.hype)}</p>` : ''}
-      ${entry.block ? `<p><strong>🧱 Question / Blocage :</strong> ${escapeHtml(entry.block)}</p>` : ''}
+      ${entry.block ? `<p><strong>🧱 Questions :</strong> ${escapeHtml(entry.block)}</p>` : ''}
     `;
     list.appendChild(item);
   });
 }
 
-// Generate Share Link & Text Summary
+// Share Artifacts
 function buildShareArtifacts() {
   const payload = btoa(encodeURIComponent(JSON.stringify(state)));
   const shareUrl = `${window.location.origin}${window.location.pathname}?sync=${payload}`;
 
-  const phases = getAllPhasesWithCustomDays();
-  let totalSub = 0;
-  let doneSub = 0;
-  let codeDone = 0;
-  const recentDone = [];
-
-  phases.forEach((p) => {
-    p.days.forEach((d) => {
-      d.subtasks.forEach((st) => {
-        totalSub++;
-        if (state.completedSubtasks[st.id]) {
-          doneSub++;
-          if (st.type === 'code') codeDone++;
-        }
-      });
-      if (isDayFullyDone(d)) {
-        recentDone.push(`✅ ${d.date} : ${d.title}${state.dayNotes[d.id] ? ` (${state.dayNotes[d.id]})` : ''}`);
-      }
-    });
-  });
-
-  const hotPistes = PISTES_DATA
-    .filter((p) => state.pisteInterest[p.id] === 'hot' || state.pisteInterest[p.id] === 'curious')
-    .map((p) => `${state.pisteInterest[p.id] === 'hot' ? '🔥' : '🤔'} ${p.title}`);
-
-  const topCuriosities = state.curiosities
-    .filter((c) => c.level === 'love' || c.level === 'test')
-    .map((c) => `• ${c.title}`);
-
-  const latestJournal = state.journalEntries[state.journalEntries.length - 1];
+  const allDays = getAllDays();
+  const doneDays = allDays.filter((d) => isDayFullyDone(d));
+  const codeDone = allDays.reduce((acc, d) => acc + d.subtasks.filter((s) => s.type === 'code' && state.completedSubtasks[s.id]).length, 0);
 
   const lines = [
-    `🚀 POINT D'AVANCEMENT THÉOPHILE — OPÉRATION FÉVRIER 2027`,
-    `Missions validées : ${doneSub}/${totalSub} (${Math.round((doneSub / totalSub) * 100)}%)`,
-    `🚗 Entraînements Code (Livre + Appli) validés : ${codeDone}/20`,
+    `📅 POINT AGENDA THÉOPHILE — CAP FÉVRIER 2027`,
+    `Pages validées : ${doneDays.length}/${allDays.length} • Entraînements Code : ${codeDone}/20`,
     ``,
-    `📌 Dernières journées 100% accomplies :`,
-    ...(recentDone.length > 0 ? recentDone.slice(-6) : ['(En cours sur la journée actuelle)']),
-    ``,
-    `🧭 Pistes qui me chauffent pour Février :`,
-    ...(hotPistes.length > 0 ? hotPistes : ['(À voter dans le Labo des Pistes)']),
-    ``,
-    `⚡ Mes curiosités hors-école :`,
-    ...(topCuriosities.length > 0 ? topCuriosities : ['(À cocher dans l’inventaire)'])
+    `✅ Derniers jours validés :`,
+    ...(doneDays.length > 0
+      ? doneDays.slice(-5).map((d) => `• ${d.weekday} : ${d.title}${state.dayNotes[d.id] ? ` (${state.dayNotes[d.id]})` : ''}`)
+      : ['(En cours)'])
   ];
-
-  if (latestJournal) {
-    lines.push(
-      ``,
-      `💬 Dernier point du carnet (${latestJournal.date}) :`,
-      `- Avancées : ${latestJournal.win || '-'}`,
-      `- Piste Février : ${latestJournal.hype || '-'}`,
-      `- Question pour toi : ${latestJournal.block || '-'}`
-    );
-  }
 
   return { shareUrl, summaryText: lines.join('\n') };
 }
@@ -1370,16 +1303,15 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
-// Initialize UI & Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
   loadState();
   updateStatsAndProgress();
-  renderAgenda();
+  renderAgendaViews();
   renderPistes();
   renderCuriosities();
   renderJournal();
 
-  // Tab navigation
+  // Tabs
   document.querySelectorAll('.tab-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       const targetId = btn.dataset.tab;
@@ -1395,71 +1327,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Header shortcut to Code Method Tab
-  document.getElementById('btn-open-code-plan').addEventListener('click', () => {
-    document.querySelector('[data-tab="tab-code"]').click();
-  });
-
-  // Complete Today Mission Button
-  document.getElementById('btn-complete-today').addEventListener('click', (e) => {
-    const dayId = e.currentTarget.dataset.dayId;
-    if (dayId) {
-      const phases = getAllPhasesWithCustomDays();
-      phases.forEach((p) => {
-        const found = p.days.find((d) => d.id === dayId);
-        if (found) {
-          found.subtasks.forEach((st) => {
-            state.completedSubtasks[st.id] = true;
-          });
-        }
-      });
-      saveState(true, 'Bravo ! Journée validée à 100% !');
-      renderAgenda();
-    }
-  });
-
-  // Jump to Today Mission in Agenda
-  document.getElementById('btn-jump-today').addEventListener('click', () => {
-    document.querySelector('[data-tab="tab-agenda"]').click();
-    const dayId = document.getElementById('btn-complete-today').dataset.dayId;
-    if (dayId) {
-      const card = document.getElementById(`card-${dayId}`);
-      if (card) {
-        const parentDetails = card.closest('details');
-        if (parentDetails) parentDetails.open = true;
-        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }
-  });
-
-  // Filter pills
-  document.querySelectorAll('.filter-pill').forEach((pill) => {
-    pill.addEventListener('click', () => {
-      document.querySelectorAll('.filter-pill').forEach((p) => p.classList.remove('active'));
-      pill.classList.add('active');
-      state.currentFilter = pill.dataset.filter;
-      renderAgenda();
-    });
-  });
-
-  // Add Curiosity form
+  // Add Curiosity
   document.getElementById('form-add-curiosity').addEventListener('submit', (e) => {
     e.preventDefault();
     const inp = document.getElementById('input-new-curiosity');
     const title = inp.value.trim();
     if (!title) return;
-    state.curiosities.unshift({
-      id: 'c-' + Date.now(),
-      icon: '🔥',
-      title,
-      level: 'love'
-    });
+    state.curiosities.unshift({ id: 'c-' + Date.now(), icon: '🔥', title, level: 'love' });
     inp.value = '';
-    saveState(true, 'Nouvelle curiosité ajoutée');
+    saveState(true, 'Curiosité ajoutée');
     renderCuriosities();
   });
 
-  // Journal form
+  // Journal
   document.getElementById('form-journal').addEventListener('submit', (e) => {
     e.preventDefault();
     const win = document.getElementById('journal-win').value.trim();
@@ -1467,24 +1347,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const block = document.getElementById('journal-block').value.trim();
     if (!win && !hype && !block) return;
 
-    const todayStr = new Date().toLocaleDateString('fr-FR', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    });
-
+    const todayStr = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
     state.journalEntries.push({ date: todayStr, win, hype, block });
-    document.getElementById('journal-win').value = '';
-    document.getElementById('journal-hype').value = '';
-    document.getElementById('journal-block').value = '';
-    saveState(true, 'Point enregistré dans le carnet');
+    e.target.reset();
+    saveState(true, 'Point enregistré');
     renderJournal();
 
     const fb = document.getElementById('journal-save-feedback');
-    fb.textContent = '✓ Enregistré ! Clique sur "Envoyer mon avancement au Parrain" en haut pour lui partager.';
-    setTimeout(() => {
-      fb.textContent = '';
-    }, 4500);
+    fb.textContent = '✓ Enregistré !';
+    setTimeout(() => { fb.textContent = ''; }, 3500);
   });
 
   // Share Modal
@@ -1500,12 +1371,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const url = modalShare.dataset.shareUrl || window.location.href;
     try {
       await navigator.clipboard.writeText(url);
-      e.currentTarget.textContent = '✓ Lien copié dans le presse-papiers !';
-      setTimeout(() => {
-        e.currentTarget.textContent = '🔗 Copier le lien de suivi';
-      }, 3000);
+      e.currentTarget.textContent = '✓ Lien copié !';
+      setTimeout(() => { e.currentTarget.textContent = '🔗 Copier le lien'; }, 2500);
     } catch {
-      prompt('Copie ce lien de synchronisation :', url);
+      prompt('Copie ce lien :', url);
     }
   });
 
@@ -1513,22 +1382,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const txt = document.getElementById('share-summary-text').value;
     try {
       await navigator.clipboard.writeText(txt);
-      e.currentTarget.textContent = '✓ Message copié ! Prêt à coller sur WhatsApp';
-      setTimeout(() => {
-        e.currentTarget.textContent = '📋 Copier le message';
-      }, 3000);
+      e.currentTarget.textContent = '✓ Message copié !';
+      setTimeout(() => { e.currentTarget.textContent = '📋 Copier le message'; }, 2500);
     } catch {
       document.getElementById('share-summary-text').select();
     }
   });
 
-  // Export / Import JSON backup
+  // Export / Import / Reset
   document.getElementById('btn-export-json').addEventListener('click', () => {
     const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `suivi-theophile-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `agenda-theophile-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
   });
@@ -1539,57 +1406,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const reader = new FileReader();
     reader.onload = (ev) => {
       try {
-        const imported = JSON.parse(ev.target.result);
-        state = { ...state, ...imported };
-        saveState(true, 'Sauvegarde importée avec succès');
-        renderAgenda();
+        state = { ...state, ...JSON.parse(ev.target.result) };
+        saveState(true, 'Sauvegarde importée');
+        renderAgendaViews();
         renderPistes();
         renderCuriosities();
         renderJournal();
         modalShare.close();
       } catch {
-        alert('Fichier de sauvegarde invalide.');
+        alert('Fichier invalide.');
       }
     };
     reader.readAsText(file);
   });
 
   document.getElementById('btn-reset-all').addEventListener('click', () => {
-    if (confirm('Réinitialiser toutes les cases cochées et les notes à zéro ?')) {
+    if (confirm('Réinitialiser toutes les cases cochées à zéro ?')) {
       localStorage.removeItem(STORAGE_KEY);
       window.location.reload();
     }
   });
 
-  // Add Custom Day / Mission Modal
+  // Add Custom Day Modal
   const modalTask = document.getElementById('modal-add-task');
-  document.getElementById('btn-add-task-modal').addEventListener('click', () => {
-    modalTask.showModal();
-  });
-
-  document.getElementById('btn-cancel-task').addEventListener('click', () => {
-    modalTask.close();
-  });
+  document.getElementById('btn-add-task-modal').addEventListener('click', () => modalTask.showModal());
+  document.getElementById('btn-cancel-task').addEventListener('click', () => modalTask.close());
 
   document.getElementById('form-add-task').addEventListener('submit', (e) => {
     e.preventDefault();
-    const title = document.getElementById('task-title-input').value.trim();
-    const phaseId = document.getElementById('task-phase-select').value;
     const date = document.getElementById('task-date-input').value.trim();
+    const title = document.getElementById('task-title-input').value.trim();
     const desc = document.getElementById('task-desc-input').value.trim();
     if (!title || !date) return;
 
-    state.customDays.push({
-      id: 'custom-' + Date.now(),
-      phaseId,
-      date,
-      title,
-      desc
-    });
-
-    document.getElementById('form-add-task').reset();
-    saveState(true, 'Nouvelle journée ajoutée');
-    renderAgenda();
+    state.customDays.push({ id: 'custom-' + Date.now(), date, title, desc });
+    e.target.reset();
+    saveState(true, 'Page d’agenda ajoutée');
+    renderAgendaViews();
     modalTask.close();
   });
 });
